@@ -43,24 +43,28 @@ class TeacherController {
         });
 
         //query teacher_id from db
-        const teacherData = await sequelize.query(`
+        const teacherData: { id: string }[] = await sequelize.query(`
                 SELECT id FROM teacher_${currentInstituteNumber} WHERE teacherEmail=?
             `, {
             type: QueryTypes.SELECT,
             replacements: [teacherEmail]
-        }
-        );
+        });
 
         console.log(teacherData, "data");
 
+        const teacherId = teacherData[0]?.id;
+        if (!teacherId) {
+            return res.status(500).json({ errorMessage: "failed to get teacher id" });
+        }
+
         //update course_id with teacher_id
-        // await sequelize.query(`
-        //         UPDATE course_${currentInstituteNumber} SET teacher_id=? WHERE id=?`,
-        //     {
-        //         type: QueryTypes.UPDATE,
-        //         replacements: [teacherData, courseId]
-        //     }
-        // );
+        await sequelize.query(`
+                UPDATE course_${currentInstituteNumber} SET teacher_id=? WHERE id=?`,
+            {
+                type: QueryTypes.UPDATE,
+                replacements: [teacherId, courseId]
+            }
+        );
 
         return res.status(200).json({
             datas: data,

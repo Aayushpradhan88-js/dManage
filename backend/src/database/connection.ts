@@ -14,6 +14,7 @@ const sequelize = new Sequelize({
     host: DB_HOST,
     port: DB_PORT,
     dialect: 'mysql',
+    // logging: false //Production - off
 });
 
 sequelize.addModels([User]);
