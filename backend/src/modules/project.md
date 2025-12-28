@@ -42,7 +42,8 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
               - ✅ Database model + Table Creation
               - Testing CRUD operations 
             4d Teacher
-              - Routes & Controller
+              - Routes & Controller CRUD
               - Database model + Table Creation
               - Testing CRUD operations
-            
+
+6. Integrating Mailing service with Testing completion           
