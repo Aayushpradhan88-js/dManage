@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer"
 import { NODEMAILER_GMAIL, NODEMAILER_GMAIL_APP_PASSWORD } from "../../../config/env"
-import GlobalErrorHandler from "./asyncErrorHandler";
 
 interface IMailInfo {
     to: string,
@@ -9,9 +8,8 @@ interface IMailInfo {
 }
 
 class MailService {
-    static async sendMail(mailInformation: IMailInfo) {
-
-        console.log("✅transportation triggered")
+    static async sendMail(mailInformation: IMailInfo) {            
+        // console.log("✅transportation triggered")
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -29,6 +27,7 @@ class MailService {
 
         try {
             await transporter.sendMail(mailFormatObject);
+            console.log
         } catch (error) {
            console.error("Email send failed:", error);
         };

@@ -75,8 +75,21 @@ class TeacherController {
         };
 
         console.log("✅nodemailer module triggered")
-        await MailService.sendMail(mailInformation);
-
+        try {
+            await MailService.sendMail(mailInformation);
+            return res.status(200).json({
+                datas: data,
+                success: true,
+                message: "teacher created successfully"
+            });
+        } catch (error) {
+            console.error("Email failed:", error);
+            return res.status(200).json({
+                datas: data,
+                success: true,
+                message: "teacher created but email failed"
+            });
+        }
         return res.status(200).json({
             datas: data,
             success: true,
