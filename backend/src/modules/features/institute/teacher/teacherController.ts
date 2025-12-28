@@ -3,6 +3,7 @@ import IExtendedRequest from "../../../global/types/types";
 import sequelize from "../../../../database/connection";
 import { QueryTypes } from "sequelize";
 import generateRandomPasswordService from "../../../global/services/generateRandomPassword";
+import MailService from "../../../global/services/nodeMailer";
 
 class TeacherController {
     static async createTeacher(req: IExtendedRequest, res: Response) {
@@ -41,6 +42,14 @@ class TeacherController {
                 teacherName, teacherEmail, (await passwordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, teacherPhoto, courseId
             ]
         });
+
+        const mailInformation = {
+            to: teacherEmail,
+            subject: "Welcome to Software Development Course",
+            text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
+        }
+
+        MailService.sendMail(mailInformation)
 
         //query teacher_id from db
         const teacherData: { id: string }[] = await sequelize.query(`
