@@ -71,9 +71,9 @@ class TeacherController {
             to: teacherEmail,
             subject: "Welcome to Software Development Course",
             text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
-        }
+        };
 
-        await MailService.sendMail(mailInformation)
+        await MailService.sendMail(mailInformation);
 
         return res.status(200).json({
             datas: data,
