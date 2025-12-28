@@ -10,6 +10,8 @@ interface IMailInfo {
 
 class MailService {
     static async sendMail(mailInformation: IMailInfo) {
+
+        console.log("✅transportation triggered")
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
