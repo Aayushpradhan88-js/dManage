@@ -3,32 +3,34 @@ import { NODEMAILER_GMAIL, NODEMAILER_GMAIL_APP_PASSWORD } from "../../../config
 import GlobalErrorHandler from "./asyncErrorHandler";
 
 interface IMailInfo {
-    to: String,
-    subject: String,
-    text: String
+    to: string,
+    subject: string,
+    text: string
 }
 
 class MailService {
-    static sendMail = GlobalErrorHandler.asyncErrorHandler(
-        async (mailInformation: IMailInfo) => {
-            const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: NODEMAILER_GMAIL,
-                    pass: NODEMAILER_GMAIL_APP_PASSWORD
-                }
-            });
+    static async sendMail(mailInformation: IMailInfo) {
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: NODEMAILER_GMAIL,
+                pass: NODEMAILER_GMAIL_APP_PASSWORD
+            }
+        });
 
-            const mailFormatObject = ({
-                from: "Ed-Tech <aayushpradhan789@gmail.com> ",
-                to: "",
-                subject: "",
-                text: ""
-            });
+        const mailFormatObject = {
+            from: "Ed-Tech <aayushpradhan789@gmail.com> ",
+            to: mailInformation.to,
+            subject: mailInformation.subject,
+            text: mailInformation.text
+        };
 
+        try {
             await transporter.sendMail(mailFormatObject);
-        }
-    );
+        } catch (error) {
+           console.error("Email send failed:", error);
+        };
+    };
 };
 
 export default MailService;

@@ -43,14 +43,6 @@ class TeacherController {
             ]
         });
 
-        const mailInformation = {
-            to: teacherEmail,
-            subject: "Welcome to Software Development Course",
-            text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
-        }
-
-        MailService.sendMail(mailInformation)
-
         //query teacher_id from db
         const teacherData: { id: string }[] = await sequelize.query(`
                 SELECT id FROM teacher_${currentInstituteNumber} WHERE teacherEmail=?
@@ -74,6 +66,14 @@ class TeacherController {
                 replacements: [teacherId, courseId]
             }
         );
+
+        const mailInformation = {
+            to: teacherEmail,
+            subject: "Welcome to Software Development Course",
+            text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
+        }
+
+        await MailService.sendMail(mailInformation)
 
         return res.status(200).json({
             datas: data,
