@@ -67,14 +67,14 @@ class TeacherController {
             }
         );
 
-        console.log("✅teacher email triggered")
+        // console.log("✅teacher email triggered")
         const mailInformation = {
             to: teacherEmail,
             subject: "Welcome to Software Development Course",
             text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
         };
 
-        console.log("✅nodemailer module triggered")
+        // console.log("✅nodemailer module triggered")
         try {
             await MailService.sendMail(mailInformation);
             return res.status(200).json({
