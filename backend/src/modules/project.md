@@ -37,13 +37,14 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
               - ✅ Routes & Controller Overview (CREATE - institute, teacher, student, course, coursetable)
               - ✅ Database model + Table Creation
               - ✅ Testing CRUD operations 
-            3c Course
+            3c Institute Course
               - Routes & Controller (COURSE - create, getall, deletespecific, getspecific, categoryTable updateSpecific(remained))
               - ✅ Database model + Table Creation
               - Testing CRUD operations 
-            4d Teacher
+            4d Institute Teacher
               - Routes & Controller CRUD
               - Database model + Table Creation
               - Testing CRUD operations
 
-6. Integrating Mailing service with Testing completion           
+6. ✅Integrating Mailing service with Testing completion 
+7. Teacher Login + Add Course +  Testing
