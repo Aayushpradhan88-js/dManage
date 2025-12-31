@@ -4,6 +4,7 @@ import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import TokenGenerationService from "../../global/services/generateToken";
 
 interface ITeacherPassword{
     teacherPassword: string
@@ -41,7 +42,7 @@ class TeacherController {
             });
         };
 
-        const token = jwt.sign("")
+        const token = TokenGenerationService.generateToken({teacherData[0].id})
 
     }
 }
