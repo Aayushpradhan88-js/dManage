@@ -5,9 +5,11 @@ import { QueryTypes } from "sequelize";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import TokenGenerationService from "../../global/services/generateToken";
+import { JWT_EXPIRY, JWT_SECRET } from "../../../config/env";
 
-interface ITeacherPassword{
-    teacherPassword: string
+interface ITeacherPassword {
+    teacherPassword: string,
+    id: string
 }
 
 class TeacherController {
@@ -34,15 +36,23 @@ class TeacherController {
             });
         };
 
-        const isPasswordMatched =  bcrypt.compare(teacherPassword, teacherData[0].teacherPassword);
-        if(!isPasswordMatched){
+        const isPasswordMatched = bcrypt.compare(teacherPassword, teacherData[0]?.teacherPassword as string);
+        if (!isPasswordMatched) {
             return res.status(403).json({
                 success: false,
                 message: 'Invalid Credientals'
             });
         };
 
-        const token = TokenGenerationService.generateToken({teacherData[0].id})
+        // const token = TokenGenerationService.generateToken( teacherData[0]?.id as string )
+        const token = jwt.sign(teacherData[0]?.id as string, JWT_SECRET,{
+            expiresIn: JWT_EXPIRY
+        });
+
+        return res.status(200).json({
+            datas: token,
+            message: "Teacher Logged in successfully"
+        })
 
     }
 }
