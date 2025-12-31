@@ -2,17 +2,18 @@ import express from "express"
 import GlobalErrorHandler from "../../../global/services/asyncErrorHandler";
 import CategoryController from "./categoryController";
 import UserVerification from "../../../global/middleware/authMiddleware";
-const categoryRoute = express.Router()
 
-categoryRoute.route("/")
+const instituteCategoryRoute = express.Router()
+
+instituteCategoryRoute.route("/")
     .get(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CategoryController.getAllCategory));
       
-categoryRoute.route("/create-category")
+instituteCategoryRoute.route("/create-category")
     .post(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CategoryController.createCategory));
 
-categoryRoute.route("/:id")
+instituteCategoryRoute.route("/:id")
     .post(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CategoryController.updateSingleCategory))
 
@@ -22,4 +23,4 @@ categoryRoute.route("/:id")
     .delete(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CategoryController.deleteSingleCategory))
 
-export default categoryRoute;
+export default instituteCategoryRoute;
