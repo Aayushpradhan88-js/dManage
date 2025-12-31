@@ -4,13 +4,14 @@ import instituteRouter from './modules/features/institute/instituteRoutes';
 import instituteCourseRouter from './modules/features/institute/course/courseRoutes';
 import instituteCategoryRoute from './modules/features/institute/category/categoryRoute';
 import instituteTeacherRouter from './modules/features/institute/teacher/teacherRoutes';
+import teacherLoginRoute from './modules/features/teacher/teacherRoute';
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // console.log("✅ step: AUTH ROUTER TRIGGERED")
-app.use("/api/auth", authRouter);
+app.use("/api/auth", authRouter, teacherLoginRoute);
 
 // console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
 app.use("/api/institute", instituteRouter);
