@@ -1,3 +1,5 @@
+//Course Router
+
 import express from 'express'
 import CourseController from './courseController';
 import GlobalErrorHandler from '../../../global/services/asyncErrorHandler';

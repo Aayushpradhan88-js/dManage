@@ -1,3 +1,5 @@
+//Mailer Service
+
 import nodemailer from "nodemailer"
 import { NODEMAILER_GMAIL, NODEMAILER_GMAIL_APP_PASSWORD } from "../../../config/env"
 

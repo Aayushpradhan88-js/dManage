@@ -1,7 +1,6 @@
 //Random Password Generation Service
 
 import * as bcrypt from 'bcrypt'
-
 class generateRandomPasswordService{
     static async genereateHashPassword(teacherName:string){
         const randomPassword = Math.floor(10000 + Math.random() * 30000)

@@ -1,3 +1,5 @@
+//Teacher controller route
+
 import express from "express"
 import GlobalErrorHandler from "../../global/services/asyncErrorHandler";
 import TeacherController from "./teacherController";

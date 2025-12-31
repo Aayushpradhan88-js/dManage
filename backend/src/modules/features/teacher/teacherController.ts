@@ -1,3 +1,5 @@
+//Teacher Controller
+
 import { Response } from "express";
 import IExtendedRequest from "../../global/types/types";
 import sequelize from "../../../database/connection";

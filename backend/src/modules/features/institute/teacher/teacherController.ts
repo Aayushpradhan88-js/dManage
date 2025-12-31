@@ -90,11 +90,7 @@ class TeacherController {
                 message: "teacher created but email failed"
             });
         }
-        return res.status(200).json({
-            datas: data,
-            success: true,
-            message: "teacher created successfully"
-        });
+
     };
 };
 
