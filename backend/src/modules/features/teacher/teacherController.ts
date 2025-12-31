@@ -1,73 +1,90 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import IExtendedRequest from "../../global/types/types";
 import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-// import TokenGenerationService from "../../global/services/generateToken";
+import * as bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { JWT_EXPIRY, JWT_SECRET } from "../../../config/env";
 
-interface ITeacherPassword {
-    teacherPassword: string,
-    id: string
+interface ITeacherData {
+    id: string;
+    teacherPassword: string;
+    teacherEmail: string
 }
 
 class TeacherController {
-    static async teacherLogin(req: Request, res: Response) {
+    static async teacherLogin(req: IExtendedRequest, res: Response) {
         const { teacherInstituteNumber, teacherEmail, teacherPassword } = req.body;
-        if (!teacherInstituteNumber || !teacherEmail || !teacherPassword) {
-            return res.status(402).json({
-                success: false,
-                message: 'fill all the required fields'
-            });
-        };
 
-        const teacherData: ITeacherPassword[] = await sequelize.query(`
-            SELECT * FROM teacher_${teacherInstituteNumber} WHERE teacherEmail=?`,
+        if (!teacherInstituteNumber || !teacherEmail || !teacherPassword) {
+            return res.status(400).json({
+                success: false,
+                message: 'Fill all the required fields'
+            });
+        }
+
+        // Query teacher data
+        const teacherData: ITeacherData[] = await sequelize.query(
+            `SELECT * FROM teacher_${teacherInstituteNumber} WHERE teacherEmail = ?`,
             {
                 type: QueryTypes.SELECT,
                 replacements: [teacherEmail]
             }
         );
-        console.log(teacherData[0]?.teacherPassword, "teacherData");
-        console.log(teacherData[0]?.id, "teacherData");
-        // console.log(teacherData, "teacherData");
-        if (!teacherData || teacherData.length == 0) {
-            return res.status(402).json({
+
+        console.log(teacherData, "teacherData");
+
+        // Check if teacher exists
+        if (!teacherData || teacherData.length === 0) {
+            return res.status(401).json({
                 success: false,
-                message: 'Invalid Credientals'
+                message: 'Invalid Credentials - User not found'
             });
-        };
+        }
 
-         // DEBUG: Log password details
-            console.log("Plain Password:", teacherPassword);
-            console.log("Hashed Password:", teacherData[0]?.teacherPassword);
-            console.log("Password Type:", typeof teacherPassword);
-            console.log("Hash Type:", typeof teacherData[0]?.teacherPassword);
-            console.log("incomming email", teacherEmail);
-        console.log("incomming password", teacherPassword);
-        console.log("Password logging hashing", teacherData[0]?.teacherPassword as string)
+        // DEBUG: Log password details
+        console.log("Plain Password:", teacherPassword);
+        console.log("Hashed Password:", teacherData[0]?.teacherPassword);
+        console.log("Password Type:", typeof teacherPassword);
+        console.log("Hash Type:", typeof teacherData[0]?.teacherPassword);
 
-        const isPasswordMatched = await bcrypt.compare(teacherPassword, teacherData[0]?.teacherPassword as string);
+        // Compare password
+        const isPasswordMatched = await bcrypt.compare(
+            teacherPassword.trim(), // Remove any whitespace
+            teacherData[0]?.teacherPassword as string
+        );
+
+        console.log("Password Matched:", isPasswordMatched);
+
         if (!isPasswordMatched) {
-            return res.status(403).json({
+            return res.status(401).json({
                 success: false,
-                message: 'Invalid Credientals'
+                message: 'Invalid Credentials - Password mismatch'
             });
-        };
-        console.log(isPasswordMatched,"isPasswordMatched");
+        }
 
-        // const token = TokenGenerationService.generateToken( teacherData[0]?.id as string )
+        // Generate token
         const token = jwt.sign(
-            { id: teacherData[0]?.id as string },
+            {
+                id: teacherData[0]?.id,
+                email: teacherData[0]?.teacherEmail
+            },
             JWT_SECRET,
-            { expiresIn: JWT_EXPIRY as string }
+            { expiresIn: JWT_EXPIRY }
         );
 
         return res.status(200).json({
-            datas: { token },
-            message: "Teacher Logged in successfully"
-        })
+            success: true,
+            data: {
+                token,
+                teacher: {
+                    id: teacherData[0]?.id,
+                    email: teacherData[0]?.teacherEmail
+                }
+            },
+            message: "Teacher logged in successfully"
+        });
+
 
     }
 }
