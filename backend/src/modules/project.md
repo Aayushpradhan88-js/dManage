@@ -38,9 +38,9 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
               - ✅ Database model + Table Creation
               - ✅ Testing CRUD operations 
             3c Institute Course
-              - Routes & Controller (COURSE - create, getall, deletespecific, getspecific, categoryTable updateSpecific(remained))
+              - ✅ Routes & Controller (COURSE - create, getall, deletespecific, getspecific, categoryTable updateSpecific)
               - ✅ Database model + Table Creation
-              - Testing CRUD operations 
+              - ✅ Testing CRUD operations 
             4d Institute Teacher
               - Routes & Controller CRUD
               - Database model + Table Creation

@@ -137,7 +137,6 @@ class CourseController {
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
-        console.log(typeof currentInstituteNumber)
 
         const courseId = req.params.id;
         if (!courseId) {
@@ -145,7 +144,6 @@ class CourseController {
                 message: 'invalid course Id'
             });
         };
-        console.log(typeof courseId)
 
         const {
             courseName,
@@ -154,14 +152,6 @@ class CourseController {
             courseDuration,
             courseLevel
         } = req.body;
-
-        console.log(courseName,
-            typeof courseDescription,
-            typeof coursePrice,
-            typeof courseDuration,
-            typeof courseLevel,
-            typeof courseId
-        )
 
         const courseThumbnail = req.file ? req.file.path : null
         if (!courseThumbnail) {
@@ -193,9 +183,6 @@ class CourseController {
             ]
         });
 
-        console.log(results)
-        console.log(metadata)
-
         if (results === 0) {
             return res.status(404).json({
                 message: 'Course not found'
@@ -203,7 +190,7 @@ class CourseController {
         };
 
         return res.status(200).json({
-            datas: results,
+            datas: metadata,
             success: true,
             message: "Course updated successfully"
         });
