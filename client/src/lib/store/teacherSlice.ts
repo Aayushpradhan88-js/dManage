@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-createSlice({
+const teacherSlice = createSlice({
     name: "teacher Slice",
     initialState: {
         teacherName: "",
@@ -28,3 +28,9 @@ createSlice({
         }
     }
 });
+
+const {setTeacherEmail,setTeacherName,setTeacherPassword,setTeacherPhoneNumber} = teacherSlice.actions 
+setTeacherName();
+setTeacherEmail()
+setTeacherPassword();
+setTeacherPhoneNumber();
