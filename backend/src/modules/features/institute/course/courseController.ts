@@ -137,6 +137,7 @@ class CourseController {
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
+        console.log(typeof currentInstituteNumber)
 
         const courseId = req.params.id;
         if (!courseId) {
@@ -144,10 +145,32 @@ class CourseController {
                 message: 'invalid course Id'
             });
         };
+        console.log(typeof courseId)
 
-        const { courseName, courseDescription, coursePrice, courseDuration, courseLevel, courseThumbnail, category_id } = req.body;
+        const {
+            courseName,
+            courseDescription,
+            coursePrice,
+            courseDuration,
+            courseLevel
+        } = req.body;
 
-        const [results] = await sequelize.query(`
+        console.log(courseName,
+            typeof courseDescription,
+            typeof coursePrice,
+            typeof courseDuration,
+            typeof courseLevel,
+            typeof courseId
+        )
+
+        const courseThumbnail = req.file ? req.file.path : null
+        if (!courseThumbnail) {
+            return res.status(400).json({
+                errorMessage: 'please provide course thumbnail'
+            });
+        }
+
+        const [results, metadata] = await sequelize.query(`
                 UPDATE  course_${currentInstituteNumber}
                 SET courseName=?,
                     courseDescription=?,
@@ -155,12 +178,23 @@ class CourseController {
                     courseDuration=?,
                     courseLevel=?,
                     courseThumbnail=?,
-                    category_id=?
+                    updatedAt=NOW()
                 WHERE id=?
             `, {
             type: QueryTypes.UPDATE,
-            replacements: [courseName, courseDescription, coursePrice, courseDuration, courseLevel, courseThumbnail, category_id, courseId]
+            replacements: [
+                courseName,
+                courseDescription,
+                coursePrice,
+                courseDuration,
+                courseLevel,
+                courseThumbnail,
+                courseId
+            ]
         });
+
+        console.log(results)
+        console.log(metadata)
 
         if (results === 0) {
             return res.status(404).json({

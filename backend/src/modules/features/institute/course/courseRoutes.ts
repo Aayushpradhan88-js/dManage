@@ -26,6 +26,7 @@ instituteCourseRouter.route("/:id")
 
 instituteCourseRouter.route("/update/:id")
     .post(UserVerification.userAuthorizationAccessVerification,
+        upload.single('courseThumbnail'), //upload image
         GlobalErrorHandler.asyncErrorHandler(CourseController.updateSingleCourse))
 
 export default instituteCourseRouter;

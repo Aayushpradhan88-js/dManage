@@ -133,6 +133,8 @@ class CategoryController {
             replacements: [categoryName, categoryDescription, categoryId]
         });
 
+        console.log(results)
+
         if (results === 0) {
             return res.status(404).json({
                 message: 'Category not found'
