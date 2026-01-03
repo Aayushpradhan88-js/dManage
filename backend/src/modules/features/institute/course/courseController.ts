@@ -14,7 +14,7 @@ class CourseController {
             courseDescription,
             courseDuration,
             courseLevel,
-           category_id
+            category_id
         } = req.body;
         // console.log("✅step 1: All data from the body", courseName, courseDescription,
         //     coursePrice,
@@ -96,7 +96,7 @@ class CourseController {
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
-        
+
         const singleCourse = await sequelize.query(`
             SELECT * FROM course_${currentInstituteNumber} WHERE id=?`
             , {
@@ -118,6 +118,7 @@ class CourseController {
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
+
         const deletedCourse = await sequelize.query(`
             DELETE FROM course_${currentInstituteNumber} WHERE id=?`
             , {
@@ -131,8 +132,47 @@ class CourseController {
         });
     };
 
-    static async updateSingleCourse(req:IExtendedRequest, res: Response){
-        
+    static async updateSingleCourse(req: IExtendedRequest, res: Response) {
+        const currentInstituteNumber = req.user?.currentInstituteNumber;
+        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
+            return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const courseId = req.params.id;
+        if (!courseId) {
+            return res.status(400).json({
+                message: 'invalid course Id'
+            });
+        };
+
+        const { courseName, courseDescription, coursePrice, courseDuration, courseLevel, courseThumbnail, category_id } = req.body;
+
+        const [results] = await sequelize.query(`
+                UPDATE  course_${currentInstituteNumber}
+                SET courseName=?,
+                    courseDescription=?,
+                    coursePrice=?,
+                    courseDuration=?,
+                    courseLevel=?,
+                    courseThumbnail=?,
+                    category_id=?
+                WHERE id=?
+            `, {
+            type: QueryTypes.UPDATE,
+            replacements: [courseName, courseDescription, coursePrice, courseDuration, courseLevel, courseThumbnail, category_id, courseId]
+        });
+
+        if (results === 0) {
+            return res.status(404).json({
+                message: 'Course not found'
+            });
+        };
+
+        return res.status(200).json({
+            datas: results,
+            success: true,
+            message: "Course updated successfully"
+        });
     }
 };
 
