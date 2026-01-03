@@ -1,3 +1,5 @@
+//teacher slice
+
 import { createSlice } from "@reduxjs/toolkit"
 
 const teacherSlice = createSlice({
