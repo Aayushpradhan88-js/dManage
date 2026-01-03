@@ -130,6 +130,10 @@ class CourseController {
             message: "Course deleted successfully"
         });
     };
+
+    static async updateSingleCourse(req:IExtendedRequest, res: Response){
+        
+    }
 };
 
 export default CourseController;
