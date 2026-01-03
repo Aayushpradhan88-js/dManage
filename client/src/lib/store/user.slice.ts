@@ -1,14 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit"
 
 const userSlice = createSlice({
-    name: "aayush pradhan",
+    name: "User slice",
     initialState: {
-        age: "",
+        name: "",
         address:""
     },
     reducers: {
         setAge(state, action){
-            state.age = "19"
+            state.name = "aayush pradhan"
         },
         
         setAddress(state, action){
@@ -18,8 +18,8 @@ const userSlice = createSlice({
     }
 });
 
-const age = userSlice.actions.setAge;
-const address = userSlice.actions.setAddress;
+// const age = userSlice.actions.setAge;
+// const address = userSlice.actions.setAddress;
 const {setAge, setAddress} = userSlice.actions
 setAge();
 setAddress();
