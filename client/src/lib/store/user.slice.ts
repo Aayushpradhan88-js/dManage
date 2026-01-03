@@ -7,12 +7,12 @@ createSlice({
         address:"itahari2Sunsari"
     },
     reducers: {
-        setAge:{
+        setAge(){
 
         },
 
-        setAddress:{
-            
+        setAddress(){
+
         }
     }
 })
