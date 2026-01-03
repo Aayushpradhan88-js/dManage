@@ -18,10 +18,14 @@ instituteCourseRouter.route("/")
         GlobalErrorHandler.asyncErrorHandler(CourseController.getAllCourses))
 
 instituteCourseRouter.route("/:id")
-    .delete(UserVerification.userAuthorizationAccessVerification,
-        GlobalErrorHandler.asyncErrorHandler(CourseController.deleteSingleCourse))
-        
+    .post(UserVerification.userAuthorizationAccessVerification,
+        GlobalErrorHandler.asyncErrorHandler(CourseController.updateSingleCourse))
+
     .get(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CourseController.getSingleCourse))
+        
+    .delete(UserVerification.userAuthorizationAccessVerification,
+        GlobalErrorHandler.asyncErrorHandler(CourseController.deleteSingleCourse))
+
 
 export default instituteCourseRouter;
