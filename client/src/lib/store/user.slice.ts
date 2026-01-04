@@ -2,12 +2,19 @@
 
 import {createSlice} from "@reduxjs/toolkit"
 
-const userSlice = createSlice({
-    name: "User slice",
-    initialState: {
+interface IUserInitiaState{
+    name: string,
+    address: string
+};
+
+const userInitialState: IUserInitiaState = {
         name: "",
         address:""
-    },
+    };
+
+const userSlice = createSlice({
+    name: "User slice",
+    initialState: userInitialState,
     reducers: {
         setAge(state, action){
             state.name = "aayush pradhan"
