@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IExampleInitialState{
     data: string | null
@@ -12,8 +12,13 @@ const exampleSlice = createSlice({
     name: "example",
     initialState: initialState,
     reducers: {
-        add: (state, action) => {
-            
-        }
-    }
-})
+        setData(state:IExampleInitialState, action:PayloadAction<string>){
+            state.data = action.payload
+        },
+    },
+});
+
+const {setData} = exampleSlice.actions;
+
+export {setData};
+export default  exampleSlice.reducers;
