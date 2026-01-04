@@ -12,8 +12,8 @@ const exampleSlice = createSlice({
     name: "example",
     initialState: initialState,
     reducers: {
-        setData(state:IExampleInitialState, action:PayloadAction<string>){
-            state.data = action.payload
+        setData(state:IExampleInitialState, action:PayloadAction<string>): void{
+            state.data = action.payload;
         },
     },
 });
