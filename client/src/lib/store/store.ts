@@ -2,14 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import courseSlice from "./slices/courseSlice";
 
 // makeStore is a global variable
-export const makeStore = () => {
+export const store = () => {
     return configureStore({
         reducer: {
             course: courseSlice
         },
-    })
+    });
 };
 
-type AppDispatch = typeof makeStore.dispatch;
+type AppDispatch = typeof store.dispatch;
+type RootState = ReturnType<typeof store.getState>;
 
-export {AppDispatch}
+export {AppDispatch, RootState};
