@@ -6,7 +6,7 @@ interface IExampleInitialState{
 
 const initialState: IExampleInitialState = {
     data: null
-}
+};
 
 const exampleSlice = createSlice({
     name: "example",
