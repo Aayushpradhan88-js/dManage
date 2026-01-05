@@ -24,8 +24,11 @@ const courseSlice = createSlice({
     name: "Course",
     initialState: initialState,
     reducers: {
-        setList: (state, action: PayloadAction<[]>) => {
+        setList: (state, action: PayloadAction<ICourse[]>) => {
             state.list = action.payload;
+        },
+        addCourse: (state, action: PayloadAction<ICourse>) => {
+            state.list.push(action.payload);
         },
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload;
@@ -33,7 +36,7 @@ const courseSlice = createSlice({
     },
 });
 
-const course = courseSlice.actions;
+const { setList, addCourse, setLoading } = courseSlice.actions;
 
-export {course};
-export default courseSlice.reducer;
+export { setList, addCourse, setLoading }; //dispatch ma use hunxa
+export default courseSlice.reducer; //yo store ma use hunxa
