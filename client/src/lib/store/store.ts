@@ -1,3 +1,5 @@
+//Store file
+
 import { configureStore } from "@reduxjs/toolkit"
 import courseSlice from "./slices/courseSlice"
 import authSlice from "./slices/authSlice"
