@@ -28,5 +28,5 @@ const authSlice = createSlice({
 
 const { setAge, setAddress } = authSlice.actions;
 
-export {setAge, setAddress};
 export default authSlice.reducer;
+export {setAge, setAddress};
