@@ -1,4 +1,4 @@
-//1. Context setting 
+//Course Slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 

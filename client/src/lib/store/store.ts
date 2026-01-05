@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import exampleSlice from "./slices/exampleSlice";
 import courseSlice from "./slices/courseSlice";
 
 // makeStore is a global variable
