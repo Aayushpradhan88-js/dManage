@@ -12,8 +12,8 @@ const userInitialState: IUserInitiaState = {
     address: ""
 };
 
-const userSlice = createSlice({
-    name: "User slice",
+const authSlice = createSlice({
+    name: "auth slice",
     initialState: userInitialState,
     reducers: {
         setAge(state, action: PayloadAction<string>) {
@@ -26,11 +26,7 @@ const userSlice = createSlice({
     }
 });
 
-// const age = userSlice.actions.setAge;
-// const address = userSlice.actions.setAddress;
-const { setAge, setAddress } = userSlice.actions
-dispatch(setAge("aayush"));
-dispatch(setAddress("itahari"));
+const { setAge, setAddress } = authSlice.actions;
 
-export default userSlice.reducer;
 export {setAge, setAddress};
+export default authSlice.reducer;
