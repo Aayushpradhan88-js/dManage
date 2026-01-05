@@ -1,6 +1,7 @@
+//custom hook
+
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store";
-import { RootState } from "@reduxjs/toolkit/query";
+import { AppDispatch, RootState } from "../store";
 
 const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 const useApppSelector = useSelector.withTypes<RootState>();
