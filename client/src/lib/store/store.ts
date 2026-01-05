@@ -4,6 +4,13 @@ import courseSlice from "./slices/courseSlice";
 // makeStore is a global variable
 const store = configureStore({
     reducer: {
+        /*
+        auth: authSlice,
+        teacher: teacherSlice,
+        student: studentSlice,
+        initituteTeacher:initituteTeacherSlice ,
+        category: categorySlice
+        */
         course: courseSlice
     },
 });
