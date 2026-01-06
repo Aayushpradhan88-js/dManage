@@ -1,6 +1,7 @@
 //user slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import API from "../helper/getDatafnx";
 
 interface IUserInitiaState {
     name: string | null,
@@ -22,11 +23,22 @@ const authSlice = createSlice({
 
         setAddress(state, action: PayloadAction<string>) {
             state.address = action.payload;
-        }
-    }
+        },
+    },
 });
 
 const { setAge, setAddress } = authSlice.actions;
 
+function registerUser() {
+    return async function registerUserThunk() {
+        const response = await API.post("/auth/register");
+        if (response.status === 200) {
+            console.log("user registered successfully");
+        };
+    };
+};
+
+export {registerUser};
+
 export default authSlice.reducer;
-export {setAge, setAddress};
+export { setAge, setAddress };
