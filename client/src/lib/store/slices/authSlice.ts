@@ -29,8 +29,8 @@ const authSlice = createSlice({
 
 const { setAge, setAddress } = authSlice.actions;
 
-function registerUser() {
-    return async function registerUserThunk() {
+function registerUser() { // waiter taking order from customer
+    return async function registerUserThunk() { // waiter pass customermenu to cheif and he cooks the things
         const response = await API.post("/auth/register");
         if (response.status === 200) {
             console.log("user registered successfully");
