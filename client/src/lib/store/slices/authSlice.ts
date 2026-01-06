@@ -38,7 +38,16 @@ function registerUser() {
     };
 };
 
-export {registerUser};
+function loginUser(){
+    return async function loginUserThunk(data:string) {
+        const response = await API.post("/auth/login", data);
+        if (response.status === 200) {
+            console.log("user registered successfully");
+        };
+    };
+};
+
+export {registerUser, loginUser};
 
 export default authSlice.reducer;
 export { setAge, setAddress };
