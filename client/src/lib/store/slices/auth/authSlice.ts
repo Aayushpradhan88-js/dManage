@@ -1,20 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthInitialStateType } from "./authTypes";
-import { IStatus } from "../../global/types/type";
 
-const initialState:IAuthInitialStateType = {
+const initialState: IAuthInitialStateType = {
     user: {
         name: "",
         email: "",
-        password:""
+        password: ""
     },
-    status: IStatus
-}
+    status: {
+        SUCCESS: "",
+        LOADING: "",
+        ERROR: ""
+    }
+};
 
-createSlice({
+cosnt authSlice = createSlice({
     name: "auth",
     initialState: initialState,
-    reducers:{
-        
-    }
-})
+    reducers: {
+        setUser: (state:IAuthInitialStateType, action) => {
+            
+        }
+    },
+});

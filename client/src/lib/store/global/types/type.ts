@@ -1,5 +1,5 @@
 export interface IStatus {
-    SUCCESS: "success";
-    LOADING: "loading";
-    ERROR: "error"
+    SUCCESS: string ;
+    LOADING: string;
+    ERROR: string
 };
