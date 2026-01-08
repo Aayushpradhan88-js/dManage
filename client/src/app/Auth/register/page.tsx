@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { IRegister } from './registerTypes';
 
-const page = () => {
-    const [user, setUser] = useState({
-        username: "",
+export function Registerpage() {
+    const [user, setUser] = useState<IRegister>({
+        name: "",
         email: "",
         password: "",
-        confirm_password: ""
     });
 
   return (
