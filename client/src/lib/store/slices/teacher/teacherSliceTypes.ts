@@ -13,6 +13,6 @@ export interface ITeacherState{
 };
 
 export interface ITeacherInitialState {
-    teacher: ITeacherInitialState,
+    teacher: ITeacherState,
     status: IStatus
 };

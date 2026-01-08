@@ -1,29 +1,41 @@
 //teacher slice
 
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { ITeacherInitialState, ITeacherState } from "./teacherSliceTypes";
+import { IStatus } from "../../global/types/type";
 
+const initialState:ITeacherInitialState = {
+    teacher: {
+        teacherName: "",
+        teacherEmail: "",
+        teacherPassword: "",
+        teacherPhoneNumber: "",
+        teacherExperience: "",
+        joinedDate: "",
+        salary: "",
+        teacherPhoto: "",
+        course: ""
+    },
+   status: {
+        SUCCESS: "",
+        LOADING: "",
+        ERROR: ""
+    },
+};
 
 const teacherSlice = createSlice({
     name: "teacher Slice",
-    initialState: ,
+    initialState:initialState ,
     reducers:{
-        setTeacherName(state, action){
-            state.teacherName = "Manish Basnet"
+        setTeacher: (state:ITeacherInitialState, action: PayloadAction<ITeacherState>) => {
+            state.teacher = action.payload;
         },
-        setTeacherEmail(state, action){
-            state.teacherEmail = "manish@gmail.com"
+
+        setLoading: (state:ITeacherInitialState, action: PayloadAction<IStatus>) => {
+            state.status = action.payload;
         },
-        setTeacherPassword(state, action){
-            state.teacherPassword = "manish12345"
-        },
-        setTeacherPhoneNumber(state, action){
-            state.teacherPhoneNumber = "9999999999"
-        }
-    }
+    },
 });
 
-const {setTeacherEmail,setTeacherName,setTeacherPassword,setTeacherPhoneNumber} = teacherSlice.actions 
-setTeacherName();
-setTeacherEmail()
-setTeacherPassword();
-setTeacherPhoneNumber();
+export const {setTeacher, setLoading} = teacherSlice.actions;
+export default teacherSlice.reducer;
