@@ -1,20 +1,14 @@
 //Store file
 
 import { configureStore } from "@reduxjs/toolkit"
+import authSlice from "./slices/auth/authSlice"
 import courseSlice from "./slices/courseSlice"
-import authSlice from "../store/slices/auth/authSlice"
 
 // makeStore is a global variable
 const store = configureStore({
     reducer: {
-        /*
-        teacher: teacherSlice,
-        student: studentSlice,
-        initituteTeacher:initituteTeacherSlice ,
-        category: categorySlice
-        */
-       auth: authSlice,
-       course: courseSlice
+        authSlice: authSlice,
+        course: courseSlice
     },
 });
 
