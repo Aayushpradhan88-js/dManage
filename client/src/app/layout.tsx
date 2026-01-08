@@ -17,11 +17,7 @@ export const metadata: Metadata = {
   description: "SAAS application for managing training sessions and participants.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <body
@@ -31,4 +27,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
