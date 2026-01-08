@@ -21,7 +21,7 @@ const initialState: IInstituteInitialState = {
 const intitituteSlice = createSlice({
     name: "Institute",
     initialState: initialState,
-    reducer: {
+    reducers: {
         setInstitute: (state: IInstituteInitialState, action: PayloadAction<IInstituteState>) => {
             state.institute = action.payload;
         },
