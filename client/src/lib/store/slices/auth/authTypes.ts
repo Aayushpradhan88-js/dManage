@@ -1,4 +1,4 @@
-import { IStatus } from "../../global/types/types";
+import { IStatus } from "../../global/types/type";
 
 interface IUser {
     name: string;
