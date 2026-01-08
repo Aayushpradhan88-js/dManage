@@ -5,6 +5,7 @@ import authSlice from "./slices/auth/authSlice"
 import intitituteSlice from "./slices/institute/instituteSlice"
 import teacherSlice from "./slices/teacher/teacherSlice"
 import studentSlice from "./slices/student/studentSlice"
+import courseSlice from "./slices/course/courseSlice"
 
 // makeStore is a global variable
 const store = configureStore({
@@ -13,9 +14,10 @@ const store = configureStore({
         institute: intitituteSlice,
         teacher: teacherSlice,
         student: studentSlice,
+        course: courseSlice
     },
 });
 
 export default store;
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

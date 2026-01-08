@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStudentInitialState, IStudentState } from "./studentSliceTypes";
+import { IStatus } from "../../global/types/type";
 
 const initialState: IStudentInitialState = {
     student: {
@@ -24,8 +25,8 @@ const studentSlice = createSlice({
         setStudent: (state: IStudentInitialState, action:PayloadAction<IStudentState>) => {
             state.student = action.payload;
         },
-        setLoading: (state: IStudentInitialState, action:PayloadAction<IStudentState>) => {
-            state.student = action.payload;
+        setLoading: (state: IStudentInitialState, action:PayloadAction<IStatus>) => {
+            state.status = action.payload;
         },
     },
 });
