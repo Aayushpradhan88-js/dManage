@@ -1,10 +1,10 @@
 //teacher slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ITeacherInitialState, ITeacherState } from "./teacherSliceTypes";
-import { IStatus } from "../../global/types/type";
+import { ITeacherInitialState, ITeacherState } from "./teacherSliceTypes"
+import { IStatus } from "../../global/types/type"
 
-const initialState:ITeacherInitialState = {
+const initialState: ITeacherInitialState = {
     teacher: {
         teacherName: "",
         teacherEmail: "",
@@ -16,7 +16,7 @@ const initialState:ITeacherInitialState = {
         teacherPhoto: "",
         course: ""
     },
-   status: {
+    status: {
         SUCCESS: "",
         LOADING: "",
         ERROR: ""
@@ -25,17 +25,17 @@ const initialState:ITeacherInitialState = {
 
 const teacherSlice = createSlice({
     name: "teacher Slice",
-    initialState:initialState ,
-    reducers:{
-        setTeacher: (state:ITeacherInitialState, action: PayloadAction<ITeacherState>) => {
+    initialState: initialState,
+    reducers: {
+        setTeacher: (state: ITeacherInitialState, action: PayloadAction<ITeacherState>) => {
             state.teacher = action.payload;
         },
 
-        setLoading: (state:ITeacherInitialState, action: PayloadAction<IStatus>) => {
+        setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
     },
 });
 
-export const {setTeacher, setLoading} = teacherSlice.actions;
+export const { setTeacher, setLoading } = teacherSlice.actions;
 export default teacherSlice.reducer;
