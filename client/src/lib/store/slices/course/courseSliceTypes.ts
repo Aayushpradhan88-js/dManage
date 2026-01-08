@@ -13,6 +13,7 @@ export interface ICourseState {
 };
 
 export interface ICourseIntialState {
+    // course: ICourseState[],
     course: ICourseState,
     status: IStatus
 };
