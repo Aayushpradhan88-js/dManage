@@ -1,8 +1,8 @@
 //teacher slice
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ITeacherInitialState, ITeacherState } from "./teacherSliceTypes"
-import { IStatus } from "../../global/types/type"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ITeacherInitialState, ITeacherState } from "./teacherSliceTypes";
+import { IStatus } from "../../global/types/type";
 
 const initialState: ITeacherInitialState = {
     teacher: {
@@ -14,12 +14,12 @@ const initialState: ITeacherInitialState = {
         joinedDate: "",
         salary: "",
         teacherPhoto: "",
-        course: ""
+        course: "",
     },
     status: {
         SUCCESS: "",
         LOADING: "",
-        ERROR: ""
+        ERROR: "",
     },
 };
 

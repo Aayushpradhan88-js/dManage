@@ -11,5 +11,5 @@ export interface IStudentState {
 
 export interface IStudentInitialState {
     student: IStudentState,
-    status: IStatus
+    status: IStatus,
 };

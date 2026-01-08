@@ -14,7 +14,7 @@ const initialState: IStudentInitialState = {
     status: {
         SUCCESS: "",
         LOADING: "",
-        ERROR: ""
+        ERROR: "",
     },
 };
 
