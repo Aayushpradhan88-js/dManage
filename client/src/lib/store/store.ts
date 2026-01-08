@@ -8,7 +8,7 @@ import teacherSlice from "./slices/teacher/teacherSlice"
 const store = configureStore({
     reducer: {
         authSlice: authSlice,
-        teacher: teacherSlice
+        teacher: teacherSlice,
     },
 });
 
