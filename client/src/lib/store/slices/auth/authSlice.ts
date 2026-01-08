@@ -6,17 +6,17 @@ const initialState: IAuthInitialStateType = {
     user: {
         name: "",
         email: "",
-        password: ""
+        password: "",
     },
     status: {
         SUCCESS: "",
         LOADING: "",
-        ERROR: ""
-    }
+        ERROR: "",
+    },
 };
 
 const authSlice = createSlice({
-    name: "auth",
+    name: "auth slice",
     initialState: initialState,
     reducers: {
         setUser: (state: IAuthInitialStateType, action: PayloadAction<IUser>) => {
@@ -29,5 +29,5 @@ const authSlice = createSlice({
     },
 })
 
-export const {setUser, setStatus} = authSlice.actions;
+export const { setUser, setStatus } = authSlice.actions;
 export default authSlice.reducer;
