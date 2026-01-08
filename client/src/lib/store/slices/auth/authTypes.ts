@@ -6,7 +6,7 @@ interface IUser {
     password: string
 };
 
-export interface IAuthType {
+export interface IAuthInitialStateType {
     user: IUser;
     status: IStatus
-}
+};
