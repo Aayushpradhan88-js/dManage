@@ -19,8 +19,7 @@ const initialState: ICourseIntialState = {
         LOADING: "",
         ERROR: ""
     },
-}
-
+};
 
 const courseSlice = createSlice({
     name: "course slice",
@@ -35,5 +34,5 @@ const courseSlice = createSlice({
     },
 });
 
-export const {setStudent, setLoading} = courseSlice.actions;
+export const { setStudent, setLoading } = courseSlice.actions;
 export default courseSlice.reducer;
