@@ -1,3 +1,5 @@
+//auth slice
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuthInitialStateType, IUser } from "./authTypes";
 import { IStatus } from "../../global/types/type";

@@ -30,7 +30,6 @@ const teacherSlice = createSlice({
         setTeacher: (state: ITeacherInitialState, action: PayloadAction<ITeacherState>) => {
             state.teacher = action.payload;
         },
-
         setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },

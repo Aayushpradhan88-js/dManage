@@ -1,3 +1,5 @@
+//Institute Slice
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IInstituteInitialState, IInstituteState } from "./instituteSliceTypes"
 import { IStatus } from "../../global/types/type";

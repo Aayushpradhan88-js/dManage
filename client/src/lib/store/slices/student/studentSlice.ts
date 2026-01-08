@@ -1,3 +1,5 @@
+//student slice
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStudentInitialState, IStudentState } from "./studentSliceTypes";
 import { IStatus } from "../../global/types/type";

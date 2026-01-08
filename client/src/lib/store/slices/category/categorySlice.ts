@@ -1,3 +1,5 @@
+//category slice
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStatus } from "../../global/types/type";
 import { ICategoryInitialState, ICategoryState } from "./categorySliceTypes";

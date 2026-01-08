@@ -1,3 +1,5 @@
+//course slice
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseIntialState, ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../global/types/type";
