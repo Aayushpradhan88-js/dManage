@@ -6,6 +6,7 @@ import intitituteSlice from "./slices/institute/instituteSlice"
 import teacherSlice from "./slices/teacher/teacherSlice"
 import studentSlice from "./slices/student/studentSlice"
 import courseSlice from "./slices/course/courseSlice"
+import categorySlice from "./slices/category/categorySlice"
 
 // makeStore is a global variable
 const store = configureStore({
@@ -14,7 +15,8 @@ const store = configureStore({
         institute: intitituteSlice,
         teacher: teacherSlice,
         student: studentSlice,
-        course: courseSlice
+        course: courseSlice,
+        category: categorySlice
     },
 });
 

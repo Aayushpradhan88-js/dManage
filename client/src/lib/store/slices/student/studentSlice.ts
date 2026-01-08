@@ -22,14 +22,14 @@ const studentSlice = createSlice({
     name: "student slice",
     initialState: initialState,
     reducers: {
-        setStudent: (state: IStudentInitialState, action:PayloadAction<IStudentState>) => {
+        setStudent: (state: IStudentInitialState, action: PayloadAction<IStudentState>) => {
             state.student = action.payload;
         },
-        setLoading: (state: IStudentInitialState, action:PayloadAction<IStatus>) => {
+        setLoading: (state: IStudentInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
     },
 });
 
-export const {setStudent, setLoading} = studentSlice.actions;
+export const { setStudent, setLoading } = studentSlice.actions;
 export default studentSlice.reducer;
