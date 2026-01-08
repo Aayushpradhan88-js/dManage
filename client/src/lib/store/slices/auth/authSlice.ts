@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IAuthInitialStateType } from "./authTypes";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IAuthInitialStateType, IUser } from "./authTypes";
+import { IStatus } from "../../global/types/type";
 
 const initialState: IAuthInitialStateType = {
     user: {
@@ -14,12 +15,19 @@ const initialState: IAuthInitialStateType = {
     }
 };
 
-cosnt authSlice = createSlice({
+const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
-        setUser: (state:IAuthInitialStateType, action) => {
-            
-        }
+        setUser: (state: IAuthInitialStateType, action: PayloadAction<IUser>) => {
+            state.user = action.payload;
+        },
+
+        setStatus: (state: IAuthInitialStateType, action: PayloadAction<IStatus>) => {
+            state.status = action.payload;
+        },
     },
-});
+})
+
+export const {setUser, setStatus} = authSlice.actions;
+export default authSlice;
