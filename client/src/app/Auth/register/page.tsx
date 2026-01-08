@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { IRegister } from './registerTypes';
 
 export function Registerpage() {
@@ -7,6 +7,14 @@ export function Registerpage() {
         email: "",
         password: "",
     });
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setUser({
+            ...user,
+            [name]: value
+        });
+    };
 
   return (
 <div className="bg-gray-100 flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
