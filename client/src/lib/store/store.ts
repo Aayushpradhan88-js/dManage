@@ -2,8 +2,9 @@
 
 import { configureStore } from "@reduxjs/toolkit"
 import authSlice from "./slices/auth/authSlice"
-import teacherSlice from "./slices/teacher/teacherSlice"
 import intitituteSlice from "./slices/institute/instituteSlice"
+import teacherSlice from "./slices/teacher/teacherSlice"
+import studentSlice from "./slices/student/studentSlice"
 
 // makeStore is a global variable
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
         authSlice: authSlice,
         institute: intitituteSlice,
         teacher: teacherSlice,
+        student: studentSlice,
     },
 });
 
