@@ -2,7 +2,7 @@
 
 import { configureStore } from "@reduxjs/toolkit"
 import courseSlice from "./slices/courseSlice"
-import authSlice from "./slices/auth/authSlice"
+import authSlice from "../store/slices/auth/authSlice"
 
 // makeStore is a global variable
 const store = configureStore({
