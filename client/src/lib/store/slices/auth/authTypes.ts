@@ -1,3 +1,5 @@
+import { IStatus } from "../../global/types/types";
+
 interface IUser {
     name: string;
     email: string;
@@ -6,5 +8,5 @@ interface IUser {
 
 export interface IAuthType {
     user: IUser;
-    status: 
+    status: IStatus
 }
