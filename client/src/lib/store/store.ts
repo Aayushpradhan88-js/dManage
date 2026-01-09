@@ -21,5 +21,7 @@ const store = configureStore({
 });
 
 export default store;
+
+//For slices API calls
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
