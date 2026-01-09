@@ -4,9 +4,14 @@ export interface IInstituteCourseInitialDataCourse {
     id: string,
     courseName: string,
     coursePrice:string,
-}
+};
 
-export interface ICourseState {
+export interface ICourseIntialState {
+    courses: IInstituteCourseInitialDataCourse[],
+    status: IStatus
+};
+
+export interface ICourseCreate {
     courseName: string,
     courseDescription: string,
     coursePrice: number | string,
@@ -15,10 +20,4 @@ export interface ICourseState {
     categoryId: string,
     courseLevel: string,
     courseTeacher: string
-};
-
-export interface ICourseIntialState {
-    // course: ICourseState[],
-    course: ICourseState,
-    status: IStatus
 };

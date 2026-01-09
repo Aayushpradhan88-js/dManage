@@ -1,22 +1,13 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseIntialState, ICourseState } from "./courseSliceTypes";
+import { ICourseIntialState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import API from "../../../global/types/apiCall";
 
 const initialState: ICourseIntialState = {
-    course: {
-        courseName: "",
-        courseDescription: "",
-        coursePrice: "",
-        courseDuration: "",
-        courseThumbnail: "",
-        courseSyllabus: "",
-        courseLevel: "",
-        courseTeacher: ""
-    },
+    courses: [],
     status: IStatus.LOADING
 };
 
@@ -24,15 +15,28 @@ const courseSlice = createSlice({
     name: "course slice",
     initialState: initialState,
     reducers: {
-        setCourse: (state: ICourseIntialState, action: PayloadAction<ICourseState>) => {
-            state.course = action.payload;
+        setCourse: (state, action: PayloadAction<any>) => {
+            state.courses = action.payload;
         },
         setLoading: (state: ICourseIntialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
         setDeleteCourse: (state, action: PayloadAction<string>) => {
-            state.course.
-        }
+            const index = state.courses.findIndex((course) => {
+                const courseId = course.id
+                if(!courseId) {
+                    console.log("failed to get id");
+                } else{
+                    return action.payload;
+                };
+            });
+
+            if(index !== -1){
+                state.courses.splice(index, 1);
+            } else {
+                console.log("no data found");
+            };
+        },
     },
 });
 
