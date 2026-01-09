@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuthInitialStateType, IUser } from "./authTypes";
 import { IStatus } from "../../global/types/type";
 import { IRegister } from "@/src/app/Auth/register/registerTypes";
+import { ILogin } from "@/src/app/Auth/login/loginTypes";
 import API from "../../global/types/apiCall";
 import { AppDispatch } from "../../store";
 
@@ -50,13 +51,17 @@ export class APIAuth {
     };
 
 
-    static login(userData: ILogin){
-        return async function loginUserThunk(dispatch:AppDispatch) {
+    static login(userData: ILogin) {
+        return async function loginUserThunk(dispatch: AppDispatch) {
             try {
-                const response = await 
+                const response = await API.post("/auth/login", userData);
+                if (response.status === 201) {
+                    dispatch(setStatus(IStatus.SUCCESS));
+                };
             } catch (error) {
-                
-            }
-        }
-    }
+                console.error("Register success", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
 };
