@@ -16,11 +16,7 @@ const initialState: ICourseIntialState = {
         courseLevel: "",
         courseTeacher: ""
     },
-    status: {
-        SUCCESS: "",
-        LOADING: "",
-        ERROR: ""
-    },
+    status: IStatus.LOADING
 };
 
 const courseSlice = createSlice({
