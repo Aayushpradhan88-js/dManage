@@ -5,6 +5,7 @@ import { IAuthInitialStateType, IUser } from "./authTypes";
 import { IStatus } from "../../global/types/type";
 import { IRegister } from "@/src/app/Auth/register/registerTypes";
 import API from "../../global/types/apiCall";
+import { AppDispatch } from "../../store";
 
 const initialState: IAuthInitialStateType = {
     user: {
@@ -27,20 +28,35 @@ const authSlice = createSlice({
             state.status = action.payload;
         },
     },
-})
+});
 
 export const { setUser, setStatus } = authSlice.actions;
 export default authSlice.reducer;
 
-function registerUser(data: IRegister){
-    return async function registerUserThunk(dispatch: any){
-        try {
-            const response = await API.post("/auth/register",data);
-            if(response.status === 200) {
-                dispatch(setStatus(IStatus.SUCCESS))
+//API Call
+export class APIAuth {
+    static register(userData: IRegister) {
+        return async function registerUserThunk(dispatch: AppDispatch) {
+            try {
+                const response = await API.post("/auth/register", userData);
+                if (response.status === 201) {
+                    dispatch(setStatus(IStatus.SUCCESS));
+                };
+            } catch (error) {
+                console.error("Register success", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+
+
+    static login(userData: ILogin){
+        return async function loginUserThunk(dispatch:AppDispatch) {
+            try {
+                const response = await 
+            } catch (error) {
+                
             }
-        } catch (error) {
-            
         }
     }
-}
+};
