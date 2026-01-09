@@ -6,7 +6,7 @@ import intitituteSlice from "./slices/institute/instituteSlice"
 import teacherSlice from "./slices/teacher/teacherSlice"
 import studentSlice from "./slices/student/studentSlice"
 import courseSlice from "./slices/course/courseSlice"
-import categorySlice from "./slices/category/categorySlice"
+import categorySlice from "./slices/institute/category/categorySlice"
 
 // makeStore is a global variable
 const store = configureStore({
