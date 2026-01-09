@@ -39,12 +39,12 @@ export default teacherSlice.reducer;
 
 //API Call
 
-export class APIInstituteTeacher{
+export class APIInstituteTeacher {
     static createTeacher(data: ITeacherState) {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.post("/api/institute/teacher", data);
-                if(response.status === 200) {
+                if (response.status === 201) {
                     dispatch(setLoading(IStatus.SUCCESS));
                 };
             } catch (error) {

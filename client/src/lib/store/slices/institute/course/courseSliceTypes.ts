@@ -1,13 +1,18 @@
 import { IStatus } from "../../../global/types/type";
 
+export interface IInstituteCourseInitialDataCourse {
+    id: string,
+    courseName: string,
+    coursePrice:string,
+}
+
 export interface ICourseState {
     courseName: string,
     courseDescription: string,
     coursePrice: number | string,
     courseDuration: string,
     courseThumbnail: string,
-    courseInstructor: string,
-    courseSyllabus: string,
+    categoryId: string,
     courseLevel: string,
     courseTeacher: string
 };

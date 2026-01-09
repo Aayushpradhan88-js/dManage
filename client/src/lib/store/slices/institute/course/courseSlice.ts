@@ -3,6 +3,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseIntialState, ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
+import { AppDispatch } from "../../../store";
+import API from "../../../global/types/apiCall";
 
 const initialState: ICourseIntialState = {
     course: {
@@ -11,7 +13,6 @@ const initialState: ICourseIntialState = {
         coursePrice: "",
         courseDuration: "",
         courseThumbnail: "",
-        courseInstructor: "",
         courseSyllabus: "",
         courseLevel: "",
         courseTeacher: ""
@@ -23,14 +24,74 @@ const courseSlice = createSlice({
     name: "course slice",
     initialState: initialState,
     reducers: {
-        setStudent: (state: ICourseIntialState, action: PayloadAction<ICourseState>) => {
+        setCourse: (state: ICourseIntialState, action: PayloadAction<ICourseState>) => {
             state.course = action.payload;
         },
         setLoading: (state: ICourseIntialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
+        setDeleteCourse: (state, action: PayloadAction<string>) => {
+            state.course.
+        }
     },
 });
 
-export const { setStudent, setLoading } = courseSlice.actions;
+export const { setCourse, setLoading } = courseSlice.actions;
 export default courseSlice.reducer;
+
+//API Call
+
+export class APICourseSlice {
+    static createInstituteCourse(courseData: ICourseState) {
+        return async function createInstituteCourseThunk(dispatch: AppDispatch) {
+            try {
+                const response = await API.post("/api/institute/course", courseData);
+                if (response.status === 201) {
+                    dispatch(setLoading(IStatus.SUCCESS));
+                };
+            } catch (error) {
+                console.error("api course error creation", error);
+                dispatch(setLoading(IStatus.ERROR));
+            };
+        };
+    };
+
+    static getAllInstituteCourses(courseData) {
+        return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
+            try {
+                const response = await API.get("/api/institute/course", courseData);
+                if (response.status === 200) {
+                    dispatch(setLoading(IStatus.SUCCESS));
+                    response.data.data.length > 0 && dispatch(setCourse(response.data));
+                };
+            } catch (error) {
+                console.error("api institute teacher error creation", error);
+                dispatch(setLoading(IStatus.ERROR));
+            };
+        };
+    };
+
+
+    static deleteSingleInstituteCourse(id: string) {
+        return async function deleteSingleInstituteCourse(dispatch: AppDispatch) {
+            const response = await API.post(`/api/institute/course/${id}`);
+            if (response.status === 200) {
+                dispatch(setLoading(IStatus.SUCCESS));
+                setDeleteCourse(dispatch(IStatus.SUCCESS))
+            };
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    static getSingleInstituteCourse(courseData) {
+
+    }
+};
