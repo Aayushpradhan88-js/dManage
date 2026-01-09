@@ -1,0 +1,1 @@
+import { IStatus } from "../../../global/types/type";

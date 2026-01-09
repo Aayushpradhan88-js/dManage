@@ -6,21 +6,11 @@ import { IStatus } from "../../global/types/type";
 
 const initialState: ITeacherInitialState = {
     teacher: {
-        teacherName: "",
+        teacherInstituteNumber: 0,
         teacherEmail: "",
         teacherPassword: "",
-        teacherPhoneNumber: "",
-        teacherExperience: "",
-        joinedDate: "",
-        salary: "",
-        teacherPhoto: "",
-        course: "",
     },
-    status: {
-        SUCCESS: "",
-        LOADING: "",
-        ERROR: "",
-    },
+    status: IStatus.LOADING
 };
 
 const teacherSlice = createSlice({
