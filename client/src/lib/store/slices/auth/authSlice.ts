@@ -3,6 +3,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuthInitialStateType, IUser } from "./authTypes";
 import { IStatus } from "../../global/types/type";
+import { IRegister } from "@/src/app/Auth/register/registerTypes";
+import API from "../../global/types/apiCall";
 
 const initialState: IAuthInitialStateType = {
     user: {
@@ -10,11 +12,7 @@ const initialState: IAuthInitialStateType = {
         email: "",
         password: "",
     },
-    status: {
-        SUCCESS: "",
-        LOADING: "",
-        ERROR: "",
-    },
+    status: IStatus.LOADING
 };
 
 const authSlice = createSlice({
@@ -33,3 +31,16 @@ const authSlice = createSlice({
 
 export const { setUser, setStatus } = authSlice.actions;
 export default authSlice.reducer;
+
+function registerUser(data: IRegister){
+    return async function registerUserThunk(dispatch: any){
+        try {
+            const response = await API.post("/auth/register",data);
+            if(response.status === 200) {
+                dispatch(setStatus(IStatus.SUCCESS))
+            }
+        } catch (error) {
+            
+        }
+    }
+}

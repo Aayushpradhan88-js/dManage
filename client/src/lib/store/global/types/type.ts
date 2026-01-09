@@ -1,7 +1,7 @@
 //global type
 
-export interface IStatus {
-    SUCCESS: string ;
-    LOADING: string;
-    ERROR: string
+export enum IStatus {
+    SUCCESS = "success",
+    LOADING = "loading",
+    ERROR = "error",
 };
