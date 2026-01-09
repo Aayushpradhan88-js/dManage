@@ -5,7 +5,7 @@ import authSlice from "./slices/auth/authSlice"
 import intitituteSlice from "./slices/institute/instituteSlice"
 import teacherSlice from "./slices/teacher/teacherSlice"
 import studentSlice from "./slices/student/studentSlice"
-import courseSlice from "./slices/course/courseSlice"
+import courseSlice from "./slices/institute/course/courseSlice"
 import categorySlice from "./slices/institute/category/categorySlice"
 
 // makeStore is a global variable
