@@ -5,6 +5,7 @@ import { ICourseIntialState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import API from "../../../global/types/apiCall";
+import { setDefaultAutoSelectFamilyAttemptTimeout } from "net";
 
 const initialState: ICourseIntialState = {
     courses: [],
@@ -23,29 +24,47 @@ const courseSlice = createSlice({
         },
         setDeleteCourse: (state, action: PayloadAction<string>) => {
             const index = state.courses.findIndex((course) => {
-                const courseId = course.id
-                if(!courseId) {
-                    console.log("failed to get id");
-                } else{
-                    return action.payload;
+                const courseId = course.id;
+                if (courseId === action.payload) {
+                    return console.log("getting data");
+                } else {
+                    return console.log("failed to get id");
                 };
             });
 
-            if(index !== -1){
+            if (index !== -1) { //if index value is not equal to -1 
                 state.courses.splice(index, 1);
             } else {
-                console.log("no data found");
+                console.log("no course found");
+            };
+        },
+
+        setSingleCourse: (state, action: PayloadAction<string>) => {
+            const index = state.courses.findIndex((course) => {
+                const courseId = course.id;
+                if (courseId === action.payload) {
+                    return console.log("getting data");
+                } else {
+                    return console.log("failed to get id");
+                };
+            });
+
+            if (index !== -1) {
+                state.courses.splice(index);
+            } else {
+                console.log("no course found")
             };
         },
     },
 });
 
-export const { setCourse, setLoading } = courseSlice.actions;
+export const { setCourse, setLoading, setDeleteCourse, setSingleCourse } = courseSlice.actions;
 export default courseSlice.reducer;
 
 //API Call
 
 export class APICourseSlice {
+    //create
     static createInstituteCourse(courseData: ICourseState) {
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
             try {
@@ -60,7 +79,8 @@ export class APICourseSlice {
         };
     };
 
-    static getAllInstituteCourses(courseData) {
+    //get
+    static getAllInstituteCourses(courseData: string) {
         return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.get("/api/institute/course", courseData);
@@ -75,21 +95,23 @@ export class APICourseSlice {
         };
     };
 
-
+    // delete
     static deleteSingleInstituteCourse(id: string) {
         return async function deleteSingleInstituteCourse(dispatch: AppDispatch) {
-            const response = await API.post(`/api/institute/course/${id}`);
+            const response = await API.delete(`/api/institute/course/${id}`);
             if (response.status === 200) {
                 dispatch(setLoading(IStatus.SUCCESS));
-                setDeleteCourse(dispatch(IStatus.SUCCESS))
+                dispatch(setDeleteCourse(id));
             };
+        };
+    };
+
+    static getSingeInstituteCourse(id: string) {
+        return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
+            const response = await API.get(`/api/institute/course/${id}`);
+            if (response.status === 200)
         }
     }
-
-
-
-
-
 
 
 
