@@ -1,15 +1,17 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseIntialState } from "./courseSliceTypes";
+import { ICourseIntialState, ISingleCourse } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import API from "../../../global/types/apiCall";
-import { setDefaultAutoSelectFamilyAttemptTimeout } from "net";
 
 const initialState: ICourseIntialState = {
     courses: [],
-    status: IStatus.LOADING
+    status: IStatus.LOADING,
+    course:{
+        singleCourse: null
+    },
 };
 
 const courseSlice = createSlice({
@@ -26,9 +28,10 @@ const courseSlice = createSlice({
             const index = state.courses.findIndex((course) => {
                 const courseId = course.id;
                 if (courseId === action.payload) {
-                    return console.log("getting data");
+                    console.log("getting data");
+                    return true;
                 } else {
-                    return console.log("failed to get id");
+                    console.log("failed to get id");
                 };
             });
 
@@ -39,21 +42,8 @@ const courseSlice = createSlice({
             };
         },
 
-        setSingleCourse: (state, action: PayloadAction<string>) => {
-            const index = state.courses.findIndex((course) => {
-                const courseId = course.id;
-                if (courseId === action.payload) {
-                    return console.log("getting data");
-                } else {
-                    return console.log("failed to get id");
-                };
-            });
-
-            if (index !== -1) {
-                state.courses.splice(index);
-            } else {
-                console.log("no course found")
-            };
+        setSingleCourse: (state, action: PayloadAction<any>) => {
+            state.course.singleCourse = action.payload;
         },
     },
 });
@@ -106,18 +96,14 @@ export class APICourseSlice {
         };
     };
 
+    //single course
     static getSingeInstituteCourse(id: string) {
         return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
             const response = await API.get(`/api/institute/course/${id}`);
-            if (response.status === 200)
-        }
-    }
-
-
-
-
-
-    static getSingleInstituteCourse(courseData) {
-
-    }
+            if (response.status === 200) {
+                dispatch(setLoading(IStatus.SUCCESS));
+                dispatch(setSingleCourse(response.data));
+            };
+        };
+    };
 };

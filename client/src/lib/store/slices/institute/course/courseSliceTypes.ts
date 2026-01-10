@@ -6,10 +6,16 @@ export interface IInstituteCourseInitialDataCourse {
     coursePrice:string,
 };
 
+export interface ISingleCourse{
+    singleCourse: null,
+};
+
 export interface ICourseIntialState {
     courses: IInstituteCourseInitialDataCourse[],
-    status: IStatus
+    status: IStatus,
+    course: ISingleCourse
 };
+
 
 export interface ICourseCreate {
     courseName: string,
