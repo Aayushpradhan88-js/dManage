@@ -48,7 +48,7 @@ const courseSlice = createSlice({
 
         setUpdateCourse: (state, action: PayloadAction<null>) => {
             state.course.singleCourse = action.payload;
-        };
+        },
     },
 });
 
@@ -118,9 +118,11 @@ export class APICourseSlice {
                 const response = await API.post(`/api/institute/course/update/${id}`);
                 if(response.status === 200){
                     dispatch(setLoading(IStatus.SUCCESS));
-                    dispatch()
+                    // dispatch()
                 }
-            }
-        }
+            } catch(error){
+                dispatch(setLoading(IStatus.ERROR));
+            };
+        };
     };
 };
