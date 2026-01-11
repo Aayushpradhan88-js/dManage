@@ -1,9 +1,11 @@
+"use client"
+
 import React, { ChangeEvent, FormEvent, useState } from 'react'
-import { IRegister } from './registerTypes';
+// import { IRegister } from './registerTypes';
 import { APIAuth } from '@/src/lib/store/slices/auth/authSlice';
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 
-export function Registerpage() {
+function Register() {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<IRegister>({
     name: "",
@@ -20,7 +22,7 @@ export function Registerpage() {
   };
 
   const handlRegisterSubmission = (e: FormEvent<HTMLFormElement>) => {
-    const response = dispatch(APIAuth.register(userData)); 
+    const response = dispatch(APIAuth.register(userData));
   }
 
   return (
@@ -69,4 +71,4 @@ export function Registerpage() {
   )
 }
 
-export default page
+export default Register;
