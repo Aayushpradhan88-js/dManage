@@ -1,7 +1,7 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseIntialState, ISingleCourse } from "./courseSliceTypes";
+import { ICourseCreate, ICourseIntialState, ISingleCourse } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import API from "../../../global/types/apiCall";
@@ -42,9 +42,13 @@ const courseSlice = createSlice({
             };
         },
 
-        setSingleCourse: (state, action: PayloadAction<any>) => {
+        setSingleCourse: (state, action: PayloadAction<null>) => {
             state.course.singleCourse = action.payload;
         },
+
+        setUpdateCourse: (state, action: PayloadAction<null>) => {
+            state.course.singleCourse = action.payload;
+        };
     },
 });
 
@@ -55,12 +59,13 @@ export default courseSlice.reducer;
 
 export class APICourseSlice {
     //create
-    static createInstituteCourse(courseData: ICourseState) {
+    static createInstituteCourse(courseData: ICourseCreate) {
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.post("/api/institute/course", courseData);
                 if (response.status === 201) {
                     dispatch(setLoading(IStatus.SUCCESS));
+                    dispatch(setCourse(response.data));
                 };
             } catch (error) {
                 console.error("api course error creation", error);
@@ -97,7 +102,7 @@ export class APICourseSlice {
     };
 
     //single course
-    static getSingeInstituteCourse(id: string) {
+    static getSingleInstituteCourse(id: string) {
         return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
             const response = await API.get(`/api/institute/course/${id}`);
             if (response.status === 200) {
@@ -105,5 +110,17 @@ export class APICourseSlice {
                 dispatch(setSingleCourse(response.data));
             };
         };
+    };
+
+    static updateSingleInstituteCourse(id: string){
+        return async function updateSingleInstituteCourse(dispatch:AppDispatch) {
+            try{
+                const response = await API.post(`/api/institute/course/update/${id}`);
+                if(response.status === 200){
+                    dispatch(setLoading(IStatus.SUCCESS));
+                    dispatch()
+                }
+            }
+        }
     };
 };
