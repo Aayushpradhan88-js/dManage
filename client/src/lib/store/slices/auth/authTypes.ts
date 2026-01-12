@@ -1,7 +1,7 @@
 import { IStatus } from "../../global/types/type";
 
 export interface IUser {
-    name: string;
+    username: string;
     email: string;
     password: string
 };

@@ -10,7 +10,7 @@ import { AppDispatch } from "../../store";
 
 const initialState: IAuthInitialStateType = {
     user: {
-        name: "",
+        username: "",
         email: "",
         password: "",
     },
@@ -41,6 +41,7 @@ export class APIAuth {
             try {
                 const response = await API.post("/auth/register", userData);
                 if (response.status === 201) {
+                    console.log("data", response.data)
                     dispatch(setStatus(IStatus.SUCCESS));
                 };
             } catch (error) {
