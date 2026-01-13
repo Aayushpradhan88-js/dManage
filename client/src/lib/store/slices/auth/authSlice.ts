@@ -39,13 +39,23 @@ export class APIAuth {
     static register(userData: IRegister) {
         return async function registerUserThunk(dispatch: AppDispatch) {
             try {
+                console.log("✅step: 5 incomming form data", userData)
+                
+                console.log("✅step: 6 calling backend api");
                 const response = await API.post("/auth/register", userData);
+                console.log("✅step: 7 calling backend api", response);
+                console.log("✅step: 7 calling backend api", response.data);
+
+                // const{username,email} = response.data.datas
                 if (response.status === 201) {
-                    console.log("data", response.data)
+                    dispatch(setUser(response.data.datas))
                     dispatch(setStatus(IStatus.SUCCESS));
+                    console.log("✅step: 8 response data", response.data)
                 };
             } catch (error) {
-                console.error("Register success", error);
+                 console.error("❌ Registration failed:", {
+                    message: (error as Error).message,
+                });
                 dispatch(setStatus(IStatus.ERROR));
             };
         };
@@ -55,7 +65,7 @@ export class APIAuth {
     static login(userData: ILogin) {
         return async function loginUserThunk(dispatch: AppDispatch) {
             try {
-                const response = await API.post("/auth/login", userData);
+                const response = await API.post("auth/login", userData);
                 if (response.status === 201) {
                     dispatch(setStatus(IStatus.SUCCESS));
                 };

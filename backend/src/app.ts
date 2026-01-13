@@ -8,18 +8,20 @@ import instituteTeacherRouter from './modules/features/institute/teacher/teacher
 import teacherLoginRoute from './modules/features/teacher/teacherRoute';
 const app = express();
 
+console.log("✅ 8 Frontend request");
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials:true,
-    methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    exposedHeaders: ['Content-Length', 'X-Requested-With']
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// console.log("✅ step: AUTH ROUTER TRIGGERED")
+console.log("✅ step:9 AUTH ROUTER TRIGGERED")
 app.use("/api/auth", authRouter, teacherLoginRoute);
 
 // console.log("✅ step: INSTITUTE ROUTER TRIGGERED")

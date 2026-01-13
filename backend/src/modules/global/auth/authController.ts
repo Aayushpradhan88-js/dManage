@@ -7,6 +7,10 @@ import { JWT_SECRET, JWT_EXPIRY } from '../../../config/env';
 class AuthController {
     //register
     static async registerUser(req: Request, res: Response) {
+        console.log("📥 Register request received");
+        console.log("📥 Body:", req.body);
+        console.log("📥 Headers:", req.headers);
+
         if (req.body === undefined) {
             return res.status(400).json({
                 message: "No data found!!"
@@ -19,8 +23,10 @@ class AuthController {
                 message: "Fill all the required fields"
             });
         };
+        console.log(username, email, password);
 
         const hashedPassword = await bcrypt.hash(password, 12);
+        console.log("hashing password", hashedPassword);
 
         const data = await User.create({
             username,
@@ -28,6 +34,7 @@ class AuthController {
             password: hashedPassword
         });
 
+        console.log("data", data);
         return res.status(200).json({
             datas: data,
             message: "user successfully registered"

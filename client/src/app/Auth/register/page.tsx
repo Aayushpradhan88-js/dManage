@@ -20,19 +20,27 @@ function Register() {
       [name]: value
     });
   };
-  console.log("userData", userData);
+  console.log(" ✅step: 1 userData", userData);
 
-  const handlRegisterSubmission = (e: FormEvent<HTMLFormElement>) => {
+  const handlRegisterSubmission = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(APIAuth.register(userData));
+    console.log("✅step: 2 Form submitted");
+    console.log("✅step: 3 userData:", userData);
+    
+    try {
+      console.log("✅step: 4 Calling dispatch...");
+      const result = await dispatch(APIAuth.register(userData));
+      console.log("✅step: 8 Result:", result);
+    } catch (error) {
+      console.error("😡 Result:", error);
+      alert(`Registration failed. Please try again ${(error as Error).message}`);
+    }
   };
-  console.log("userData on submit", userData);
 
   return (
     <div className="bg-gray-100 flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="bg-white shadow-md rounded-md p-6">
-          {/* <Image className="mx-auto h-12 w-auto" src="https://www.svgrepo.com/show/499664/user-happy.svg" alt="image"/> */}
           <h2 className="my-3 text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign up for an account
           </h2>
@@ -42,7 +50,7 @@ function Register() {
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
               <div className="mt-1">
-                <input value={userData.username}  onChange={handleChange} name="username" type="username" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                <input value={userData.username} onChange={handleChange} name="username" type="username" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
               </div>
             </div>
 
@@ -50,7 +58,7 @@ function Register() {
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
               <div className="mt-1">
-                <input value={userData.email}   onChange={handleChange} name="email" type="email-address" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                <input value={userData.email} onChange={handleChange} name="email" type="email-address" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
               </div>
             </div>
 
