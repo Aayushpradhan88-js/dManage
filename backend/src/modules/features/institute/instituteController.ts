@@ -90,8 +90,14 @@ class InstituteController {
             if (req.user) {
                 req.user.currentInstituteNumber = String(instituteNumber)
             }
-            next()
-                ;
+            // next();
+
+            return res.status(200).json({
+                datas: {
+                    user: user
+                },
+                message: "successfully created institute"
+            });
         } catch (error) {
             console.error("✗ Server Error: Failed to create institute table:", (error as Error).stack);
             return res.status(500).json({

@@ -6,8 +6,17 @@ const API = axios.create({
         "Content-Type": "application/json",
         "Accept": "application/json"
     },
-    withCredentials:true
+    withCredentials: true
 });
-// console.log("✅7 calling backend API", API);
 
-export default API;
+const APIWithToken = axios.create({
+    baseURL: "http://localhost:8000",
+    headers: {
+        "Authorization": localStorage.getItem("user_token"),
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    },
+    withCredentials: true,
+});
+
+export { API, APIWithToken };

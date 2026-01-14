@@ -3,6 +3,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IInstituteInitialState, IInstituteState } from "./instituteSliceTypes"
 import { IStatus } from "../../global/types/type";
+import API from "../../global/types/apiCall";
+import { AppDispatch } from "../../store";
 
 const initialState: IInstituteInitialState = {
     institute: {
@@ -13,11 +15,7 @@ const initialState: IInstituteInitialState = {
         instituteVatNumber: " ",
         institutePanNumber: " ",
     },
-    status: {
-        SUCCESS: "",
-        LOADING: "",
-        ERROR: ""
-    },
+    status: IStatus.LOADING,
 };
 
 const intitituteSlice = createSlice({
@@ -28,11 +26,32 @@ const intitituteSlice = createSlice({
             state.institute = action.payload;
         },
 
-        setLoading: (state: IInstituteInitialState, action: PayloadAction<IStatus>) => {
+        setStatus: (state: IInstituteInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
     },
 });
 
-export const {setInstitute, setLoading} = intitituteSlice.actions;
+export const { setInstitute, setStatus } = intitituteSlice.actions;
 export default intitituteSlice.reducer;
+
+
+//api call
+export class APIInstitute {
+    static createInstitute(instituteData: IInstituteState) {
+        return async function createInstituteThunk(dispatch: AppDispatch) {
+            try {
+                const response = await API.post("/api/institute/", instituteData);
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setInstitute(response.data.datas));
+                    dispatch(setStatus(IStatus.SUCCESS));
+                };
+
+                console.log("Institute success creation", response.data.datas);
+            } catch (error) {
+                console.log("Failed to create institute", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+};

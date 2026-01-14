@@ -1,9 +1,37 @@
-import React, { useState } from 'react'
+'use client'
+import React, { ChangeEvent, useState } from 'react'
+import { APIInstitute } from '@/src/lib/store/slices/institute/instituteSlice';
+import { IInstituteState } from '@/src/lib/store/slices/institute/instituteSliceTypes';
+import { useAppDispatch } from '../../../lib/store/hooks/customHook';
 
 const InstitutePage = () => {
-  const [institute, setInstitute] = useState({
-    
-  })
+  const dispatch = useAppDispatch();
+  const [instituteData, setInstituteData] = useState<IInstituteState>({
+    instituteName: "",
+    instituteEmail: "",
+    institutePhoneNumber: "",
+    instituteAddress: "",
+    instituteVatNumber: "",
+    institutePanNumber: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const{name, value} = e.target;
+    setInstituteData({
+      ...instituteData,
+      [name] : value
+    });
+  };
+  console.log(handleChange);
+
+  const handleInstituteCreateSubmission = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      dispatch(APIInstitute.createInstitute(instituteData)); //api call
+    } catch (error) {
+      console.log("institute page 30 line error", error);
+    }
+  }
 
   return (
     <>
@@ -27,42 +55,42 @@ const InstitutePage = () => {
           </div>
           {/* Form */}
           <form
-            // onSubmit={handleInstituteCreateSubmission} 
+            onSubmit={handleInstituteCreateSubmission} 
             className="space-y-4">
             {/* Full Name */}
             <div>
               <input type="text" placeholder="Institute Name" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteName"
-              // onChange={handleChange} 
+              onChange={handleChange} 
               />
             </div>
             {/* Mobile Number */}
             <div>
               <input type="text" placeholder="Phone Number" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="institutePhoneNumber"
-              //  onChange={handleChange} 
+               onChange={handleChange} 
               />
             </div>
             {/* Email */}
             <div>
               <input type="email" placeholder="Email"
-                // onChange={handleChange} 
+                onChange={handleChange} 
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteEmail" />
             </div>
             {/* Password */}
             <div className="relative">
               <input type="text" placeholder="Address" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100"
-                // onChange={handleChange} 
+                onChange={handleChange} 
                 name="instituteAddress" />
 
             </div>
             {/* Confirm Password */}
             <div className="relative">
               <input type="text"
-                // onChange={handleChange} 
+                onChange={handleChange} 
                 placeholder="Pan No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="institutePanNumber" />
             </div>
             <div className="relative">
               <input type="text"
-                // onChange={handleChange} 
+                onChange={handleChange} 
                 placeholder="Vat No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteVatNumber" />
             </div>
             {/* Submit Button */}
