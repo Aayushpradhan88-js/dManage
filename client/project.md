@@ -8,18 +8,20 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
   1c. Complete CRUD + Loading animation
 
 2. Slices
-   2a. ✅ Teacher Slices + Types
-   2b. ✅ Student Slices + Types
-   2c. ✅ Institute Slices + Types(institute,teacher, course, category)
-   2d. Complete CRUD features handling logics
+   2a. ✅ Auth Slices (register, login) + Types
+   2b. ✅ Teacher Slices + Types
+   2c. ✅ Student Slices + Types
+   2d. ✅ Institute Slices + Types(institute,teacher, course, category)
+   2e. Complete CRUD features handling logics
 
 3. ✅ Add all slices in store file
 
 4. Build UI using SadcN
    4a. SignUP Page & Register Page 
 
-5. API Integration in Slices
-   5a. Teacher Slices 
-   5b. Student Slices 
-   5c. Institute Slices(institute,teacher, course, category)
-   5d. Complete CRUD API integration handling logics
+5. API Integration in Pages
+   5a. ✅ Auth Page (register, Login)
+   5b. Teacher page 
+   5c. Student page 
+   5d. Institute pages(institute,teacher, course, category)
+   5e. Complete CRUD API integration handling logics

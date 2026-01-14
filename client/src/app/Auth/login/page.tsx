@@ -7,8 +7,9 @@ import { useAppDispatch, useApppSelector } from '@/src/lib/store/hooks/customHoo
 
 function Login() {
   const dispatch = useAppDispatch();
-  const {user} = useApppSelector((state) => state.authSlice)
-  console.log("✅ step: user from store", user);
+  const data = useApppSelector((state) => state.auth.user)
+  console.log("✅ step: user from store", data.username);
+  
   const [userData, setUserData] = useState<ILogin>({
     email: "",
     password: "",

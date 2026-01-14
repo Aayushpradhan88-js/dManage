@@ -65,7 +65,7 @@ export class APIAuth {
         return async function loginUserThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.post("/api/auth/login", userData);
-                // console.log("backend data", response.data.datas.token)
+                console.log("backend data", response.data.datas)
                 if (response.status === 201) {
                     dispatch(setUser(response.data.datas));
                 //          localStorage.setItem("user_token", response.data.datas.token);
