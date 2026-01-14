@@ -1,10 +1,10 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseCreate, ICourseIntialState, ISingleCourse } from "./courseSliceTypes";
+import { ICourseCreate, ICourseIntialState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
-import API from "../../../global/types/apiCall";
+import {API} from "../../../global/types/apiCall";
 
 const initialState: ICourseIntialState = {
     courses: [],

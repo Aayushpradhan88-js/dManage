@@ -9,11 +9,7 @@ const initialState: ICategoryInitialState = {
         categoryName: "",
         categoryDescription: "",
     },
-    status: {
-        SUCCESS: "",
-        LOADING: "",
-        ERROR: ""
-    },
+    status: IStatus.LOADING,
 };
 
 const categorySlice = createSlice({
