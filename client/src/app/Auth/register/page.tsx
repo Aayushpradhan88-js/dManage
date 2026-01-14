@@ -29,7 +29,7 @@ function Register() {
     
     try {
       console.log("✅step: 4 Calling dispatch...");
-      const result = await dispatch(APIAuth.register(userData));
+      const result = dispatch(APIAuth.register(userData));
       console.log("✅step: 8 Result:", result);
     } catch (error) {
       console.error("😡 Result:", error);

@@ -14,10 +14,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     );
 
     console.log("Incomming Request..............");
-    console.log(`${req.method} ${req.originalUrl}`);
-    console.log('Headers: ', req.headers);
-
-
+    // console.log(`${req.method} ${req.originalUrl}`);
+    // console.log('Headers: ', req.headers);
+    console.log('Body: ', `${req.baseUrl} ${req.body}`);
+    // console.log('Query:', req.query);
+    
     next();
 });
 
