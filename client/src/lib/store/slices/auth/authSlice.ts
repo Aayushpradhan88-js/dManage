@@ -11,8 +11,7 @@ import { AppDispatch } from "../../store";
 const initialState: IAuthInitialStateType = {
     user: {
         username: "",
-        email: "",
-        password: "",
+        token: ""
     },
     status: IStatus.LOADING
 };
@@ -66,9 +65,15 @@ export class APIAuth {
         return async function loginUserThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.post("/api/auth/login", userData);
+                // console.log("backend data", response.data.datas.token)
                 if (response.status === 201) {
+                    dispatch(setUser(response.data.datas));
+                //          localStorage.setItem("user_token", response.data.datas.token);
+                // localStorage.setItem("user_name", response.data.datas.username);
                     dispatch(setStatus(IStatus.SUCCESS));
                 };
+                localStorage.setItem("user_token", response.data.datas.token);
+                localStorage.setItem("user_name", response.data.datas.username);
             } catch (error) {
                 console.error("Register success", error);
                 dispatch(setStatus(IStatus.ERROR));

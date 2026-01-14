@@ -2,8 +2,7 @@ import { IStatus } from "../../global/types/type";
 
 export interface IUser {
     username: string;
-    email: string;
-    password: string
+    token: string
 };
 
 export interface IAuthInitialStateType {
