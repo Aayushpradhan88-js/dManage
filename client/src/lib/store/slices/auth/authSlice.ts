@@ -42,7 +42,7 @@ export class APIAuth {
                 console.log("✅step: 5 incomming form data", userData)
                 
                 console.log("✅step: 6 calling backend api");
-                const response = await API.post("/auth/register", userData);
+                const response = await API.post("/api/auth/register", userData);
                 console.log("✅step: 7 calling backend api", response);
                 console.log("✅step: 7.o calling backend api", response.data);
 

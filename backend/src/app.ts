@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import authRouter from './modules/global/auth/authRouter';
 import cors from 'cors'
 import instituteRouter from './modules/features/institute/instituteRoutes';
@@ -8,13 +8,24 @@ import instituteTeacherRouter from './modules/features/institute/teacher/teacher
 import teacherLoginRoute from './modules/features/teacher/teacherRoute';
 const app = express();
 
-console.log("✅ 8 Frontend request");
+app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log("✅ 8 Frontend request",
+        req.headers.origin
+    );
+
+    console.log("Incomming Request..............");
+    console.log(`${req.method} ${req.originalUrl}`);
+    console.log('Headers: ', req.headers);
+
+
+    next();
+});
+
 app.use(cors({
     origin: 'http://localhost:3000',
-    credentials:true,
-    methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    exposedHeaders: ['Content-Length', 'X-Requested-With']
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json());

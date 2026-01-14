@@ -3,7 +3,7 @@
 import { config } from "dotenv"
 config();
 
-const SERVER_PORT = parseInt(process.env.PORT || '6000')
+const SERVER_PORT = parseInt(process.env.PORT || '8000')
 const DB_NAME = process.env.DB_NAME as string
 const DB_USERNAME = process.env.DB_USERNAME as string
 const DB_PASSWORD = process.env.DB_PASSWORD as string
