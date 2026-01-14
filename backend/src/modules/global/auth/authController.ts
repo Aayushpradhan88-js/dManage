@@ -95,7 +95,7 @@ class AuthController {
 
         return res.status(200).json({
             datas: {
-                user: user.email,
+                user: user.username,
                 token
             },
             message: "User loggedin successfully!!"
