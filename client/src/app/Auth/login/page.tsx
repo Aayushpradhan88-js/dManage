@@ -1,14 +1,13 @@
 "use client"
 
 import React, { ChangeEvent, FormEvent, useState } from 'react'
-import { IRegister } from './registerTypes';
+import { ILogin } from './loginTypes'
 import { APIAuth } from '@/src/lib/store/slices/auth/authSlice';
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 
 function Login() {
   const dispatch = useAppDispatch();
-  const [userData, setUserData] = useState<IRegister>({
-    username: "",
+  const [userData, setUserData] = useState<ILogin>({
     email: "",
     password: "",
   });
@@ -22,20 +21,20 @@ function Login() {
   };
   console.log(" ✅step: 1 userData", userData);
 
-  const handlRegisterSubmission = async (e: FormEvent<HTMLFormElement>) => {
+  const handlLoginSubmission = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("✅step: 2 Form submitted");
     console.log("✅step: 3 userData:", userData);
 
     try {
       console.log("✅step: 4 Calling dispatch...");
-      const result = await dispatch(APIAuth.register(userData));
+      const result = dispatch(APIAuth.login(userData));
       console.log("✅step: 8 Result:", result);
     } catch (error) {
       console.error("😡 Result:", error);
-      alert(`Registration failed. Please try again ${(error as Error).message}`);
-    }
-  }
+      alert(`Login failed. Please try again ${(error as Error).message}`);
+    };
+  };
 
     return (
       <div className="bg-gray-100 flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -44,7 +43,7 @@ function Login() {
             <h2 className="my-3 text-center text-3xl font-bold tracking-tight text-gray-900">
               Sign up for an account
             </h2>
-            <form onSubmit={handlRegisterSubmission} className="space-y-6" method="POST">
+            <form onSubmit={handlLoginSubmission} className="space-y-6" method="POST">
 
 
               {/* email */}

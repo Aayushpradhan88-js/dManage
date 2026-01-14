@@ -65,7 +65,7 @@ export class APIAuth {
     static login(userData: ILogin) {
         return async function loginUserThunk(dispatch: AppDispatch) {
             try {
-                const response = await API.post("auth/login", userData);
+                const response = await API.post("/api/auth/login", userData);
                 if (response.status === 201) {
                     dispatch(setStatus(IStatus.SUCCESS));
                 };

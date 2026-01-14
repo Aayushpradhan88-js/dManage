@@ -34,15 +34,20 @@ class AuthController {
             password: hashedPassword
         });
 
-        // console.log("data", data);
+        console.log("registration success");
         return res.status(200).json({
-            datas: data,
+            datas: {
+                username,
+                email
+            },
             message: "user successfully registered"
         });
     };
 
     //login 
     static async loginUser(req: Request, res: Response) {
+        console.log("Data", req.body);
+
         if (req.body === undefined) {
             return res.status(400).json({
                 message: "no data"
@@ -86,10 +91,13 @@ class AuthController {
 
         // console.log('JWT_SECRET:', JWT_SECRET);
         // console.log('JWT_EXPIRY:', JWT_EXPIRY);
-        // console.log('User ID:', user.id);
+        console.log('logged in success');
 
         return res.status(200).json({
-            datas: token,
+            datas: {
+                user: user.email,
+                token
+            },
             message: "User loggedin successfully!!"
         });
     };
