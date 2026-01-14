@@ -5,7 +5,7 @@ import { IAuthInitialStateType, IUser } from "./authTypes";
 import { IStatus } from "../../global/types/type";
 import { IRegister } from "@/src/app/auth/register/registerTypes";
 import { ILogin } from "@/src/app/auth/login/loginTypes";
-import API from "../../global/types/apiCall";
+import {API} from "../../global/types/apiCall";
 import { AppDispatch } from "../../store";
 
 const initialState: IAuthInitialStateType = {
