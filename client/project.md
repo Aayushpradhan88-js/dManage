@@ -25,3 +25,9 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
    5c. Student page 
    5d. Institute pages(institute,teacher, course, category)
    5e. Complete CRUD API integration handling logics
+
+
+Quick URLS:
+      1. Login: http://localhost:3000/auth/login
+      2. register: http://localhost:3000/auth/register
+      3. become institute: http://localhost:3000/institute/becomeInstitute
