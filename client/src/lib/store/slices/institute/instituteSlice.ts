@@ -42,12 +42,13 @@ export class APIInstitute {
         return async function createInstituteThunk(dispatch: AppDispatch) {
             try {
                 const response = await APIWithToken.post("/api/institute/", instituteData);
+                // console.log('Token:', localStorage.getItem("user_token"));
                 if (response.status === 200 || response.status === 201) {
                     dispatch(setInstitute(response.data.datas));
                     dispatch(setStatus(IStatus.SUCCESS));
                 };
 
-                console.log("Institute success creation", response.data.datas);
+                // console.log("Institute success creation", response.data.datas.currentInstituteNumber);
             } catch (error) {
                 console.log("Failed to create institute", error);
                 dispatch(setStatus(IStatus.ERROR));
