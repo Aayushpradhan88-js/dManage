@@ -32,3 +32,7 @@ Quick URLS:
       2. register: http://localhost:3000/auth/register
       3. become institute: http://localhost:3000/institute/becomeInstitute
       4. institute dasboard: http://localhost:3000/institute/dashboard
+          4a. student: http://localhost:3000/institute/dashboard/student
+          4b. teacher: http://localhost:3000/institute/dashboard/teacher
+          4c. course: http://localhost:3000/institute/dashboard/course
+          4d. category: http://localhost:3000/institute/dashboard/category
