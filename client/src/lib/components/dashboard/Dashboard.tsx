@@ -13,11 +13,11 @@ const Dashboard = ({children}: Readonly<{children: React.ReactNode}>) => {
                             <span className="text-lg font-semibold">Dashboard</span>
                         </div>
                         <button className="text-gray-500 hover:text-gray-600 lg:hidden">
-                            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {/* <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
                                     strokelinecap="round"
                                     strokelinejoin="round" strokewidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            </svg> */}
                         </button>
                     </div>
                 </div>
