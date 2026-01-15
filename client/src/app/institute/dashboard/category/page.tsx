@@ -19,10 +19,10 @@ const categoryPage = () => {
             <table className=" min-w-full rounded-xl">
               <thead>
                 <tr className="bg-gray-50">
-                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> Company </th>
-                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> User ID </th>
-                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Type </th>
-                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Industry Type </th>
+                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> Id </th>
+                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Name </th>
+                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Description </th>
+                  <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> CreatedAt</th>
                   <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> Actions </th>
                 </tr>
               </thead>
