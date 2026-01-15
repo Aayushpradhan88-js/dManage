@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const sidebar = () => {
+const Sidebar = () => {
     return (
         <div>
             {/* Sidebar */}
@@ -74,4 +74,4 @@ const sidebar = () => {
     );
 };
 
-export default sidebar;
+export default Sidebar;
