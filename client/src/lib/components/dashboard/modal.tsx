@@ -23,10 +23,30 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                     </button>
                 </div>
                 <div className="space-y-4">
+
+                    {/* category name */}
                     <div>
-                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Website HomePage URL</label>
-                        <input type="url" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="https://example.com" required />
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Name
+                            </label>
+                        <input 
+                        type="text"
+                         id="Name" 
+                         className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Software Engineering" required />
                     </div>
+
+                    {/* category description */}
+                    <div>
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Description
+                            </label>
+                        <input 
+                        type="text"
+                         id="Name" 
+                         className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                         placeholder="Placement Ready Software engineering with modern tools and techniques with AI" required />
+                    </div>
+
                     <div className="flex justify-end gap-3">
 
                         {/* cancel */}
