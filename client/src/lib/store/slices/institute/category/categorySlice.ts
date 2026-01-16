@@ -19,6 +19,14 @@ const categorySlice = createSlice({
         setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryState[]>) => {
             state.data = action.payload;
         },
+        setDeleteCategory: (state: ICategoryInitialState, action: PayloadAction<string>) => {
+            const categoryId = action?.payload;
+            const categoryIndex = state.data.findIndex((category) => category?.id === categoryId);
+            if (categoryIndex !== -1) {
+                state.data.slice(categoryIndex, 1);
+            }
+            return console.log("Unable to delete category");
+        },
         setLoading: (state: ICategoryInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
@@ -42,7 +50,7 @@ export class APICategory {
                 //     console.log("response4", response.data.datas.length);
                 // }
                 if (response.status === 200 || response.status === 201) {
-                    if (response.data.datas ||response.data.datas.length > 0) {
+                    if (response.data.datas || response.data.datas.length > 0) {
                         dispatch(setCategory(response.data.datas));
                         dispatch(setStatus(IStatus.SUCCESS));
                         console.log("success data fetching");
@@ -116,9 +124,9 @@ export class APICategory {
         return async function deleteSingleCategoryThunk(dispatch: AppDispatch) {
             console.log("loading delete data");
             try {
-                const response = await APIWithToken.get(`/api/institute/category/${id}`)
+                const response = await APIWithToken.post(`/api/institute/category/${id}`)
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setCategory(response.data.data));
+                    dispatch(setDeleteCategory(id));
                     dispatch(setStatus(IStatus.SUCCESS));
                 };
                 console.log("success delete data");
