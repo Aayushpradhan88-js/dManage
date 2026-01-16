@@ -53,10 +53,12 @@ const categoryPage = () => {
                   </td>
                 </tr>
                 <tr className="bg-white transition-all duration-500 hover:bg-gray-50">
-                  <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> Apple</td>
-                  <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> 20010511 </td>
-                  <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> Partner</td>
-                  <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> Electronics</td>
+                  {/* 
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> Apple</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> 20010511 </td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> Partner</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> Electronics</td>
+                  */}
                   <td className=" p-5 ">
                     <div className="flex items-center gap-1">
                       <button className="p-2  rounded-full  group transition-all duration-500  flex item-center">

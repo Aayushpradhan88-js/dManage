@@ -9,14 +9,14 @@ import teacherLoginRoute from './modules/features/teacher/teacherRoute';
 const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log("✅ 8 Frontend request",
-        req.headers.origin
-    );
+    // console.log("✅ 8 Frontend request",
+    //     req.headers.origin
+    // );
 
     console.log("Incomming Request..............");
     // console.log(`${req.method} ${req.originalUrl}`);
     // console.log('Headers: ', req.headers);
-    console.log('Body: ', `${req.baseUrl} ${req.body}`);
+    // console.log('Body: ', `${req.baseUrl} ${req.body}`);
     // console.log('Query:', req.query);
     
     next();
@@ -33,10 +33,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-console.log("✅ step:9 AUTH ROUTER TRIGGERED")
+// console.log("✅ step:9 AUTH ROUTER TRIGGERED")
 app.use("/api/auth", authRouter, teacherLoginRoute);
 
-// console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
+console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
 app.use("/api/institute", instituteRouter);
 
 // console.log("✅ step: COURSE ROUTER TRIGGERED")

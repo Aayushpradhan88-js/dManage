@@ -3,12 +3,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStatus } from "../../../global/types/type";
 import { ICategoryInitialState, ICategoryState } from "./categorySliceTypes";
+import { AppDispatch } from "../../../store";
+import { APIWithToken } from "../../../global/types/apiCall";
+import { setStatus } from "../instituteSlice";
 
 const initialState: ICategoryInitialState = {
-    category: {
-        categoryName: "",
-        categoryDescription: "",
-    },
+    data: [],
     status: IStatus.LOADING,
 };
 
@@ -16,8 +16,8 @@ const categorySlice = createSlice({
     name: "category slice",
     initialState: initialState,
     reducers: {
-        setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryState>) => {
-            state.category = action.payload;
+        setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryState[]>) => {
+            state.data = action.payload;
         },
         setLoading: (state: ICategoryInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
@@ -27,3 +27,95 @@ const categorySlice = createSlice({
 
 export const { setCategory, setLoading } = categorySlice.actions;
 export default categorySlice.reducer;
+
+export class APICategory {
+    //fetch all category
+    static fetchCategory() {
+        return async function fetchCategoryThunk(dispatch: AppDispatch) {
+            console.log("loading data fetching all category");
+            try {
+                const response = await APIWithToken.get("/api/institute/category")
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setCategory(response.data.data));
+                    dispatch(setStatus(IStatus.SUCCESS))
+                };
+                console.log("success data fetching");
+            } catch (error) {
+                console.log("error data fetching all category", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+
+    // createCategory
+    static createCategory(categoryData: ICategoryState) {
+        return async function createCategoryThunk(dispatch: AppDispatch) {
+            console.log("loading create category");
+            try {
+                const response = await APIWithToken.get("/api/institute/category/create-category", categoryData);
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setCategory(response.data.data));
+                    dispatch(setStatus(IStatus.SUCCESS));
+                };
+                console.log("success create category");
+            } catch (error) {
+                console.log("error create category", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+
+    // updateSingleCategory
+    static updateSingleCategory(id: string) {
+        return async function updateSingleCategoryThunk(dispatch: AppDispatch) {
+            console.log("loading update category with id");
+            try {
+                const response = await APIWithToken.get(`/api/institute/category/${id}`)
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setCategory(response.data.data));
+                    dispatch(setStatus(IStatus.SUCCESS))
+                };
+                console.log("success update category with id");
+            } catch (error) {
+                console.log("error update category with id", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+
+    // getSingleCategory
+    static fetchGetSingleCategory(id: string) {
+        return async function fetchGetSingleCategoryThunk(dispatch: AppDispatch) {
+            console.log("loading single category data");
+            try {
+                const response = await APIWithToken.get(`/api/institute/category/${id}`)
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setCategory(response.data.data));
+                    dispatch(setStatus(IStatus.SUCCESS))
+                };
+                console.log("success fetching single category data");
+            } catch (error) {
+                console.log("error fetching single category data", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+
+    // deleteSingleCategory
+    static deleteSingleCategory(id:string) {
+        return async function deleteSingleCategoryThunk(dispatch: AppDispatch) {
+            console.log("loading delete data");
+            try {
+                const response = await APIWithToken.get(`/api/institute/category/${id}`)
+                if (response.status === 200 || response.status === 201) {
+                    dispatch(setCategory(response.data.data));
+                    dispatch(setStatus(IStatus.SUCCESS));
+                };
+                console.log("success delete data");
+            } catch (error) {
+                console.log("error delete data", error);
+                dispatch(setStatus(IStatus.ERROR));
+            };
+        };
+    };
+};
