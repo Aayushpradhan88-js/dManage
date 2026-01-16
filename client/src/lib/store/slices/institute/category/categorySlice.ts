@@ -34,12 +34,22 @@ export class APICategory {
         return async function fetchAllCategoryThunk(dispatch: AppDispatch) {
             console.log("loading data fetching all category");
             try {
-                const response = await APIWithToken.get("/api/institute/category")
+                const response = await APIWithToken.get("/api/institute/category");
+                // if (response.data.datas.length > 0) {
+                //     console.log("response1", response);
+                //     console.log("response2", response.data);
+                //     console.log("response3", response.data.datas);
+                //     console.log("response4", response.data.datas.length);
+                // }
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setCategory(response.data.data));
-                    dispatch(setStatus(IStatus.SUCCESS))
+                    if (response.data.datas ||response.data.datas.length > 0) {
+                        dispatch(setCategory(response.data.datas));
+                        dispatch(setStatus(IStatus.SUCCESS));
+                        console.log("success data fetching");
+                    };
+                } else {
+                    dispatch(setStatus(IStatus.ERROR));
                 };
-                console.log("success data fetching");
             } catch (error) {
                 console.log("error data fetching all category", error);
                 dispatch(setStatus(IStatus.ERROR));
@@ -102,7 +112,7 @@ export class APICategory {
     };
 
     // deleteSingleCategory
-    static deleteSingleCategory(id:string) {
+    static deleteSingleCategory(id: string) {
         return async function deleteSingleCategoryThunk(dispatch: AppDispatch) {
             console.log("loading delete data");
             try {

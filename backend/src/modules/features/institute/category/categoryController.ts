@@ -42,6 +42,7 @@ class CategoryController {
 
     //get all category
     static async getAllCategory(req: IExtendedRequest, res: Response) {
+        console.log("DB-server triggered");
         const instituteNumber = req.user?.currentInstituteNumber;
         if (!instituteNumber || instituteNumber.trim().length === 0) {
             return res.status(400).json({
