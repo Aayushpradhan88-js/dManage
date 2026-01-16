@@ -22,7 +22,7 @@ function Register() {
   };
   console.log(" ✅step: 1 userData", userData);
 
-  const handlRegisterSubmission = async (e: FormEvent<HTMLFormElement>) => {
+  const handlRegisterSubmission =  (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("✅step: 2 Form submitted");
     console.log("✅step: 3 userData:", userData);

@@ -5,6 +5,6 @@ import { AppDispatch, RootState } from "../store";
 
 //For components 
 const useAppDispatch = useDispatch.withTypes<AppDispatch>(); //useDispatch + types = custom hook
-const useApppSelector = useSelector.withTypes<RootState>();
+const useAppSelector = useSelector.withTypes<RootState>();
 
-export {useAppDispatch,useApppSelector}
+export {useAppDispatch,useAppSelector};

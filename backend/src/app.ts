@@ -9,9 +9,9 @@ import teacherLoginRoute from './modules/features/teacher/teacherRoute';
 const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    // console.log("✅ 8 Frontend request",
-    //     req.headers.origin
-    // );
+    console.log("✅ 8 Frontend request",
+        req.headers.origin
+    );
 
     console.log("Incomming Request..............");
     // console.log(`${req.method} ${req.originalUrl}`);

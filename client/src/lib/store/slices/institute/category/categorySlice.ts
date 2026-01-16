@@ -30,8 +30,8 @@ export default categorySlice.reducer;
 
 export class APICategory {
     //fetch all category
-    static fetchCategory() {
-        return async function fetchCategoryThunk(dispatch: AppDispatch) {
+    static fetchAllCategory() {
+        return async function fetchAllCategoryThunk(dispatch: AppDispatch) {
             console.log("loading data fetching all category");
             try {
                 const response = await APIWithToken.get("/api/institute/category")
