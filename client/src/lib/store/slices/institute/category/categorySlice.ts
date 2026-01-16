@@ -25,7 +25,7 @@ const categorySlice = createSlice({
             if (categoryIndex !== -1) {
                 state.data.slice(categoryIndex, 1);
             }
-            return console.log("Unable to delete category");
+            return console.log("Unable to delete category, try again");
         },
         setLoading: (state: ICategoryInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
@@ -33,7 +33,7 @@ const categorySlice = createSlice({
     },
 });
 
-export const { setCategory, setLoading } = categorySlice.actions;
+export const { setCategory, setLoading, setDeleteCategory } = categorySlice.actions;
 export default categorySlice.reducer;
 
 export class APICategory {
@@ -124,7 +124,7 @@ export class APICategory {
         return async function deleteSingleCategoryThunk(dispatch: AppDispatch) {
             console.log("loading delete data");
             try {
-                const response = await APIWithToken.post(`/api/institute/category/${id}`)
+                const response = await APIWithToken.delete(`/api/institute/category/${id}`)
                 if (response.status === 200 || response.status === 201) {
                     dispatch(setDeleteCategory(id));
                     dispatch(setStatus(IStatus.SUCCESS));
