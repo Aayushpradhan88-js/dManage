@@ -1,6 +1,10 @@
 import React from 'react'
 
-const DeletePopupModal = () => {
+interface IDeleteCloseModal{
+    deleteCloseModal: () => void
+}
+
+const DeletePopupModal: React.FC<IDeleteCloseModal> = ({deletCloseModal}) => {
     return (
         <div className="fixed inset-0 z-40 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center">
             {/* overlay */}
@@ -9,7 +13,7 @@ const DeletePopupModal = () => {
             {/* Modal */}
             <div className="relative w-full cursor-pointer pointer-events-none transition my-auto p-4">
                 <div className="w-full py-2 bg-white cursor-default pointer-events-auto dark:bg-gray-800 relative rounded-xl mx-auto max-w-sm">
-                    <button tabIndex={-1} type="button" className="absolute top-2 right-2 rtl:right-auto rtl:left-2">
+                    <button onClick={deletCloseModal} tabIndex={-1} type="button" className="absolute top-2 right-2 rtl:right-auto rtl:left-2">
                         <svg title="Close" tabIndex={-1} className="h-4 w-4 cursor-pointer text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>

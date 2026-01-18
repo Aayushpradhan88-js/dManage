@@ -39,11 +39,11 @@ function CategoryPage() {
 
   const deleteOpenModal = () => setIsDeleteModalOpen(true);
   const deleteCloseModal = () => setIsDeleteModalOpen(false);
-  
+
   return (
     <div className="flex flex-col">
       {isModalOpen && <Modal closeModal={closeModal} />}
-      
+
       <div className=" overflow-x-auto">
         <div className="min-w-full inline-block align-middle">
           <div className="relative  text-gray-500 focus-within:text-gray-900 mb-4">
@@ -95,7 +95,7 @@ function CategoryPage() {
                         </svg>
                       </button>
 
-                      {isDeleteModalOpen && <DeletePopupModal deletCloseModal = {deleteCloseModal}/>}
+                      {isDeleteModalOpen && <DeletePopupModal deletCloseModal={deleteCloseModal} />}
                       {/* delete */}
                       <button
                         onClick={deleteOpenModal}
