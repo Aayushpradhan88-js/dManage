@@ -27,12 +27,6 @@ function CategoryPage() {
   if (status === 'success') return <div>Loading...</div>;
   if (!categories) return <div>No data</div>;
 
-  //api call delete category
-  const handleDeleteCategory = (id: string) => {
-    const result = dispatch(APICategory.deleteSingleCategory(id));
-    console.log("category deleted successfully", result);
-  };
-
   //modal form open & close
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
