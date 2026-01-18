@@ -6,6 +6,7 @@ import { APICategory } from '@/src/lib/store/slices/institute/category/categoryS
 import { ICategoryStateAdditionalData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
 import Modal from '@/src/lib/components/dashboard/addCategoryModal/categoryCloseModal';
 import DeletePopupModal from '@/src/lib/components/dashboard/deleteCategoryModal/deletePop';
+import { toast } from 'sonner';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();
@@ -37,7 +38,7 @@ function CategoryPage() {
   const deleteCloseModal = () => setIsDeleteModalOpen(false);
 
   const handleCategoryDelete = (id: string, name: string) => {
-    if(window.confirm(`Are you sure do you want to delete ${name}`)){
+    if (window.confirm(`Are you sure do you want to delete ${name}`)) {
       try {
         dispatch(APICategory.deleteSingleCategory(id))
       } catch (error) {

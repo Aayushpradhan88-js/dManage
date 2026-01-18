@@ -4,6 +4,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICategoryStateData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
+import { toast } from 'sonner';
 
 interface ICloseModal {
     closeModal: () => void,
@@ -33,18 +34,27 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
         e.preventDefault();
         setLoading(true);
 
-        // console.log("✅step: 2 Form submitted");
-        // console.log("✅step: 3 userData:", categoryFormData);
         try {
-            await dispatch(APICategory.createCategory(categoryFormData));  //API Call Category Slice
-            setLoading(false);
-            closeModal();
-            console.log("Category creation successful");
+            await dispatch(APICategory.createCategory(categoryFormData));  //API Call Category Slice      
+            setCategoryFormData({
+                categoryName: '',
+                categoryDescription: ''
+            });
+
+            // Close modal after short delay
+            setTimeout(() => {
+                closeModal();
+            }, 600);
+
+            toast.success('Category Added successfully');
         } catch (error) {
             setLoading(false);
+            toast.error('Failed to create category', {
+                description: 'Please try again later',
+            });
             console.error("error category creation", error);
             alert(`Registration failed. Please try again ${(error as Error).message}`);
-        };
+        }
     };
 
     //Cancel 
@@ -121,14 +131,26 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="submitButton"
                             type='submit'
                             disabled={Loading}
-                            className="cursor-pointer flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-600 dark:hover:to-violet-600">
-                            {Loading ? 'Creating....' : 'Create'}
-
-                            <svg className="h-4 w-4 inline-block ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                            </svg>
+                            className="cursor-pointer flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-linear-to-r from-green-600 to-green-600 hover:from-green-700 hover:to-green-700 dark:from-green-500 dark:to-green-500 dark:hover:from-green-600 dark:hover:to-green-600">
+                            {Loading ?
+                                (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Creating...
+                                    </>
+                                ):
+                                (
+                                    <>
+                                        Create
+                                        <svg className="h-4 w-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                        </svg>
+                                    </>
+                                )}
                         </button>
-
                     </div>
                 </form>
             </div>

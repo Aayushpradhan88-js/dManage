@@ -1,12 +1,14 @@
-import Dashboard from '@/src/lib/components/dashboard/Dashboard'
-import React from 'react'
+import Dashboard from '@/src/lib/components/dashboard/Dashboard';
+import React from 'react';
+import { Toaster } from 'sonner';
 
-const instituteDashboardLayout = ({children}: Readonly<{ children: React.ReactNode }>) => {
+const instituteDashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <div>
-        <Dashboard>
-          {children}
-        </Dashboard>
+      <Toaster position="bottom-center" richColors />
+      <Dashboard>
+        {children}
+      </Dashboard>
     </div>
   )
 }
