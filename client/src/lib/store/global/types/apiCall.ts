@@ -14,7 +14,7 @@ const API = axios.create({
 const APIWithToken = axios.create({
     baseURL: "http://localhost:8000",
     headers: {
-        "Authorization": localStorage.getItem("user_token"),
+        "Authorization": typeof window !== 'undefined' ? localStorage.getItem("user_token") : null,
         "Content-Type": "application/json",
         "Accept": "application/json"
     },

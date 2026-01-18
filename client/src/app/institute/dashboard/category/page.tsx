@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICategoryState } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
-import Modal from '@/src/lib/components/dashboard/modal';
-import DeletePopupModal from '@/src/lib/components/dashboard/confirmationpopup/deletePop';
+import Modal from '@/src/lib/components/dashboard/addCategoryModal/categoryCloseModal';
+import DeletePopupModal from '@/src/lib/components/dashboard/deleteCategoryModal/deletePop';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();

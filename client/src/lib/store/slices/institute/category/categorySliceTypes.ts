@@ -1,13 +1,16 @@
 import { IStatus } from "../../../global/types/type";
 
-export interface ICategoryState {
-    id: string,
+export interface ICategoryStateData {
     categoryName: string,
     categoryDescription: string,
-    createdAt: string
 };
 
+export interface ICategoryStateAdditionalData extends ICategoryStateData {
+    id: string,
+    createdAt: string
+}
+
 export interface ICategoryInitialState {
-    data: ICategoryState[],
+    data: ICategoryStateAdditionalData[],
     status: IStatus,
 };

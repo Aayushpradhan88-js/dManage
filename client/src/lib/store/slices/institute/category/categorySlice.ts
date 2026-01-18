@@ -2,7 +2,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStatus } from "../../../global/types/type";
-import { ICategoryInitialState, ICategoryState } from "./categorySliceTypes";
+import { ICategoryInitialState, ICategoryStateData, ICategoryStateAdditionalData } from "./categorySliceTypes";
 import { AppDispatch } from "../../../store";
 import { APIWithToken } from "../../../global/types/apiCall";
 import { setStatus } from "../instituteSlice";
@@ -16,7 +16,7 @@ const categorySlice = createSlice({
     name: "category slice",
     initialState: initialState,
     reducers: {
-        setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryState[]>) => {
+        setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryStateAdditionalData[]>) => {
             state.data = action.payload;
         },
         setDeleteCategory: (state: ICategoryInitialState, action: PayloadAction<string>) => {
@@ -66,11 +66,11 @@ export class APICategory {
     };
 
     // createCategory
-    static createCategory(categoryData: ICategoryState) {
+    static createCategory(categoryFormData: ICategoryStateData) {
         return async function createCategoryThunk(dispatch: AppDispatch) {
             console.log("loading create category");
             try {
-                const response = await APIWithToken.get("/api/institute/category/create-category", categoryData);
+                const response = await APIWithToken.get("/api/institute/category/create-category", categoryFormData);
                 if (response.status === 200 || response.status === 201) {
                     dispatch(setCategory(response.data.data));
                     dispatch(setStatus(IStatus.SUCCESS));
