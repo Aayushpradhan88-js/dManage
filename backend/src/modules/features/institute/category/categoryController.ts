@@ -44,7 +44,7 @@ class CategoryController {
 
     //get all category
     static async getAllCategory(req: IExtendedRequest, res: Response) {
-        console.log("DB-server triggered");
+        // console.log("DB-server triggered");
         const instituteNumber = req.user?.currentInstituteNumber;
         if (!instituteNumber || instituteNumber.trim().length === 0) {
             return res.status(400).json({
@@ -54,6 +54,7 @@ class CategoryController {
 
         const getAllCategory = await sequelize.query(`
             SELECT * FROM category_${instituteNumber} 
+            ORDER BY createdAt DESC
         `, {
             type: QueryTypes.SELECT
         });
@@ -154,6 +155,7 @@ class CategoryController {
     //delete category
     static async deleteSingleCategory(req: IExtendedRequest, res: Response) {
         const categoryId = req.params.id;
+        console.log("categoryId", categoryId);
         if (!categoryId) {
             return res.status(400).json({
                 message: 'invalid category Id'

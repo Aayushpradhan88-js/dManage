@@ -17,16 +17,20 @@ const categorySlice = createSlice({
     initialState: initialState,
     reducers: {
         setAddCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryStateAdditionalData[]>) => {
-            state.data = action.payload;
+            state.data = action.payload.sort((a:ICategoryStateAdditionalData, b: ICategoryStateAdditionalData ) => {
+               return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            }) ;
         },
+        
         setDeleteCategory: (state: ICategoryInitialState, action: PayloadAction<string>) => {
             const categoryId = action?.payload;
             const categoryIndex = state.data.findIndex((category) => category?.id === categoryId);
             if (categoryIndex !== -1) {
                 state.data.slice(categoryIndex, 1);
-            }
+            };
             return console.log("Unable to delete category, try again");
         },
+
         setLoading: (state: ICategoryInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
@@ -113,7 +117,7 @@ export class APICategory {
             try {
                 const response = await APIWithToken.get(`/api/institute/category/${id}`)
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setCategory(response.data.data));
+                    dispatch(setAddCategory(response.data.data));
                     dispatch(setStatus(IStatus.SUCCESS))
                 };
                 console.log("success fetching single category data");
