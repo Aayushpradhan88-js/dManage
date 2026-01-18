@@ -22,11 +22,11 @@ function Register() {
   };
   console.log(" ✅step: 1 userData", userData);
 
-  const handlRegisterSubmission =  (e: FormEvent<HTMLFormElement>) => {
+  const handlRegisterSubmission = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("✅step: 2 Form submitted");
     console.log("✅step: 3 userData:", userData);
-    
+
     try {
       console.log("✅step: 4 Calling dispatch...");
       const result = dispatch(APIAuth.register(userData));
@@ -72,7 +72,11 @@ function Register() {
 
             {/* Submit Btn */}
             <div>
-              <button type="submit" className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2"> submit
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2"
+              >
+                submit
               </button>
             </div>
           </form>

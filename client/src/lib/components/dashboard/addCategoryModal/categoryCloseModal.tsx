@@ -26,7 +26,7 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
 
     const handleFormSubmission = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(APICategory.createCategory(categoryFormData));
+        dispatch(APICategory.createCategory(categoryFormData)); //API Call Category Slice
     };
 
     return (
@@ -46,7 +46,9 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                         </svg>
                     </button>
                 </div>
-                <div className="space-y-4">
+                <form
+                    onSubmit={handleFormSubmission}
+                    className="space-y-4">
 
                     {/* category name */}
                     <div>
@@ -54,8 +56,9 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                             Name
                         </label>
                         <input
-                            type="text"
                             id="Name"
+                            type="text"
+                            onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Software Engineering" required
                         />
                     </div>
@@ -66,8 +69,9 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                             Description
                         </label>
                         <input
-                            type="text"
                             id="Name"
+                            type="text"
+                            onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                             placeholder="Placement Ready Software engineering with modern tools and techniques with AI" required
                         />
@@ -85,16 +89,18 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
 
                         {/* create */}
                         <button
-                            id="submitUrlButton"
-                            className="cursor-pointer flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-600 dark:hover:to-violet-600">
+                            id="submitButton"
+                            type='submit'
+                            className="cursor-pointer flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-600 dark:hover:to-violet-600">
                             Create
+
                             <svg className="h-4 w-4 inline-block ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>
                         </button>
 
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );
