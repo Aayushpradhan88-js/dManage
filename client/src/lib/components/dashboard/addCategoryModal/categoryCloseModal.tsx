@@ -141,7 +141,7 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                                         </svg>
                                         Creating...
                                     </>
-                                ):
+                                ) :
                                 (
                                     <>
                                         Create

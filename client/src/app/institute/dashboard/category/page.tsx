@@ -10,9 +10,10 @@ import { toast } from 'sonner';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();
-  const { data: categories, status } = useAppSelector((store) => store.category)
+  const { data: categories, status } = useAppSelector((store) => store.category);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [searchedText, setSearchedText] = useState<string>("");
 
   //api call fetch all category
   useEffect(() => {
@@ -47,6 +48,10 @@ function CategoryPage() {
     };
   };
 
+  //search
+  const searchOutput = categories.filter((category) => category.categoryName.includes(searchedText));
+  console.log("data", searchOutput);
+
   return (
     <div className="flex flex-col">
       {isModalOpen && <Modal closeModal={closeModal} />}
@@ -61,7 +66,16 @@ function CategoryPage() {
                 <path d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z" stroke="black" strokeOpacity="0.2" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
             </div>
-            <input type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for company" />
+
+            {/* Search Box */}
+            <input
+              id="default-search"
+              type="text"
+              onChange={(e) => setSearchedText(e.target.value)}
+              className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+              placeholder="Search for company"
+            />
+
           </div>
         </div>
       </div>
