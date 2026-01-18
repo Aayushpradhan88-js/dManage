@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 // console.log("✅ step:9 AUTH ROUTER TRIGGERED")
 app.use("/api/auth", authRouter, teacherLoginRoute);
 
-console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
+// console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
 app.use("/api/institute", instituteRouter);
 
 // console.log("✅ step: COURSE ROUTER TRIGGERED")

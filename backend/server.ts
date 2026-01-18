@@ -4,7 +4,7 @@ import "./src/database/connection"
 import { config } from "dotenv"
 config();
 
-console.log("✅ step 1: SERVER STARTED!!!");
+// console.log("✅ step 1: SERVER STARTED!!!");
 function startServer() {
     const port:number = SERVER_PORT;
     app.listen(port,() => {

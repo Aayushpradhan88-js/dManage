@@ -3,11 +3,11 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { ILogin } from './loginTypes'
 import { APIAuth } from '@/src/lib/store/slices/auth/authSlice';
-import { useAppDispatch, useApppSelector } from '@/src/lib/store/hooks/customHook';
+import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
 
 function Login() {
   const dispatch = useAppDispatch();
-  const data = useApppSelector((state) => state.auth.user)
+  const data = useAppSelector((state) => state.auth.user)
   console.log("✅ step: user from store", data.username);
   
   const [userData, setUserData] = useState<ILogin>({

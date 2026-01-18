@@ -16,7 +16,7 @@ const categorySlice = createSlice({
     name: "category slice",
     initialState: initialState,
     reducers: {
-        setCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryStateAdditionalData[]>) => {
+        setAddCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryStateAdditionalData[]>) => {
             state.data = action.payload;
         },
         setDeleteCategory: (state: ICategoryInitialState, action: PayloadAction<string>) => {
@@ -33,7 +33,7 @@ const categorySlice = createSlice({
     },
 });
 
-export const { setCategory, setLoading, setDeleteCategory } = categorySlice.actions;
+export const { setAddCategory, setLoading, setDeleteCategory } = categorySlice.actions;
 export default categorySlice.reducer;
 
 export class APICategory {
@@ -51,7 +51,7 @@ export class APICategory {
                 // }
                 if (response.status === 200 || response.status === 201) {
                     if (response.data.datas || response.data.datas.length > 0) {
-                        dispatch(setCategory(response.data.datas));
+                        dispatch(setAddCategory(response.data.datas));
                         dispatch(setStatus(IStatus.SUCCESS));
                         console.log("success data fetching");
                     };
@@ -66,14 +66,19 @@ export class APICategory {
     };
 
     // createCategory
-    static createCategory(categoryFormData: ICategoryStateData) {
+    static createCategory(data: ICategoryStateData) {
         return async function createCategoryThunk(dispatch: AppDispatch) {
             console.log("loading create category");
             try {
-                const response = await APIWithToken.get("/api/institute/category/create-category", categoryFormData);
+                const response = await APIWithToken.post("/api/institute/category/create-category", data);
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setCategory(response.data.data));
+                    await dispatch(APICategory.fetchAllCategory());
                     dispatch(setStatus(IStatus.SUCCESS));
+
+                    return {
+                        success: true,
+                        data: response.data,
+                    };
                 };
                 console.log("success create category");
             } catch (error) {
@@ -90,7 +95,7 @@ export class APICategory {
             try {
                 const response = await APIWithToken.get(`/api/institute/category/${id}`)
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setCategory(response.data.data));
+                    dispatch(setAddCategory(response.data.data));
                     dispatch(setStatus(IStatus.SUCCESS))
                 };
                 console.log("success update category with id");
@@ -126,8 +131,11 @@ export class APICategory {
             try {
                 const response = await APIWithToken.delete(`/api/institute/category/${id}`)
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setDeleteCategory(id));
+                    await dispatch(APICategory.fetchAllCategory());
                     dispatch(setStatus(IStatus.SUCCESS));
+                    return {
+                        success: true,
+                    }
                 };
                 console.log("success delete data");
             } catch (error) {

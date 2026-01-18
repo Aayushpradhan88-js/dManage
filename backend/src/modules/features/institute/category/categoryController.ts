@@ -6,7 +6,7 @@ import { QueryTypes } from "sequelize";
 class CategoryController {
     //create category
     static async createCategory(req: IExtendedRequest, res: Response) {
-        // console.log("create category table triggered");
+        console.log("create category API triggered");
         const instituteNumber = req.user?.currentInstituteNumber;
         if (!instituteNumber || instituteNumber.trim().length === 0) {
             return res.status(400).json({
@@ -15,6 +15,7 @@ class CategoryController {
         };
 
         const { categoryName, categoryDescription } = req.body;
+        console.log(categoryName, categoryDescription);
         if (!categoryName || !categoryDescription) {
             return res.status(400).json({
                 message: 'fill all the required fields'
@@ -31,12 +32,13 @@ class CategoryController {
         });
 
         return res.status(200).json({
+            success: true,
             datas: {
                 institute: instituteNumber,
-                categoryName: categoryName
+                categoryName: categoryName,
+                categoryDescription: categoryDescription
             },
-            success: true,
-            message: `Successfully created ${categoryName} category`
+            message: `Successfully created ${categoryName} category at institute ${instituteNumber}`
         });
     };
 
