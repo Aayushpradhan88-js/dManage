@@ -1,6 +1,9 @@
+'use client'
+
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook'
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
-import React from 'react'
+import React, { useState } from 'react';
+import { toast } from 'sonner';
 
 interface ICloseDeleteModal {
     closeDeleteModal: () => void,
@@ -9,9 +12,26 @@ interface ICloseDeleteModal {
 
 const DeletePopupModal: React.FC<ICloseDeleteModal> = ({ closeDeleteModal, categoryId }) => {
     const dispatch = useAppDispatch();
+    const [Loading, setLoading] = useState(false);
 
-    const handleCategoryDelete = () => {
-        dispatch(APICategory.deleteSingleCategory(categoryId));
+    const handleCategoryDelete = async () => {
+        setLoading(true);
+
+        try {
+            await dispatch(APICategory.deleteSingleCategory(categoryId));
+            // Close modal after short delay
+            setTimeout(() => {
+                closeDeleteModal();
+            }, 600);
+
+            toast.success('Deleted category successfully');
+        } catch (error) {
+            setLoading(false);
+            toast.error('Failed to delete category', {
+                description: 'Please try again later',
+            });
+            console.error("error category creation", error);
+        };
     };
 
     return (
@@ -56,7 +76,7 @@ const DeletePopupModal: React.FC<ICloseDeleteModal> = ({ closeDeleteModal, categ
                                 <button
                                     onClick={closeDeleteModal}
                                     type="button"
-                                    className="inline-flex cursor-pointer items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-gray-800 bg-white border-gray-300 hover:bg-gray-50 focus:ring-primary-600 focus:text-primary-600 focus:bg-primary-50 focus:border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:text-gray-200 dark:focus:text-primary-400 dark:focus:border-primary-400 dark:focus:bg-gray-800">
+                                    className="inline-flex cursor-pointer items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-9 px-4 text-sm text-gray-800 bg-white border-gray-300 hover:bg-gray-50 focus:ring-primary-600 focus:text-primary-600 focus:bg-primary-50 focus:border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:text-gray-200 dark:focus:text-primary-400 dark:focus:border-primary-400 dark:focus:bg-gray-800">
                                     Cancel
                                 </button>
 
@@ -64,8 +84,25 @@ const DeletePopupModal: React.FC<ICloseDeleteModal> = ({ closeDeleteModal, categ
                                 <button
                                     onClick={handleCategoryDelete}
                                     type="submit"
-                                    className="inline-flex cursor-pointer items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-white shadow focus:ring-white border-transparent bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-offset-red-700">
-                                    Delete
+                                    className="inline-flex cursor-pointer items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-9] px-4 text-sm text-white shadow focus:ring-white border-transparent bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-offset-red-700">
+                                    {Loading ?
+                                        (
+                                            <>
+                                                <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Deleting...
+                                            </>
+                                        ) :
+                                        (
+                                            <>
+                                                Delete
+                                                <svg className="h-4 w-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                                </svg>
+                                            </>
+                                        )}
                                 </button>
                             </div>
                         </div>
