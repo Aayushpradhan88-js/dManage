@@ -38,6 +38,7 @@ function CategoryPage() {
   const deleteOpenModal = () => setIsDeleteModalOpen(true);
   const deleteCloseModal = () => setIsDeleteModalOpen(false);
 
+  //delete
   const handleCategoryDelete = (id: string, name: string) => {
     if (window.confirm(`Are you sure do you want to delete ${name}`)) {
       try {
@@ -49,8 +50,8 @@ function CategoryPage() {
   };
 
   //search
-  const searchOutput = categories.filter((category) => category.categoryName.includes(searchedText));
-  console.log("data", searchOutput);
+  const filteredData = categories.filter((category) => category.categoryName.includes(searchedText));
+  // console.log("data", filteredData);
 
   return (
     <div className="flex flex-col">
@@ -96,10 +97,10 @@ function CategoryPage() {
               <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> Actions </th>
             </tr>
           </thead>
-
+3
           {/* content of category */}
           <tbody className="divide-y divide-gray-300 ">
-            {categories.map((category: ICategoryStateAdditionalData) => {
+            {filteredData.map((category: ICategoryStateAdditionalData) => {
               return (
                 <tr key={category.id} className="bg-white duration-500 hover:bg-gray-50">
                   <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.id}</td>
