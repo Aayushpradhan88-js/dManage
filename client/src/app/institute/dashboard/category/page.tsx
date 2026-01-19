@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICategoryStateAdditionalData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
-import Modal from '@/src/lib/components/dashboard/addCategoryModal/categoryCloseModal';
-import DeletePopupModal from '@/src/lib/components/dashboard/deleteCategoryModal/deletePop';
+import Modal from '@/src/lib/components/dashboard/addCategoryModal/CategoryCreationModal';
+import DeletePopupModal from '@/src/lib/components/dashboard/deleteCategoryModal/DeletePopupModal';
 import { toast } from 'sonner';
 import { IDeleteModal } from './deleteModalTypes';
 
@@ -119,7 +119,7 @@ function CategoryPage() {
                         </svg>
                       </button>
 
-                      {isDeleteModalData && <DeletePopupModal deletCloseModal={closeDeleteModal} categoryId={category?.id} />}
+                      {isDeleteModalData && <DeletePopupModal closeDeleteModal={closeDeleteModal} categoryId={category?.id} />}
                       {/* delete */}
                       <button
                         onClick={() => openDeleteModal(category?.id)}

@@ -10,7 +10,7 @@ interface ICloseModal {
     closeModal: () => void,
 };
 
-const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
+const CategoryCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const dispatch = useAppDispatch();
 
     const [categoryFormData, setCategoryFormData] = useState<ICategoryStateData>({
@@ -27,7 +27,7 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
             [name]: value
         });
     };
-    console.log(" ✅step: 1 userData", categoryFormData);
+    // console.log(" ✅step: 1 userData", categoryFormData);
 
     //Form Submission to Backend
     const handleFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -53,8 +53,8 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
                 description: 'Please try again later',
             });
             console.error("error category creation", error);
-            alert(`Registration failed. Please try again ${(error as Error).message}`);
-        }
+            // alert(`Registration failed. Please try again ${(error as Error).message}`);
+        };
     };
 
     //Cancel 
@@ -158,4 +158,4 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
     );
 };
 
-export default Modal;
+export default CategoryCreationModal;
