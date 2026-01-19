@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICategoryStateData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';

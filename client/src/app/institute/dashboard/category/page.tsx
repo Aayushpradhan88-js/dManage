@@ -6,9 +6,8 @@ import { APICategory } from '@/src/lib/store/slices/institute/category/categoryS
 import { ICategoryStateAdditionalData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
 import CategoryCreationModal from '@/src/lib/components/dashboard/category/add/CategoryCreationModal';
 import DeletePopupModal from '@/src/lib/components/dashboard/category/delete/DeletePopupModal';
-// import { toast } from 'sonner';
 import EditCategoryModal from '@/src/lib/components/dashboard/category/edit/EditCategoryModal';
-import { IDeleteModal, IEditAdditionalParamerter, IEditModal } from './categoryTypes';
+import { IDeleteModal, IEditAdditionalParamerter } from './categoryTypes';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();
