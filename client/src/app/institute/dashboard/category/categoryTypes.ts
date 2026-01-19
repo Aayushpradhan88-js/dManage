@@ -8,3 +8,7 @@ export interface IEditModal {
     categoryName: string, 
     categoryDescription: string
 };
+
+export interface IEditAdditionalParamerter extends IEditModal {
+    isOpen: boolean
+}

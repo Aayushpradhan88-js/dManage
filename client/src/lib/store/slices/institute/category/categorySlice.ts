@@ -93,13 +93,13 @@ export class APICategory {
     };
 
     // updateSingleCategory
-    static updateSingleCategory(id: string) {
+    static updateSingleCategory(id: string, data: ICategoryStateData) {
         return async function updateSingleCategoryThunk(dispatch: AppDispatch) {
             console.log("loading update category with id");
             try {
-                const response = await APIWithToken.get(`/api/institute/category/${id}`)
+                const response = await APIWithToken.post(`/api/institute/category/${id}`, data)
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setAddCategory(response.data.data));
+                    await dispatch(APICategory.fetchAllCategory());
                     dispatch(setStatus(IStatus.SUCCESS))
                 };
                 console.log("success update category with id");

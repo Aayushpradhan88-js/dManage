@@ -8,7 +8,7 @@ import CategoryCreationModal from '@/src/lib/components/dashboard/category/add/C
 import DeletePopupModal from '@/src/lib/components/dashboard/category/delete/DeletePopupModal';
 // import { toast } from 'sonner';
 import EditCategoryModal from '@/src/lib/components/dashboard/category/edit/EditCategoryModal';
-import { IDeleteModal, IEditModal } from './categoryTypes';
+import { IDeleteModal, IEditAdditionalParamerter, IEditModal } from './categoryTypes';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();
@@ -18,7 +18,8 @@ function CategoryPage() {
     isOpen: false,
     id: ''
   });
-  const [isEditModalData, setIsEditDeleteModal] = useState<IEditModal>({
+  const [isEditModalData, setIsEditDeleteModal] = useState<IEditAdditionalParamerter>({
+    isOpen: false,
     categoryId: '',
     categoryName: '',
     categoryDescription: ''
@@ -61,6 +62,7 @@ function CategoryPage() {
   //Edit Action
   const openEditModal = (categoryId: string, categoryName: string, categoryDescription: string) => {
     setIsEditDeleteModal({
+      isOpen: true,
       categoryId,
       categoryName,
       categoryDescription
@@ -68,6 +70,7 @@ function CategoryPage() {
   };
   const closeEditModal = () => {
     setIsEditDeleteModal({
+      isOpen: false,
       categoryId: '',
       categoryName: '',
       categoryDescription: ''
@@ -77,7 +80,6 @@ function CategoryPage() {
   //search
   const filteredData = categories.filter((category) => category.categoryName.includes(searchedText));
   // console.log("data", filteredData);
-
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -185,7 +187,7 @@ function CategoryPage() {
                       <div className="flex items-center justify-end gap-2">
 
                         {/* Edit Button */}
-                        {isEditModalData && <EditCategoryModal
+                        {isEditModalData.isOpen && <EditCategoryModal
                           closeEditModal={closeEditModal}
                           categoryId={isEditModalData.categoryId}
                           categoryName={isEditModalData.categoryName}
@@ -194,7 +196,7 @@ function CategoryPage() {
                         <button
                           onClick={() => openEditModal(category.id, category.categoryName, category.categoryDescription)}
                           title="Edit"
-                          className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                          className="cursor-pointer  p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
