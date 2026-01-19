@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICategoryStateAdditionalData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
-import Modal from '@/src/lib/components/dashboard/addCategoryModal/CategoryCreationModal';
-import DeletePopupModal from '@/src/lib/components/dashboard/deleteCategoryModal/DeletePopupModal';
+import CategoryCreationModal from '@/src/lib/components/dashboard/category/add/CategoryCreationModal';
+import DeletePopupModal from '@/src/lib/components/dashboard/category/delete/DeletePopupModal';
 // import { toast } from 'sonner';
-import { IDeleteModal } from './deleteModalTypes';
+import EditCategoryModal from '@/src/lib/components/dashboard/category/edit/EditCategoryModal';
+import { IDeleteModal, IEditModal } from './categoryTypes';
 
 function CategoryPage() {
   const dispatch = useAppDispatch();
@@ -16,6 +17,11 @@ function CategoryPage() {
   const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
     isOpen: false,
     id: ''
+  });
+  const [isEditModalData, setIsEditDeleteModal] = useState<IEditModal>({
+    categoryId: '',
+    categoryName: '',
+    categoryDescription: ''
   });
   const [searchedText, setSearchedText] = useState<string>("");
 
@@ -52,6 +58,22 @@ function CategoryPage() {
     })
   };
 
+  //Edit Action
+  const openEditModal = (categoryId: string, categoryName: string, categoryDescription: string) => {
+    setIsEditDeleteModal({
+      categoryId,
+      categoryName,
+      categoryDescription
+    });
+  };
+  const closeEditModal = () => {
+    setIsEditDeleteModal({
+      categoryId: '',
+      categoryName: '',
+      categoryDescription: ''
+    });
+  };
+
   //search
   const filteredData = categories.filter((category) => category.categoryName.includes(searchedText));
   // console.log("data", filteredData);
@@ -84,7 +106,7 @@ function CategoryPage() {
         </div>
 
         {/* Add Category Button */}
-        {isModalOpen && <Modal closeModal={closeModal} />}
+        {isModalOpen && <CategoryCreationModal closeModal={closeModal} />}
         <button
           onClick={openModal}
           className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-linear-to-r bg-green-500 text-white rounded-lg  hover:bg-green-600 transition-all font-medium"
@@ -163,10 +185,16 @@ function CategoryPage() {
                       <div className="flex items-center justify-end gap-2">
 
                         {/* Edit Button */}
-
+                        {isEditModalData && <EditCategoryModal
+                          closeEditModal={closeEditModal}
+                          categoryId={isEditModalData.categoryId}
+                          categoryName={isEditModalData.categoryName}
+                          categoryDescription={isEditModalData.categoryDescription}
+                        />}
                         <button
-                          className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                          onClick={() => openEditModal(category.id, category.categoryName, category.categoryDescription)}
                           title="Edit"
+                          className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -175,8 +203,8 @@ function CategoryPage() {
 
                         {isDeleteModalData.isOpen && (
                           <DeletePopupModal
-                          closeDeleteModal={closeDeleteModal}
-                          categoryId={isDeleteModalData.id}
+                            closeDeleteModal={closeDeleteModal}
+                            categoryId={isDeleteModalData.id}
                           />
                         )}
 
