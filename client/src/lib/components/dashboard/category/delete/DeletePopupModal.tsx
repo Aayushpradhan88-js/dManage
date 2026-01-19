@@ -35,8 +35,9 @@ const DeletePopupModal: React.FC<ICloseDeleteModal> = ({ closeDeleteModal, categ
     };
 
     return (
-        <div className="fixed inset-0 z-40 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center">
-            {/* overlay */}
+        <div className="fixed  bg-black/40 inset-0 z-50 flex items-center justify-center">
+            <div >
+                  {/* overlay */}
             <div aria-hidden="true" className="fixed inset-0 w-full h-full bg-black/10 cursor-pointer">
             </div>
 
@@ -109,9 +110,9 @@ const DeletePopupModal: React.FC<ICloseDeleteModal> = ({ closeDeleteModal, categ
                     </div>
                 </div>
             </div>
+            </div>
         </div>
+    );
+};
 
-    )
-}
-
-export default DeletePopupModal
+export default DeletePopupModal;

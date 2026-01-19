@@ -61,7 +61,7 @@ const EditCategoryModal: React.FC<IEditCategory> = ({ closeEditModal, categoryId
 
     return (
         <div id="modal" className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="fixed inset-0 bg-black/50" />
+            <div className="fixed inset-0 bg-black/40" />
             <div className="relative w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">UpdateCategory</h3>
