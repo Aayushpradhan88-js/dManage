@@ -80,7 +80,7 @@ class TeacherController {
             return res.status(200).json({
                 datas: data,
                 success: true,
-                message: "teacher created successfully"
+                message: `teacher created successfully on institute ${currentInstituteNumber}`
             });
         } catch (error) {
             console.error("Email failed:", error);
@@ -89,8 +89,32 @@ class TeacherController {
                 success: true,
                 message: "teacher created but email failed"
             });
-        }
+        };
+    };
 
+    static async getAllTeacher(req: IExtendedRequest, res: Response) {
+        const currentInstituteNumber = req?.user?.currentInstituteNumber;
+        if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
+            return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const getAllTeacher = await sequelize.query(`
+            SELECT * FROM teacher_${currentInstituteNumber}
+            ORDER BY createdAt DESC
+            `,
+            {
+                type: QueryTypes.SELECT
+            }
+        );
+        if (!getAllTeacher) {
+            return res.status(400).json({ errorMessage: "failed to fetch data" });
+        };
+
+        return res.status(200).json({
+            datas: getAllTeacher,
+            success: true,
+            message: `Institute ${currentInstituteNumber} Teachers data fetched successfully`
+        });
     };
 };
 

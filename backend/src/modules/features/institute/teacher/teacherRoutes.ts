@@ -9,6 +9,12 @@ const instituteTeacherRouter = express.Router();
 instituteTeacherRouter.route("/create").post(
     UserVerification.userAuthorizationAccessVerification,
     upload.single('teacher photo'), //upload photo
-    GlobalErrorHandler.asyncErrorHandler(TeacherController.createTeacher))
+    GlobalErrorHandler.asyncErrorHandler(TeacherController.createTeacher)
+);
+
+instituteTeacherRouter.route("/").get(
+    UserVerification.userAuthorizationAccessVerification,
+    GlobalErrorHandler.asyncErrorHandler(TeacherController.getAllTeacher)
+);
 
 export default instituteTeacherRouter;

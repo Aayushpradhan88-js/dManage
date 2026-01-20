@@ -5,6 +5,7 @@ import { ITeacherInitialState, ITeacherState } from "./instituteTeacherSliceType
 import { IStatus } from "../../../global/types/type";
 import {API} from "../../../global/types/apiCall";
 import { AppDispatch } from "../../../store";
+import { useAppDispatch } from "../../../hooks/customHook";
 
 const initialState: ITeacherInitialState = {
     teacher: {
@@ -40,6 +41,12 @@ export default teacherSlice.reducer;
 //API Call
 
 export class APIInstituteTeacher {
+    static getAllTeacher(){
+        return async getAllTeacherThunk(dispatch: useAppDispatch) {
+            
+        }
+    }
+
     static createTeacher(data: ITeacherState) {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
