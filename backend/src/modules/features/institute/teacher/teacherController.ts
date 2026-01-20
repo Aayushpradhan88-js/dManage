@@ -1,11 +1,12 @@
 import { Response } from "express";
 import IExtendedRequest from "../../../global/types/types";
 import sequelize from "../../../../database/connection";
-import { QueryTypes } from "sequelize";
+import { QueryTypes, Sequelize } from "sequelize";
 import generateRandomPasswordService from "../../../global/services/generateRandomPassword";
 import MailService from "../../../global/services/nodeMailer";
 
 class TeacherController {
+    //create teacher
     static async createTeacher(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
@@ -92,6 +93,7 @@ class TeacherController {
         };
     };
 
+    //get all teacher
     static async getAllTeacher(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req?.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
@@ -114,6 +116,38 @@ class TeacherController {
             datas: getAllTeacher,
             success: true,
             message: `Institute ${currentInstituteNumber} Teachers data fetched successfully`
+        });
+    };
+
+    static async getSingleTeacher(req: IExtendedRequest, res: Response) {
+        const currentInstituteNumber = req?.user?.currentInstituteNumber;
+        if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
+            return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const teacherId = req.params.id;
+        if (!teacherId) {
+            return res.status(400).json({
+                message: 'invalid category Id'
+            });
+        };
+
+        const [results] = await sequelize.query(`
+                SELECT * From teacher_${currentInstituteNumber} WHERE id=?
+            `,
+            {
+                replacements: [teacherId],
+                type: QueryTypes.SELECT
+            }
+        );
+        if (!results) {
+            return res.status(404).json({ errorMessage: "Teacher not found" });
+        };
+
+        return res.status(200).json({
+            datas: results,
+            success: true,
+            message: `single teacher fetched successfully of institute ${currentInstituteNumber}`
         });
     };
 };

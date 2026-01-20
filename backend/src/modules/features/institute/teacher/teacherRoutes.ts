@@ -17,4 +17,9 @@ instituteTeacherRouter.route("/").get(
     GlobalErrorHandler.asyncErrorHandler(TeacherController.getAllTeacher)
 );
 
+instituteTeacherRouter.route("/:id").get(
+    UserVerification.userAuthorizationAccessVerification,
+    GlobalErrorHandler.asyncErrorHandler(TeacherController.getSingleTeacher)
+);
+
 export default instituteTeacherRouter;
