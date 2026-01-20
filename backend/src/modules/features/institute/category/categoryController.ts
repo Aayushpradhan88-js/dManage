@@ -124,7 +124,7 @@ class CategoryController {
         const { categoryName, categoryDescription } = req.body;
         if (!categoryName || !categoryDescription) {
             return res.status(400).json({
-                message: 'fill all the required fields'
+                message: 'Invalid data'
             });
         };
 
