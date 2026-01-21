@@ -57,15 +57,34 @@ export default courseSlice.reducer;
 
 //API Call
 
-export class APICourseSlice {
+export class APICourse {
+        //get
+    static getAllInstituteCourses() {
+        return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
+            try {
+                const response = await API.get("/api/institute/course",);
+                if (response.status === 200) {
+                    if(response.data.data.length > 0){
+                        dispatch(setCourse(response.data));
+                        dispatch(setLoading(IStatus.SUCCESS));
+                    };
+                };
+            } catch (error) {
+                console.error("api institute teacher error creation", error);
+                dispatch(setLoading(IStatus.ERROR));
+            };
+        };
+    };
+
     //create
     static createInstituteCourse(courseData: ICourseCreate) {
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
             try {
                 const response = await API.post("/api/institute/course", courseData);
                 if (response.status === 201) {
-                    dispatch(setLoading(IStatus.SUCCESS));
                     dispatch(setCourse(response.data));
+                    dispatch(APICourse.getAllInstituteCourses())
+                    dispatch(setLoading(IStatus.SUCCESS));
                 };
             } catch (error) {
                 console.error("api course error creation", error);
@@ -74,21 +93,6 @@ export class APICourseSlice {
         };
     };
 
-    //get
-    static getAllInstituteCourses(courseData: string) {
-        return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
-            try {
-                const response = await API.get("/api/institute/course", courseData);
-                if (response.status === 200) {
-                    dispatch(setLoading(IStatus.SUCCESS));
-                    response.data.data.length > 0 && dispatch(setCourse(response.data));
-                };
-            } catch (error) {
-                console.error("api institute teacher error creation", error);
-                dispatch(setLoading(IStatus.ERROR));
-            };
-        };
-    };
 
     // delete
     static deleteSingleInstituteCourse(id: string) {

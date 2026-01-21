@@ -19,11 +19,11 @@ export interface ICourseIntialState {
 
 export interface ICourseCreate {
     courseName: string,
-    courseDescription: string,
     coursePrice: number | string,
-    courseDuration: string,
-    courseThumbnail: string,
-    categoryId: string,
     courseLevel: string,
+    courseDescription: string,
+    courseThumbnail: string,
+    courseDuration: string,
+    categoryId: string,
     courseTeacher: string
 };
