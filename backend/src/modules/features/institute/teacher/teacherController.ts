@@ -117,7 +117,7 @@ class TeacherController {
             success: true,
             message: `Institute ${currentInstituteNumber} Teachers data fetched successfully`
         });
-    };
+    }
 
     static async getSingleTeacher(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req?.user?.currentInstituteNumber;
@@ -151,42 +151,42 @@ class TeacherController {
         });
     };
 
-    static async updateSingleCategory(req: IExtendedRequest, res: Response) {
-        const currentInstituteNumber = req?.user?.currentInstituteNumber;
-        if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
-            return res.status(400).json({ errorMessage: "Invalid institute number" });
-        };
+    //     static async updateSingleCategory(req: IExtendedRequest, res: Response) {
+    //         const currentInstituteNumber = req?.user?.currentInstituteNumber;
+    //         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
+    //             return res.status(400).json({ errorMessage: "Invalid institute number" });
+    //         };
 
-        const teacherId = req.params.id;
-        if (!teacherId) {
-            return res.status(400).json({
-                message: 'invalid teacher Id'
-            });
-        };
+    //         const teacherId = req.params.id;
+    //         if (!teacherId) {
+    //             return res.status(400).json({
+    //                 message: 'invalid teacher Id'
+    //             });
+    //         };
 
-        const { teacherName, teacherEmail, teacherPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId } = req.body;
+    //         const { teacherName, teacherEmail, teacherPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId } = req.body;
 
-        if(!teacherPassword){
-            return res.status(402).json({
-                message: 'invalid teacher password'
-            });
-        };
+    //         if(!teacherPassword){
+    //             return res.status(402).json({
+    //                 message: 'invalid teacher password'
+    //             });
+    //         };
 
-        const updatePasswordData = generateRandomPasswordService.genereateHashPassword(teacherName);
+    //         const updatePasswordData = generateRandomPasswordService.genereateHashPassword(teacherName);
 
-        const [results] = await sequelize.query(`
-                UPDATE teacher_${currentInstituteNumber}
-                SET teacherName = ?, teacherEmail = ?, teacherPassword = ?, teacherPhoneNumber = ?, teacherExperience = ?, joinedDate = ?, salary = ?, courseId = ?, updatedAt=NOW()
-                WHERE id=?
-            `,
-            {
-                replacements: [teacherName, teacherEmail, (await updatePasswordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId, teacherId],
-                type: QueryTypes.UPDATE
-            }
-        );
+    //         const [results] = await sequelize.query(`
+    //                 UPDATE teacher_${currentInstituteNumber}
+    //                 SET teacherName = ?, teacherEmail = ?, teacherPassword = ?, teacherPhoneNumber = ?, teacherExperience = ?, joinedDate = ?, salary = ?, courseId = ?, updatedAt=NOW()
+    //                 WHERE id=?
+    //             `,
+    //             {
+    //                 replacements: [teacherName, teacherEmail, (await updatePasswordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId, teacherId],
+    //                 type: QueryTypes.UPDATE
+    //             }
+    //         );
 
-        if(!results)
-    };
+    //         if(!results)
+    //     };
 };
 
 export default TeacherController;

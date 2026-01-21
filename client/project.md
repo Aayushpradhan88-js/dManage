@@ -23,7 +23,7 @@ RULE - BUILD FASTER, SHIP FASTER, SCALE LATER
    5a. ✅ Auth Page (register, Login)
    5b. Teacher page 
    5c. Student page 
-   5d. Institute pages(institute,teacher, course, category)
+   5d. Institute pages(institute,teacher, course, ✅category)
    5e. Complete CRUD API integration handling logics
 
 

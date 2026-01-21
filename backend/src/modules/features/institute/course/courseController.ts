@@ -62,7 +62,7 @@ class CourseController {
         // console.log({ instertId, affectedRow });
         return res.status(200).json({
             datas: courseThumbnail,
-            message: "course created successfully"
+            message: `course created successfully at institute ${currentInstituteNumber}`
         });
     };
 
