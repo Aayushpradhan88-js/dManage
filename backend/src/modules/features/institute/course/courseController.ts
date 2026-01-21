@@ -145,6 +145,7 @@ class CourseController {
         });
     };
 
+    //update course`
     static async updateSingleCourse(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
@@ -166,14 +167,10 @@ class CourseController {
             courseLevel
         } = req.body;
 
-        const courseThumbnail = req.file ? req.file.path : null
-        if (!courseThumbnail) {
-            return res.status(400).json({
-                errorMessage: 'please provide course thumbnail'
-            });
-        }
-
-        const [results, metadata] = await sequelize.query(`
+        const courseThumbnail = req.file ? req?.file?.path : null
+        
+        //updating course data - 1
+        await sequelize.query(`
                 UPDATE  course_${currentInstituteNumber}
                 SET courseName=?,
                     courseDescription=?,
@@ -195,19 +192,28 @@ class CourseController {
                 courseId
             ]
         });
+        // console.log("data", updatedData); output: [null, 1]
 
-        if (results === 0) {
-            return res.status(404).json({
-                message: 'Course not found'
-            });
-        };
+        //fetching the updated course - 2
+        const updatedData = await sequelize.query(`
+            SELECT * FROM course_${currentInstituteNumber} 
+            WHERE id=?
+            `, {
+                replacements: [courseId],
+                type: QueryTypes.SELECT
+            }
+        );
+            // console.log(updatedData)
 
         return res.status(200).json({
-            datas: metadata,
             success: true,
+            datas: {
+                instituteNumber: currentInstituteNumber,
+                updatedData
+            },
             message: "Course updated successfully"
         });
-    }
+    };
 };
 
 export default CourseController;
