@@ -124,27 +124,6 @@ class CourseController {
         });
     };
 
-    //delete course
-    static async deleteSingleCourse(req: IExtendedRequest, res: Response) {
-        const currentInstituteNumber = req.user?.currentInstituteNumber;
-        const courseId = req.params.id;
-        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
-            return res.status(400).json({ errorMessage: "Invalid institute number" });
-        };
-
-        const deletedCourse = await sequelize.query(`
-            DELETE FROM course_${currentInstituteNumber} WHERE id=?`
-            , {
-                type: QueryTypes.DELETE,
-                replacements: [courseId]
-            });
-
-        return res.status(200).json({
-            data: deletedCourse,
-            message: "Course deleted successfully"
-        });
-    };
-
     //update course`
     static async updateSingleCourse(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
@@ -168,7 +147,7 @@ class CourseController {
         } = req.body;
 
         const courseThumbnail = req.file ? req?.file?.path : null
-        
+
         //updating course data - 1
         await sequelize.query(`
                 UPDATE  course_${currentInstituteNumber}
@@ -214,6 +193,30 @@ class CourseController {
             message: "Course updated successfully"
         });
     };
+
+     //delete course
+    static async deleteSingleCourse(req: IExtendedRequest, res: Response) {
+        const currentInstituteNumber = req.user?.currentInstituteNumber;
+        const courseId = req.params.id;
+        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
+            return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const deletedCourse = await sequelize.query(`
+            DELETE FROM course_${currentInstituteNumber} 
+            WHERE id=?`
+            , {
+                replacements: [courseId],
+                type: QueryTypes.DELETE,
+            });
+
+        return res.status(200).json({
+            success: true,
+            data: deletedCourse,
+            message: `Course deleted successfully from institute ${currentInstituteNumber} `
+        });
+    };
+
 };
 
 export default CourseController;

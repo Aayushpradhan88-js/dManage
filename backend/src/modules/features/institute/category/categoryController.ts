@@ -162,15 +162,15 @@ class CategoryController {
             });
         };
 
-        const instituteNumber = req.user?.currentInstituteNumber;
-        if (!instituteNumber || instituteNumber.trim().length === 0) {
+        const currentInstituteNumber = req.user?.currentInstituteNumber;
+        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({
                 message: 'invalid institute number'
             });
         };
 
         await sequelize.query(`
-                DELETE FROM category_${instituteNumber} WHERE id=?
+                DELETE FROM category_${currentInstituteNumber} WHERE id=?
             `, {
             type: QueryTypes.DELETE,
             replacements: [categoryId]
@@ -185,7 +185,7 @@ class CategoryController {
         return res.status(200).json({
             // datas: results,
             success: true,
-            message: "category deleted successfully"
+            message: `Category deleted successfully from institute ${currentInstituteNumber}`
         });
     };
 };
