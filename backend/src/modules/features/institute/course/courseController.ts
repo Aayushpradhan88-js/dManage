@@ -61,7 +61,12 @@ class CourseController {
         });
         // console.log({ instertId, affectedRow });
         return res.status(200).json({
-            datas: courseThumbnail,
+            success: true,
+            datas: {
+                institute: currentInstituteNumber,
+                categoryName: courseName,
+                categoryDescription: courseDescription
+            },
             message: `course created successfully at institute ${currentInstituteNumber}`
         });
     };
@@ -72,22 +77,21 @@ class CourseController {
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
-
-        //Joining course and category
-        const [results] = await sequelize.query(`
-            SELECT * 
-            FROM course_${currentInstituteNumber} 
-            JOIN category_${currentInstituteNumber} 
-            ON course_${currentInstituteNumber}.category_id = category_${currentInstituteNumber}.id
+        // console.log("number", currentInstituteNumber);
+        const getAllCourses = await sequelize.query(`
+            SELECT * FROM course_${currentInstituteNumber} 
+            ORDER BY createdAt DESC
             `, {
             type: QueryTypes.SELECT
         });
-        if (!results) {
+        // console.log("results", getAllCourses)
+        if (!getAllCourses) {
             return res.status(400).json({ errorMessage: "failed to fetch data" });
         };
 
         return res.status(200).json({
-            datas: results,
+            success: true,
+            datas: getAllCourses,
             message: "All courses fetched successfully"
         });
     };

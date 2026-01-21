@@ -63,8 +63,8 @@ class CategoryController {
         };
 
         return res.status(200).json({
-            datas: getAllCategory,
             success: true,
+            datas: getAllCategory,
             message: "All category fetched successfully"
         });
     };
