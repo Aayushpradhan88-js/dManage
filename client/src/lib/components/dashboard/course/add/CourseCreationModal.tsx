@@ -29,7 +29,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const { data: categories } = useAppSelector((store) => store.category) //CATEGORY 
 
     //Storing input data at state
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCourseFormData({
             ...courseFormData,
@@ -144,10 +144,10 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Level
                         </label>
-                        <select 
-                        onChange={handleChange}
-                        name="courseLevel"
-                         className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
+                        <select
+                            onChange={handleChange}
+                            name="courseLevel"
+                            className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
                             {courseLevel.map((cl) => {
                                 return (
                                     <option key={cl} value={cl}>{cl}</option>
@@ -160,8 +160,8 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             Description
                         </label>
                         <textarea
-                            id="CourseDescription"
-                            name="CourseDescription"
+                            id="courseDescription"
+                            name="courseDescription"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
                         />
@@ -171,9 +171,9 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             Thumbnail
                         </label>
                         <input
-                            id="CourseThumbnail"
+                            id="courseThumbnail"
                             type="file"
-                            name="CourseThumbnail"
+                            name="courseThumbnail"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
                         />
@@ -183,9 +183,9 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             Duration
                         </label>
                         <input
-                            id="CourseDuration"
+                            id="courseDuration"
                             type="text"
-                            name="CourseDuration"
+                            name="courseDuration"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
                         />
@@ -194,7 +194,10 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Category
                         </label>
-                        <select name="courseCategory" className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
+                        <select
+                            onChange={handleChange}
+                            name="categoryId"
+                            className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
                             {categories.map((category) => {
                                 return (
                                     <option key={category.id} value={category.id}>{category.categoryName}</option>
