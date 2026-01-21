@@ -1,29 +1,49 @@
 'use client'
 
-import React, { ChangeEvent, useState } from 'react';
-import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
-import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
-import { ICategoryStateData } from '@/src/lib/store/slices/institute/category/categorySliceTypes';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
+import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
+import { ICourseCreate } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
 import { toast } from 'sonner';
+import store from '@/src/lib/store/store';
+import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 
-const CourseCreationModal = () => {
-        const dispatch = useAppDispatch();
+interface ICloseModal {
+    closeModal: () => void
+}
 
-    const [categoryFormData, setCategoryFormData] = useState<ICategoryStateData>({
-        categoryName: '',
-        categoryDescription: ''
+const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
+    const dispatch = useAppDispatch();
+
+    const [courseFormData, setCourseFormData] = useState<ICourseCreate>({
+        courseName: "",
+        coursePrice: "",
+        courseLevel: "",
+        courseDescription: "",
+        courseThumbnail: "",
+        courseDuration: "",
+        categoryId: "",
+        courseTeacher: ""
     });
     const [Loading, setLoading] = useState(false);
+    const { data: categories } = useAppSelector((store) => store.category) //CATEGORY 
 
     //Storing input data at state
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setCategoryFormData({
-            ...categoryFormData,
+        setCourseFormData({
+            ...courseFormData,
             [name]: value
         });
     };
-    // console.log(" ✅step: 1 userData", categoryFormData);
+    console.log(" ✅step: 1 userData", courseFormData);
+
+    useEffect(() => {
+        dispatch(APICourse.getAllInstituteCourses()); //COURSE Fetch
+        if (categories.length === 0) {
+            dispatch(APICategory.fetchAllCategory()); //CATEGORY Fetch
+        };
+    }, []);
 
     //Form Submission to Backend
     const handleFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -31,10 +51,16 @@ const CourseCreationModal = () => {
         setLoading(true);
 
         try {
-            await dispatch(APICategory.createCategory(categoryFormData));  //API Call Category Slice      
-            setCategoryFormData({
-                categoryName: '',
-                categoryDescription: ''
+            await dispatch(APICourse.createInstituteCourse(courseFormData));  //API Call Course Slice      
+            setCourseFormData({
+                courseName: "",
+                coursePrice: "",
+                courseLevel: "",
+                courseDescription: "",
+                courseThumbnail: "",
+                courseDuration: "",
+                categoryId: "",
+                courseTeacher: ""
             });
 
             // Close modal after short delay
@@ -42,31 +68,39 @@ const CourseCreationModal = () => {
                 closeModal();
             }, 600);
 
-            toast.success('Category Added successfully');
+            toast.success('Course Added successfully');
         } catch (error) {
             setLoading(false);
-            toast.error('Failed to create category', {
+            toast.error('Failed to create Course', {
                 description: 'Please try again later',
             });
-            console.error("error category creation", error);
-            // alert(`Registration failed. Please try again ${(error as Error).message}`);
+            console.error("error Course creation", error);
         };
     };
 
     //Cancel 
     const handleCancel = () => {
-        setCategoryFormData({
-            categoryName: '',
-            categoryDescription: ''
+        setCourseFormData({
+            courseName: "",
+            coursePrice: "",
+            courseLevel: "",
+            courseDescription: "",
+            courseThumbnail: "",
+            courseDuration: "",
+            categoryId: "",
+            courseTeacher: ""
         });
         closeModal();
     };
+
+    //Course Level
+    const courseLevel = ['beginner', 'intermediate', 'advance'];
 
     return (
         <div id="modal" className="fixed inset-0  bg-black/40 z-50 flex items-center justify-center">
             <div className="relative w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add Category</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add Course</h3>
 
                     {/* cross icon */}
                     <button
@@ -82,33 +116,91 @@ const CourseCreationModal = () => {
                     onSubmit={handleFormSubmission}
                     className="space-y-4">
 
-                    {/* category name */}
                     <div>
+                        {/* Course name */}
                         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Name
                         </label>
                         <input
-                            id="categoryName"
+                            id="courseName"
                             type="text"
-                            name="categoryName"
+                            name="courseName"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Software Engineering" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Full stack web development course" required
                         />
-                    </div>
+                        {/* Course Price */}
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Price
+                        </label>
+                        <input
+                            id="coursePrice"
+                            type="text"
+                            name="coursePrice"
+                            onChange={handleChange}
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="XXXXX" required
+                        />
 
-                    {/* category description */}
-                    <div>
+                        {/* Course Level */}
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Level
+                        </label>
+                        <select 
+                        onChange={handleChange}
+                        name="courseLevel"
+                         className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
+                            {courseLevel.map((cl) => {
+                                return (
+                                    <option key={cl} value={cl}>{cl}</option>
+                                )
+                            })}
+                        </select>
+
+                        {/* Course Description */}
                         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Description
                         </label>
-                        <input
-                            id="categoryDescription"
-                            type="text"
-                            name="categoryDescription"
+                        <textarea
+                            id="CourseDescription"
+                            name="CourseDescription"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                            placeholder="Placement Ready Software engineering with modern tools and techniques with AI" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
                         />
+
+                        {/* Course Thumbnail */}
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Thumbnail
+                        </label>
+                        <input
+                            id="CourseThumbnail"
+                            type="file"
+                            name="CourseThumbnail"
+                            onChange={handleChange}
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
+                        />
+
+                        {/* Course Duration */}
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Duration
+                        </label>
+                        <input
+                            id="CourseDuration"
+                            type="text"
+                            name="CourseDuration"
+                            onChange={handleChange}
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
+                        />
+
+                        {/* Course Category */}
+                        <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Category
+                        </label>
+                        <select name="courseCategory" className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
+                            {categories.map((category) => {
+                                return (
+                                    <option key={category.id} value={category.id}>{category.categoryName}</option>
+                                )
+                            })}
+                        </select>
                     </div>
 
                     <div className="flex justify-end gap-3">
@@ -134,7 +226,7 @@ const CourseCreationModal = () => {
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
-                                        Creating...
+                                        Adding Course...
                                     </>
                                 ) :
                                 (

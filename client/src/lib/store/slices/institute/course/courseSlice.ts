@@ -4,10 +4,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseCreate, ICourseIntialState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
-import {API} from "../../../global/types/apiCall";
+import {API, APIWithToken} from "../../../global/types/apiCall";
 
 const initialState: ICourseIntialState = {
-    courses: [],
+    data: [],
     status: IStatus.LOADING,
     course:{
         singleCourse: null
@@ -19,7 +19,7 @@ const courseSlice = createSlice({
     initialState: initialState,
     reducers: {
         setCourse: (state, action: PayloadAction<any>) => {
-            state.courses = action.payload;
+            state.data = action.payload;
         },
         setLoading: (state: ICourseIntialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
@@ -62,7 +62,7 @@ export class APICourse {
     static getAllInstituteCourses() {
         return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
             try {
-                const response = await API.get("/api/institute/course",);
+                const response = await APIWithToken.get("/api/institute/course",);
                 if (response.status === 200) {
                     if(response.data.data.length > 0){
                         dispatch(setCourse(response.data));
@@ -77,10 +77,10 @@ export class APICourse {
     };
 
     //create
-    static createInstituteCourse(courseData: ICourseCreate) {
+    static createInstituteCourse(data: ICourseCreate) {
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
             try {
-                const response = await API.post("/api/institute/course", courseData);
+                const response = await APIWithToken.post("/api/institute/course", data);
                 if (response.status === 201) {
                     dispatch(setCourse(response.data));
                     dispatch(APICourse.getAllInstituteCourses())
@@ -125,6 +125,7 @@ export class APICourse {
                     // dispatch()
                 }
             } catch(error){
+                console.error("failed to update data, Server error", error);
                 dispatch(setLoading(IStatus.ERROR));
             };
         };

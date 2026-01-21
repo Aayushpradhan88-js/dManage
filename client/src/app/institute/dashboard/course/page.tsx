@@ -1,38 +1,40 @@
-import React, { useState } from 'react'
+"use client"
+
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
-import { IDeleteModal, IEditAdditionalParamerter } from '../category/categoryTypes';
+// import { IDeleteModal, IEditAdditionalParamerter } from '../course/courseTypes';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
-import { APICourseSlice } from '@/src/lib/store/slices/institute/course/courseSlice';
+import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 
-const coursePage = () => {
+const CoursePage = () => {
   const dispatch = useAppDispatch();
-  const { data: categories, status } = useAppSelector((store) => store.category);
+  const { data: courses, status } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
-    isOpen: false,
-    id: ''
-  });
-  const [isEditModalData, setIsEditDeleteModal] = useState<IEditAdditionalParamerter>({
-    isOpen: false,
-    categoryId: '',
-    categoryName: '',
-    categoryDescription: ''
-  });
-  const [searchedText, setSearchedText] = useState<string>("");
+  // const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
+  //   isOpen: false,
+  //   id: ''
+  // });
+  // const [isEditModalData, setIsEditDeleteModal] = useState<IEditAdditionalParamerter>({
+  //   isOpen: false,
+  //   courseId: '',
+  //   courseName: '',
+  //   courseDescription: ''
+  // });
+  // const [searchedText, setSearchedText] = useState<string>("");
 
-  //api call fetch all category
+  //api call fetch all course
   useEffect(() => {
-    dispatch(APICourseSlice.fetchAllCategory());
+    dispatch(APICourse.getAllInstituteCourses());
   }, []);
 
-  // useEffect(() => {
-  //   if (categories) {
-  //     console.log("categories", categories);
-  //   }
-  // }, [categories]);
+  useEffect(() => {
+    if (courses) {
+      console.log("categories", courses);
+    }
+  }, [courses]);
 
   if (status === 'success') return <div>Loading...</div>;
-  if (!categories) return <div>No data</div>;
+  // if (!categories) return <div>No data</div>;
 
   //modal form open & close
   //Create Action
@@ -40,39 +42,39 @@ const coursePage = () => {
   const closeModal = () => setIsModalOpen(false);
 
   //Delete Action
-  const openDeleteModal = (id: string) => {
-    setIsDeleteModalData({
-      isOpen: true,
-      id
-    })
-  };
-  const closeDeleteModal = () => {
-    setIsDeleteModalData({
-      isOpen: false,
-      id: ''
-    })
-  };
+  // const openDeleteModal = (id: string) => {
+  //   setIsDeleteModalData({
+  //     isOpen: true,
+  //     id
+  //   })
+  // };
+  // const closeDeleteModal = () => {
+  //   setIsDeleteModalData({
+  //     isOpen: false,
+  //     id: ''
+  //   })
+  // };
 
   //Edit Action
-  const openEditModal = (categoryId: string, categoryName: string, categoryDescription: string) => {
-    setIsEditDeleteModal({
-      isOpen: true,
-      categoryId,
-      categoryName,
-      categoryDescription
-    });
-  };
-  const closeEditModal = () => {
-    setIsEditDeleteModal({
-      isOpen: false,
-      categoryId: '',
-      categoryName: '',
-      categoryDescription: ''
-    });
-  };
+  // const openEditModal = (courseId: string, courseName: string, courseDescription: string) => {
+  //   setIsEditDeleteModal({
+  //     isOpen: true,
+  //     courseId,
+  //     courseName,
+  //     courseDescription
+  //   });
+  // };
+  // const closeEditModal = () => {
+  //   setIsEditDeleteModal({
+  //     isOpen: false,
+  //     courseId: '',
+  //     courseName: '',
+  //     courseDescription: ''
+  //   });
+  // };
 
   //search
-  const filteredData = categories.filter((category) => category.categoryName.includes(searchedText));
+  // const filteredData = categories.filter((course) => course.courseName.includes(searchedText));
   // console.log("data", filteredData);
 
   return (
@@ -104,7 +106,7 @@ const coursePage = () => {
         {/* Add Course Button */}
         {isModalOpen && <CourseCreationModal closeModal={closeModal} />}
         <button
-          onClick={isModalOpen}
+          onClick={openModal}
           className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-linear-to-r bg-green-500 text-white rounded-lg  hover:bg-green-600 transition-all font-medium"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,19 +124,16 @@ const coursePage = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Info
+                  Id
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  TeacherID
+                  Name
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Courses
+                  Description
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Phone
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-2/6">
-                  Address
+                  CreatedAt
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
                   Actions
@@ -144,112 +143,112 @@ const coursePage = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {/* {filteredData.length > 0 ? ( */}
-              {/* // filteredData.map((Course: ICourseStateAdditionalData) => ( */}
-              <tr
-                // key={Course.id} 
-                className="hover:bg-gray-50 transition-colors">
-                {/* ID */}
-                <td className="px-6 py-4">
-                  <div className="text-sm font-mono text-gray-500 truncate max-w-37.5"
-                  // title={Course.id}
-                  >
-                    {/* // {Course?.id.slice(0, 8)}... */}
-                  </div>
-                </td>
+              {courses.length > 0 ? (
+                courses.map((course) => (
+                  <tr
+                    key={course}
+                    className="hover:bg-gray-50 transition-colors">
+                    {/* ID */}
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5"
+                      title={course}
+                      >
+                     
+                      </div>
+                    </td>
 
-                {/* Name */}
-                <td className="px-6 py-4">
-                  <div className="text-sm font-medium text-gray-900">
-                    {/* {Course?.CourseName} */}
-                  </div>
-                </td>
+                    {/* Name */}
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">
+                        {Course?.courseName}
+                      </div>
+                    </td>
 
-                {/* Description */}
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-600 line-clamp-2">
-                    {/* {Course?.CourseDescription} */}
-                  </div>
-                </td>
+                    {/* Description */}
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-600 line-clamp-2">
+                        {Course?.courseDescription}
+                      </div>
+                    </td>
 
-                {/* Created At */}
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">
-                    {/* {new Date(Course?.createdAt?.toString())?.toLocaleDateString('en-US', {
+                    {/* Created At */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-500">
+                        {new Date(Course?.createdAt?.toString())?.toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
                               day: 'numeric'
-                            })} */}
-                  </div>
-                </td>
+                            })}
+                      </div>
+                    </td>
 
-                {/* Actions */}
-                <td className="px-10 py-4 whitespace-nowrap text-right">
-                  <div className="flex items-center justify-end gap-2">
+                    {/* Actions */}
+                    <td className="px-10 py-4 whitespace-nowrap text-right">
+                      <div className="flex items-center justify-end gap-2">
 
-                    {/* Edit Button */}
-                    {/* {isEditModalData.isOpen && <EditCourseModal
+                        {/* Edit Button */}
+                        {/* {isEditModalData.isOpen && <EditCourseModal
                               closeEditModal={closeEditModal}
                               CourseId={isEditModalData.CourseId}
                               CourseName={isEditModalData.CourseName}
                               CourseDescription={isEditModalData.CourseDescription}
                             />} */}
-                    <button
-                      // onClick={() => openEditModal(Course.id, Course.CourseName, Course.CourseDescription)}
-                      title="Edit"
-                      className="cursor-pointer  p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
+                        <button
+                          // onClick={() => openEditModal(Course.id, Course.CourseName, Course.CourseDescription)}
+                          title="Edit"
+                          className="cursor-pointer  p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
 
-                    {/* {isDeleteModalData.isOpen && (
+                        {/* {isDeleteModalData.isOpen && (
                               <DeletePopupModal
                                 closeDeleteModal={closeDeleteModal}
                                 CourseId={isDeleteModalData.id}
                               />
                             )} */}
 
-                    {/* Delete Button */}
-                    <button
-                      // onClick={() => openDeleteModal(Course.id)}
-                      className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      title="Delete"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+                        {/* Delete Button */}
+                        <button
+                          // onClick={() => openDeleteModal(Course.id)}
+                          className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
 
-                    {/* More Options */}
-                    <button
-                      className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                      title="More"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              {/* )) */}
-              {/* ) : ( */}
-              <tr>
-                <td colSpan={5} className="px-6 py-12 text-center">
-                  <div className="flex flex-col items-center justify-center text-gray-500">
-                    <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                    </svg>
-                    <p className="text-lg font-medium">No categories found</p>
-                    <p className="text-sm mt-1">
-                      {/* {searchedText ? 'Try adjusting your search' : 'Get started by adding a new Course'} */}
-                    </p>
-                  </div>
-                </td>
-              </tr>
-              {/* )} */}
+                        {/* More Options */}
+                        <button
+                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                          title="More"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )))
+               : (
+                  < tr >
+                    <td colSpan={5} className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <p className="text-lg font-medium">No categories found</p>
+                        <p className="text-sm mt-1">
+                          {/* {searchedText ? 'Try adjusting your search' : 'Get started by adding a new Course'} */}
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
             </tbody>
           </table>
         </div>
@@ -264,8 +263,8 @@ const coursePage = () => {
               </div>
             )} */}
       </div>
-    </div>
+    </div >
   )
 }
 
-export default coursePage
+export default CoursePage;

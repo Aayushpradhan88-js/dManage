@@ -6,12 +6,17 @@ export interface IInstituteCourseInitialDataCourse {
     coursePrice:string,
 };
 
+export interface ICourseAdditionalPrameters extends IInstituteCourseInitialDataCourse {
+    courseDescription: string,
+    createdAt: string 
+}
+
 export interface ISingleCourse{
     singleCourse: null,
 };
 
 export interface ICourseIntialState {
-    courses: IInstituteCourseInitialDataCourse[],
+    data: IInstituteCourseInitialDataCourse[],
     status: IStatus,
     course: ISingleCourse
 };
