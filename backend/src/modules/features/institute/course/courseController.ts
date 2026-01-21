@@ -74,17 +74,20 @@ class CourseController {
         };
 
         //Joining course and category
-        const fetchedData = await sequelize.query(`
-            SELECT * FROM course_${currentInstituteNumber} JOIN category_${currentInstituteNumber} ON course_${currentInstituteNumber}.category_id = category_${currentInstituteNumber}.id
+        const [results] = await sequelize.query(`
+            SELECT * 
+            FROM course_${currentInstituteNumber} 
+            JOIN category_${currentInstituteNumber} 
+            ON course_${currentInstituteNumber}.category_id = category_${currentInstituteNumber}.id
             `, {
             type: QueryTypes.SELECT
         });
-        if (!fetchedData) {
+        if (!results) {
             return res.status(400).json({ errorMessage: "failed to fetch data" });
         };
 
         return res.status(200).json({
-            datas: fetchedData,
+            datas: results,
             message: "All courses fetched successfully"
         });
     };
