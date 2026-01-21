@@ -99,9 +99,15 @@ class CourseController {
     //single course
     static async getSingleCourse(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
-        const courseId = req.params.id;
-        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
+        if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const courseId = req.params?.id;
+        if (!courseId) {
+            return res.status(400).json({
+                message: 'invalid course Id'
+            });
         };
 
         const singleCourse = await sequelize.query(`
@@ -112,11 +118,11 @@ class CourseController {
             });
 
         return res.status(200).json({
+            success: true,
+            data: singleCourse,
             message: "Course fetched successfully",
-            data: singleCourse
         });
-
-    }
+    };
 
     //delete course
     static async deleteSingleCourse(req: IExtendedRequest, res: Response) {
