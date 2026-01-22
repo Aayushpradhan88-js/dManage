@@ -4,12 +4,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseCreate, ICourseIntialState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
-import {API, APIWithToken} from "../../../global/types/apiCall";
+import { API, APIWithToken } from "../../../global/types/apiCall";
 
 const initialState: ICourseIntialState = {
     data: [],
     status: IStatus.LOADING,
-    course:{
+    course: {
         singleCourse: null
     },
 };
@@ -25,7 +25,7 @@ const courseSlice = createSlice({
             state.status = action.payload;
         },
         setDeleteCourse: (state, action: PayloadAction<string>) => {
-            const index = state.courses.findIndex((course) => {
+            const index = state.data.findIndex((course) => {
                 const courseId = course.id;
                 if (courseId === action.payload) {
                     console.log("getting data");
@@ -36,7 +36,7 @@ const courseSlice = createSlice({
             });
 
             if (index !== -1) { //if index value is not equal to -1 
-                state.courses.splice(index, 1);
+                state.data.splice(index, 1);
             } else {
                 console.log("no course found");
             };
@@ -58,13 +58,13 @@ export default courseSlice.reducer;
 //API Call
 
 export class APICourse {
-        //get
+    //get
     static getAllInstituteCourses() {
         return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
             try {
                 const response = await APIWithToken.get("/api/institute/course",);
                 if (response.status === 200) {
-                    if(response.data.data.length > 0){
+                    if (response.data.data.length > 0) {
                         dispatch(setCourse(response.data));
                         dispatch(setLoading(IStatus.SUCCESS));
                     };
@@ -79,6 +79,7 @@ export class APICourse {
     //create
     static createInstituteCourse(data: ICourseCreate) {
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
+            console.log("loading course category");
             try {
                 const response = await APIWithToken.post("/api/institute/course", data);
                 if (response.status === 201) {
@@ -86,6 +87,7 @@ export class APICourse {
                     dispatch(APICourse.getAllInstituteCourses())
                     dispatch(setLoading(IStatus.SUCCESS));
                 };
+                console.log("success create course");
             } catch (error) {
                 console.error("api course error creation", error);
                 dispatch(setLoading(IStatus.ERROR));
@@ -116,15 +118,15 @@ export class APICourse {
         };
     };
 
-    static updateSingleInstituteCourse(id: string){
-        return async function updateSingleInstituteCourse(dispatch:AppDispatch) {
-            try{
+    static updateSingleInstituteCourse(id: string) {
+        return async function updateSingleInstituteCourse(dispatch: AppDispatch) {
+            try {
                 const response = await API.post(`/api/institute/course/update/${id}`);
-                if(response.status === 200){
+                if (response.status === 200) {
                     dispatch(setLoading(IStatus.SUCCESS));
                     // dispatch()
                 }
-            } catch(error){
+            } catch (error) {
                 console.error("failed to update data, Server error", error);
                 dispatch(setLoading(IStatus.ERROR));
             };

@@ -38,12 +38,6 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     };
     console.log(" ✅step: 1 userData", courseFormData);
 
-    useEffect(() => {
-        dispatch(APICourse.getAllInstituteCourses()); //COURSE Fetch
-        if (categories.length === 0) {
-            dispatch(APICategory.fetchAllCategory()); //CATEGORY Fetch
-        };
-    }, []);
 
     //Form Submission to Backend
     const handleFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -77,6 +71,13 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
             console.error("error Course creation", error);
         };
     };
+
+    useEffect(() => {
+        dispatch(APICourse.getAllInstituteCourses()); //COURSE Fetch
+        if (categories.length === 0) {
+            dispatch(APICategory.fetchAllCategory()); //CATEGORY Fetch
+        };
+    }, []);
 
     //Cancel 
     const handleCancel = () => {
@@ -196,6 +197,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                         </label>
                         <select
                             onChange={handleChange}
+                            id="categoryId"
                             name="categoryId"
                             className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500">
                             {categories.map((category) => {

@@ -5,22 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook
 // import { IDeleteModal, IEditAdditionalParamerter } from '../course/courseTypes';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
+import { ICourseState } from './courseTypes';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
   const { data: courses, status } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
-  //   isOpen: false,
-  //   id: ''
-  // });
-  // const [isEditModalData, setIsEditDeleteModal] = useState<IEditAdditionalParamerter>({
-  //   isOpen: false,
-  //   courseId: '',
-  //   courseName: '',
-  //   courseDescription: ''
-  // });
-  // const [searchedText, setSearchedText] = useState<string>("");
 
   //api call fetch all course
   useEffect(() => {
@@ -40,42 +30,6 @@ const CoursePage = () => {
   //Create Action
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  //Delete Action
-  // const openDeleteModal = (id: string) => {
-  //   setIsDeleteModalData({
-  //     isOpen: true,
-  //     id
-  //   })
-  // };
-  // const closeDeleteModal = () => {
-  //   setIsDeleteModalData({
-  //     isOpen: false,
-  //     id: ''
-  //   })
-  // };
-
-  //Edit Action
-  // const openEditModal = (courseId: string, courseName: string, courseDescription: string) => {
-  //   setIsEditDeleteModal({
-  //     isOpen: true,
-  //     courseId,
-  //     courseName,
-  //     courseDescription
-  //   });
-  // };
-  // const closeEditModal = () => {
-  //   setIsEditDeleteModal({
-  //     isOpen: false,
-  //     courseId: '',
-  //     courseName: '',
-  //     courseDescription: ''
-  //   });
-  // };
-
-  //search
-  // const filteredData = categories.filter((course) => course.courseName.includes(searchedText));
-  // console.log("data", filteredData);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -143,126 +97,40 @@ const CoursePage = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {courses.length > 0 ? (
-                courses.map((course) => (
-                  <tr
-                    key={course}
-                    className="hover:bg-gray-50 transition-colors">
-                    {/* ID */}
+             {
+              courses.map((course: ICourseState) => (
+                 <tr key={course.id} className="hover:bg-gray-50 transition-colors">
+                   {/* ID */}
                     <td className="px-6 py-4">
-                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5"
-                      title={course}
-                      >
-                     
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course.id}>
+                        {course?.id.slice(0, 8)}...
                       </div>
                     </td>
-
-                    {/* Name */}
+                   {/* ID */}
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">
-                        {Course?.courseName}
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
+                        {course?.courseName}
                       </div>
                     </td>
-
-                    {/* Description */}
+                   {/* ID */}
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-600 line-clamp-2">
-                        {Course?.courseDescription}
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
+                        {course?.courseDescription}
                       </div>
                     </td>
-
-                    {/* Created At */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {new Date(Course?.createdAt?.toString())?.toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'short',
-                              day: 'numeric'
-                            })}
+                   {/* ID */}
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
+                        {course?.createdAt}
                       </div>
                     </td>
-
-                    {/* Actions */}
-                    <td className="px-10 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
-
-                        {/* Edit Button */}
-                        {/* {isEditModalData.isOpen && <EditCourseModal
-                              closeEditModal={closeEditModal}
-                              CourseId={isEditModalData.CourseId}
-                              CourseName={isEditModalData.CourseName}
-                              CourseDescription={isEditModalData.CourseDescription}
-                            />} */}
-                        <button
-                          // onClick={() => openEditModal(Course.id, Course.CourseName, Course.CourseDescription)}
-                          title="Edit"
-                          className="cursor-pointer  p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-
-                        {/* {isDeleteModalData.isOpen && (
-                              <DeletePopupModal
-                                closeDeleteModal={closeDeleteModal}
-                                CourseId={isDeleteModalData.id}
-                              />
-                            )} */}
-
-                        {/* Delete Button */}
-                        <button
-                          // onClick={() => openDeleteModal(Course.id)}
-                          className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-
-                        {/* More Options */}
-                        <button
-                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                          title="More"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )))
-               : (
-                  < tr >
-                    <td colSpan={5} className="px-6 py-12 text-center">
-                      <div className="flex flex-col items-center justify-center text-gray-500">
-                        <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                        </svg>
-                        <p className="text-lg font-medium">No categories found</p>
-                        <p className="text-sm mt-1">
-                          {/* {searchedText ? 'Try adjusting your search' : 'Get started by adding a new Course'} */}
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Table Footer */}
-        {/* {filteredData.length > 0 && (
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                <div className="text-sm text-gray-600">
-                  Showing <span className="font-medium">{filteredData.length}</span> of{' '}
-                  <span className="font-medium">{categories.length}</span> categories
-                </div>
-              </div>
-            )} */}
+                 </tr>
+              ))
+             }
+          </tbody>
+        </table>
       </div>
+    </div >
     </div >
   )
 }

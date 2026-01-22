@@ -1,6 +1,6 @@
-export interface ICourseTable {
+export interface ICourseState{
     id: string,
     courseName: string,
     courseDescription: string,
-    createdAt: string,
+    createdAt: string
 }

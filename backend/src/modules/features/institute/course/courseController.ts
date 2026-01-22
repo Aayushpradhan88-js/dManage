@@ -9,33 +9,29 @@ class CourseController {
     //create course
     static async createCourse(req: IExtendedRequest, res: Response) {
         const {
-            coursePrice,
             courseName,
+            coursePrice,
+            courseLevel,
             courseDescription,
             courseDuration,
-            courseLevel,
-            category_id
+            categoryId
         } = req.body;
-        // console.log("✅step 1: All data from the body", courseName, courseDescription,
-        //     coursePrice,
-        //     courseDuration,
-        //     courseLevel,
-        //     // categoryId
-        // )
+        console.log("✅step 1: All data from the body", courseName, courseDescription,
+            coursePrice,
+            courseDuration,
+            courseLevel,
+            categoryId
+        )
 
-        if (!coursePrice || !courseName || !courseDescription || !courseDuration || !courseLevel || !category_id) {
+        const courseThumbnail = req.file ? req.file.path : null;
+
+        if (!courseName || !coursePrice || !courseLevel || !courseDescription || !courseThumbnail || !courseDuration || !categoryId) {
             return res.status(400).json({
                 errorMessage: 'fill all the required fields'
             });
         };
 
-        const courseThumbnail = req.file ? req.file.path : null
-        if (!courseThumbnail) {
-            return res.status(400).json({
-                errorMessage: 'please provide course thumbnail'
-            });
-        }
-        // console.log('courseThumbnail', courseThumbnail);
+        console.log('courseThumbnail', courseThumbnail);
 
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
@@ -56,7 +52,7 @@ class CourseController {
                 category_id
             ) VALUES(?,?,?,?,?,?,?)`, {
             type: QueryTypes.INSERT,
-            replacements: [courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail, category_id
+            replacements: [courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail, categoryId
             ]
         });
         // console.log({ instertId, affectedRow });
