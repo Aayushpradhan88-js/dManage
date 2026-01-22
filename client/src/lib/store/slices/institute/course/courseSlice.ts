@@ -1,29 +1,30 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseCreate, ICourseIntialState } from "./courseSliceTypes";
+import { ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import { API, APIWithToken } from "../../../global/types/apiCall";
+import { ICourseFormData } from "@/src/lib/components/dashboard/course/add/courseCreationTypes";
 
-const initialState: ICourseIntialState = {
+const courseInitialState: ICourseState = {
     data: [],
-    status: IStatus.LOADING,
-    course: {
-        singleCourse: null
-    },
+    selectedCourse: null,
+    status: IStatus.LOADING
 };
 
 const courseSlice = createSlice({
     name: "course slice",
-    initialState: initialState,
+    initialState: courseInitialState,
     reducers: {
         setCourse: (state, action: PayloadAction<any>) => {
             state.data = action.payload;
         },
-        setLoading: (state: ICourseIntialState, action: PayloadAction<IStatus>) => {
+
+        setLoading: (state, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
+
         setDeleteCourse: (state, action: PayloadAction<string>) => {
             const index = state.data.findIndex((course) => {
                 const courseId = course.id;
@@ -43,29 +44,28 @@ const courseSlice = createSlice({
         },
 
         setSingleCourse: (state, action: PayloadAction<null>) => {
-            state.course.singleCourse = action.payload;
+            state.selectedCourse = action.payload;
         },
 
         setUpdateCourse: (state, action: PayloadAction<null>) => {
-            state.course.singleCourse = action.payload;
+            state.selectedCourse = action.payload;
         },
     },
 });
 
-export const { setCourse, setLoading, setDeleteCourse, setSingleCourse } = courseSlice.actions;
+export const { setCourse, setLoading, setDeleteCourse, setSingleCourse, setUpdateCourse } = courseSlice.actions;
 export default courseSlice.reducer;
 
 //API Call
-
 export class APICourse {
     //get
     static getAllInstituteCourses() {
         return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
             try {
-                const response = await APIWithToken.get("/api/institute/course",);
+                const response = await APIWithToken.get("/api/institute/course");
                 if (response.status === 200) {
                     if (response.data.data.length > 0) {
-                        dispatch(setCourse(response.data));
+                        dispatch(setCourse(response.data));  //api data is stored in data state [{}, {}]
                         dispatch(setLoading(IStatus.SUCCESS));
                     };
                 };
@@ -77,14 +77,18 @@ export class APICourse {
     };
 
     //create
-    static createInstituteCourse(data: ICourseCreate) {
+    static createInstituteCourse(data: ICourseFormData) { //form data
         return async function createInstituteCourseThunk(dispatch: AppDispatch) {
             console.log("loading course category");
             try {
-                const response = await APIWithToken.post("/api/institute/course", data);
+                const response = await APIWithToken.post("/api/institute/course", data, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }) //saved in db
                 if (response.status === 201) {
-                    dispatch(setCourse(response.data));
-                    dispatch(APICourse.getAllInstituteCourses())
+                    // dispatch(setCourse(response.data));
+                    dispatch(APICourse.getAllInstituteCourses()); //re-fetching updated db and update in state [{}, {}, {}]
                     dispatch(setLoading(IStatus.SUCCESS));
                 };
                 console.log("success create course");
@@ -118,13 +122,14 @@ export class APICourse {
         };
     };
 
-    static updateSingleInstituteCourse(id: string) {
+    //update course
+    static updateSingleInstituteCourse(id: string, data: ICourseFormData) {
         return async function updateSingleInstituteCourse(dispatch: AppDispatch) {
             try {
-                const response = await API.post(`/api/institute/course/update/${id}`);
+                const response = await API.post(`/api/institute/course/update/${id}`, data);
                 if (response.status === 200) {
+                    dispatch(APICourse.getAllInstituteCourses());
                     dispatch(setLoading(IStatus.SUCCESS));
-                    // dispatch()
                 }
             } catch (error) {
                 console.error("failed to update data, Server error", error);

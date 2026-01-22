@@ -1,34 +1,45 @@
 import { IStatus } from "../../../global/types/type";
 
-export interface IInstituteCourseInitialDataCourse {
+//DB Modal
+export interface ICourseDB {
     id: string,
     courseName: string,
-    coursePrice:string,
-};
-
-export interface ICourseAdditionalPrameters extends IInstituteCourseInitialDataCourse {
     courseDescription: string,
-    createdAt: string 
+    coursePrice: string,
+    courseDuration: string,
+    courseLevel: 'beginner' | 'intermediate' | 'advance',
+    courseThumbnail: string,
+    teacher_id: string,
+    category_id: string,
+    createdAt: Date,
+    updatedAt: Date,
 }
 
-export interface ISingleCourse{
-    singleCourse: null,
-};
+export interface ICourseState {
+    data: ICourseDB[], //FROM CourseDB [{}, {}, {}, {}, {}]
+    selectedCourse: ICourseDB | null,
+    status: IStatus
+}
 
-export interface ICourseIntialState {
-    data: IInstituteCourseInitialDataCourse[],
-    status: IStatus,
-    course: ISingleCourse
-};
+// API Response types
+export interface ICreateCourseResponse {
+  success: IStatus,
+  data: ICourseDB,
+  message: string,
+}
 
+export interface IGetCoursesResponse {
+  success: IStatus,
+  data: ICourseDB[],
+}
 
-export interface ICourseCreate {
-    courseName: string,
-    coursePrice: number | string,
-    courseLevel: string,
-    courseDescription: string,
-    courseThumbnail: string,
-    courseDuration: string,
-    categoryId: string,
-    courseTeacher: string
-};
+export interface IUpdateCourseResponse {
+  success: IStatus,
+  data: ICourseDB,
+  message: string,
+}
+
+export interface IDeleteCourseResponse {
+  success: IStatus,
+  message: string,
+}

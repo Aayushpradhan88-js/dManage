@@ -2,11 +2,11 @@
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
-import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
-import { ICourseCreate } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
 import { toast } from 'sonner';
-import store from '@/src/lib/store/store';
+import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
+import { ICourseFormData } from './courseCreationTypes';
+import store from '@/src/lib/store/store';
 
 interface ICloseModal {
     closeModal: () => void
@@ -15,10 +15,10 @@ interface ICloseModal {
 const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const dispatch = useAppDispatch();
 
-    const [courseFormData, setCourseFormData] = useState<ICourseCreate>({
+    const [courseFormData, setCourseFormData] = useState<ICourseFormData>({
         courseName: "",
         coursePrice: "",
-        courseLevel: "",
+        courseLevel: "beginner",
         courseDescription: "",
         courseThumbnail: "",
         courseDuration: "",
@@ -26,14 +26,15 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
         courseTeacher: ""
     });
     const [Loading, setLoading] = useState(false);
-    const { data: categories } = useAppSelector((store) => store.category) //CATEGORY 
+    const { data: categories }= useAppSelector((store) =>  store.category) //CATEGORY 
 
     //Storing input data at state
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCourseFormData({
             ...courseFormData,
-            [name]: value
+            //@ts-ignore
+            [name]: name === "courseThumbnail" ? e.target.files[0] : value
         });
     };
     console.log(" ✅step: 1 userData", courseFormData);
@@ -49,7 +50,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
             setCourseFormData({
                 courseName: "",
                 coursePrice: "",
-                courseLevel: "",
+                courseLevel: "beginner",
                 courseDescription: "",
                 courseThumbnail: "",
                 courseDuration: "",
@@ -84,7 +85,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
         setCourseFormData({
             courseName: "",
             coursePrice: "",
-            courseLevel: "",
+            courseLevel: "beginner",
             courseDescription: "",
             courseThumbnail: "",
             courseDuration: "",

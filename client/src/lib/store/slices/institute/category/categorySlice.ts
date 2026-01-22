@@ -17,11 +17,11 @@ const categorySlice = createSlice({
     initialState: initialState,
     reducers: {
         setAddCategory: (state: ICategoryInitialState, action: PayloadAction<ICategoryStateAdditionalData[]>) => {
-            state.data = action.payload.sort((a:ICategoryStateAdditionalData, b: ICategoryStateAdditionalData ) => {
-               return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            }) ;
+            state.data = action.payload.sort((a: ICategoryStateAdditionalData, b: ICategoryStateAdditionalData) => {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            });
         },
-        
+
         setDeleteCategory: (state: ICategoryInitialState, action: PayloadAction<string>) => {
             const categoryId = action?.payload;
             const categoryIndex = state.data.findIndex((category) => category?.id === categoryId);
@@ -47,12 +47,12 @@ export class APICategory {
             console.log("loading data fetching all category");
             try {
                 const response = await APIWithToken.get("/api/institute/category");
-                // if (response.data.datas.length > 0) {
-                //     console.log("response1", response);
-                //     console.log("response2", response.data);
-                //     console.log("response3", response.data.datas);
-                //     console.log("response4", response.data.datas.length);
-                // }
+                if (response.data.datas.length > 0) {
+                    console.log("response1", response);
+                    console.log("response2", response.data);
+                    console.log("response3", response.data.datas);
+                    console.log("response4", response.data.datas.length);
+                }
                 if (response.status === 200 || response.status === 201) {
                     if (response.data.datas || response.data.datas.length > 0) {
                         dispatch(setAddCategory(response.data.datas));
