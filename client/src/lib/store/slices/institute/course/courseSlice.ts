@@ -62,13 +62,17 @@ export class APICourse {
     static getAllInstituteCourses() {
         return async function getAllInstituteCoursesThunk(dispatch: AppDispatch) {
             try {
+                console.log("get triggered");
                 const response = await APIWithToken.get("/api/institute/course");
-                if (response.status === 200) {
-                    if (response.data.data.length > 0) {
-                        dispatch(setCourse(response.data));  //api data is stored in data state [{}, {}]
+                if (response.status === 200 || response.status === 201) {
+                    if (response.data.datas || response.data.datas.length > 0) {
+                        dispatch(setCourse(response.data.datas));  //api data is stored in data state [{}, {}]
+                        console.log(response.data.datas);
                         dispatch(setLoading(IStatus.SUCCESS));
                     };
                 };
+
+                console.log("success course fetched");
             } catch (error) {
                 console.error("api institute teacher error creation", error);
                 dispatch(setLoading(IStatus.ERROR));
@@ -86,9 +90,9 @@ export class APICourse {
                         "Content-Type": "multipart/form-data"
                     }
                 }) //saved in db
-                if (response.status === 201) {
-                    // dispatch(setCourse(response.data));
-                    dispatch(APICourse.getAllInstituteCourses()); //re-fetching updated db and update in state [{}, {}, {}]
+                if (response.status === 200 || response.status === 201) {
+                    // dispatch(setCourse(response.data.datas));
+                    await dispatch(APICourse.getAllInstituteCourses()); //re-fetching updated db and update in state [{}, {}, {}]
                     dispatch(setLoading(IStatus.SUCCESS));
                 };
                 console.log("success create course");

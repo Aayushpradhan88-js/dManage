@@ -5,26 +5,29 @@ import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook
 // import { IDeleteModal, IEditAdditionalParamerter } from '../course/courseTypes';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
-import { ICourseState } from './courseTypes';
+import { ICourseTableRow } from '@/src/lib/components/dashboard/course/add/courseCreationTypes';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
   const { data: courses, status } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  //api call fetch all course
+  // console.log("courses", courses);
+
   useEffect(() => {
-    dispatch(APICourse.getAllInstituteCourses());
+    dispatch(APICourse.getAllInstituteCourses()); //api call fetch all course
   }, []);
 
-  useEffect(() => {
-    if (courses) {
-      console.log("categories", courses);
-    }
-  }, [courses]);
+  console.log("courses", courses);
 
-  if (status === 'success') return <div>Loading...</div>;
-  // if (!categories) return <div>No data</div>;
+  // useEffect(() => {
+  //   if (courses) {
+  //     console.log("courses", courses);
+  //   }
+  // }, [courses]);
+
+  // if (status === 'success') return <div>Loading...</div>;
+  if (!courses) return <div>No data</div>;
 
   //modal form open & close
   //Create Action
@@ -48,6 +51,7 @@ const CoursePage = () => {
             </svg>
           </div>
 
+{/* Search Bar */}
           <input
             type="text"
             // value={searchedText}
@@ -89,48 +93,64 @@ const CoursePage = () => {
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
                   CreatedAt
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Actions
-                </th>
-              </tr>
+                </tr>
             </thead>
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-             {
-              courses.map((course: ICourseState) => (
-                 <tr key={course.id} className="hover:bg-gray-50 transition-colors">
-                   {/* ID */}
+              {courses.length > 0 ?
+                courses.map((course) => (
+                  <tr key={course.id} className="hover:bg-gray-50 transition-colors">
+                    {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course.id}>
                         {course?.id.slice(0, 8)}...
                       </div>
                     </td>
-                   {/* ID */}
+                    {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
                         {course?.courseName}
                       </div>
                     </td>
-                   {/* ID */}
+                    {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
                         {course?.courseDescription}
                       </div>
                     </td>
-                   {/* ID */}
+                    {/* createdAt */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
-                        {course?.createdAt}
+                        {new Date(course?.createdAt.toString()).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
                       </div>
                     </td>
-                 </tr>
-              ))
-             }
-          </tbody>
-        </table>
-      </div>
-    </div >
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <h1>hello</h1>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <p className="text-lg font-medium">No categories found</p>
+                        <p className="text-sm mt-1">
+                          {/* {searchedText ? 'Try adjusting your search' : 'Get started by adding a new category'} */}
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              }
+            </tbody>
+          </table>
+        </div>
+      </div >
     </div >
   )
 }
