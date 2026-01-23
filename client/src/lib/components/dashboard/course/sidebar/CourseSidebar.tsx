@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { useAppSelector } from '@/src/lib/store/hooks/customHook';
 import { IDeleteModal, IEditModal } from './courseSidebarTypes';
 import { useDispatch } from 'react-redux';
-import from 'lucide'
+import { X } from 'lucide-react'
+import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
 
 interface ICourseSideBar {
-  course: string,
+  course: ICourseDB,
   sidebarCloseModal: () => void
 }
 
-const CourseSidebar: React.FC<ICourseSideBar> = ({course, sidebarCloseModal}) => {
+const CourseSidebar: React.FC<ICourseSideBar> = ({ course, sidebarCloseModal }) => {
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
@@ -28,6 +29,8 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({course, sidebarCloseModal}) =>
     courseTeacher: ""
   });
 
+  console.log(course);
+
   const { selectedCourse, status } = useAppSelector((store) => store.course);
   console.log("course", selectedCourse);
 
@@ -36,6 +39,8 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({course, sidebarCloseModal}) =>
       {/* Sidebar */}
       <div className="w-96 bg-white border-l shadow-lg flex flex-col">
         {/* Header */}
+
+        {/* Sidebar close but */}
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Course Details</h2>
           <button
@@ -50,17 +55,19 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({course, sidebarCloseModal}) =>
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Thumbnail */}
           <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-            {course.courseThumbnail ? (
-              <img
-                src={course.courseThumbnail}
-                alt={course.courseName}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-400">
-                No thumbnail
-              </div>
-            )}
+            {course.courseThumbnail 
+            // ? (
+            //   <Image
+            //     src={course.courseThumbnail}
+            //     // alt={course.courseName}
+            //     className="w-full h-full object-cover"
+            //   />
+            // ) : (
+            //   <div className="flex items-center justify-center h-full text-gray-400">
+            //     No thumbnail
+            //   </div>
+            // )
+            }
           </div>
 
           {/* Course Info */}
@@ -140,22 +147,22 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({course, sidebarCloseModal}) =>
       </div>
 
       {/* Edit Modal */}
-      {isEditModalOpen && (
+      {/* {isEditModalOpen && (
         <CourseEditModal
           isOpen={isEditModalOpen}
           course={course}
           onClose={() => setIsEditModalOpen(false)}
         />
-      )}
+      )} */}
 
       {/* Delete Confirmation Modal */}
-      // <CourseDeleteModal
+      {/* // <CourseDeleteModal
       //   isOpen={isDeleteModalOpen}
       //   courseId={course.id}
       //   courseName={course.courseName}
       //   onClose={() => setIsDeleteModalOpen(false)}
       //   onConfirm={handleConfirmDelete}
-      // />
+      // /> */}
     </>
 
   )
