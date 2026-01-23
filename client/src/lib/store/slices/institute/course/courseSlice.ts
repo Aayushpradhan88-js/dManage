@@ -1,7 +1,7 @@
 //course slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICourseState } from "./courseSliceTypes";
+import { ICourseDB, ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import { API, APIWithToken } from "../../../global/types/apiCall";
@@ -43,7 +43,7 @@ const courseSlice = createSlice({
             };
         },
 
-        setSingleCourse: (state, action: PayloadAction<null>) => {
+        setSingleCourse: (state, action: PayloadAction<ICourseDB>) => {
             state.selectedCourse = action.payload;
         },
 
@@ -116,7 +116,7 @@ export class APICourse {
     };
 
     //single course
-    static getSingleInstituteCourse(id: string) {
+    static getSingleInstituteCourse(id: ICourseDB) {
         return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
             const response = await API.get(`/api/institute/course/${id}`);
             if (response.status === 200) {

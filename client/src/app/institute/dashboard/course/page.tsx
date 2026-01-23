@@ -5,12 +5,14 @@ import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook
 // import { IDeleteModal, IEditAdditionalParamerter } from '../course/courseTypes';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
-import { ICourseTableRow } from '@/src/lib/components/dashboard/course/add/courseCreationTypes';
+import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
+import CourseSidebar from '@/src/lib/components/dashboard/course/sidebar/CourseSidebar';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
-  const { data: courses, status } = useAppSelector((store) => store.course);
+  const { data: courses, status, selectedCourse } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
 
   // console.log("courses", courses);
 
@@ -34,6 +36,14 @@ const CoursePage = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  //sidebar
+  const sidebarOpenModal = () => setIsSidebarOpen(true);
+  const sidebarCloseModal = () => setIsSidebarOpen(false);
+
+  const handleRowClick = (courseId: ICourseDB) => {
+    dispatch(APICourse.getSingleInstituteCourse(courseId));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
@@ -51,7 +61,7 @@ const CoursePage = () => {
             </svg>
           </div>
 
-{/* Search Bar */}
+          {/* Search Bar */}
           <input
             type="text"
             // value={searchedText}
@@ -93,14 +103,21 @@ const CoursePage = () => {
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
                   CreatedAt
                 </th>
-                </tr>
+              </tr>
             </thead>
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
               {courses.length > 0 ?
                 courses.map((course) => (
-                  <tr key={course.id} className="hover:bg-gray-50 transition-colors">
+                  <tr
+                    key={course.id}
+                    onClick={() => handleRowClick(course)}
+                    className={`cursor-pointer transition ${selectedCourse?.id === course?.id
+                      ? 'bg-green-50 border-l-4 border-green-500'
+                      : 'hover: bg-red-500'
+                      }`}
+                  >
                     {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course.id}>
@@ -151,7 +168,12 @@ const CoursePage = () => {
           </table>
         </div>
       </div >
+      <CourseSidebar
+        course={selectedCourse}
+        sidebarCloseModal={sidebarCloseModal}
+      />
     </div >
+
   )
 }
 

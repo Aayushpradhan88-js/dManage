@@ -117,7 +117,6 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                 <form
                     onSubmit={handleFormSubmission}
                     className="space-y-4">
-
                     <div>
                         {/* Course name */}
                         <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
