@@ -14,7 +14,6 @@ interface ICloseModal {
 
 const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const dispatch = useAppDispatch();
-
     const [courseFormData, setCourseFormData] = useState<ICourseFormData>({
         courseName: "",
         coursePrice: "",
@@ -26,7 +25,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
         courseTeacher: ""
     });
     const [Loading, setLoading] = useState(false);
-    const { data: categories }= useAppSelector((store) =>  store.category) //CATEGORY 
+    const { data: categories }= useAppSelector((store) =>  store.category) // getting categories
 
     //Storing input data at state
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -38,7 +37,6 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
         });
     };
     console.log(" ✅step: 1 userData", courseFormData);
-
 
     //Form Submission to Backend
     const handleFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -135,7 +133,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                         </label>
                         <input
                             id="coursePrice"
-                            type="text"
+                            type="number"
                             name="coursePrice"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="XXXXX" required
@@ -185,7 +183,7 @@ const CourseCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                         </label>
                         <input
                             id="courseDuration"
-                            type="text"
+                            type="number"
                             name="courseDuration"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required

@@ -84,7 +84,7 @@ function CategoryPage() {
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Category Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900">All Category</h1>
       </div>
 
       {/* Search & Add Button Row */}

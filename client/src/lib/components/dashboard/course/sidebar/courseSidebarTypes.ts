@@ -4,7 +4,6 @@ export interface IDeleteModal {
 }
 
 export interface IEditModal {
-    isOpen: boolean,
     courseName: string,
     courseDescription: string,
     coursePrice: string,

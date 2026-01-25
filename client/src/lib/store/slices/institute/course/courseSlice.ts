@@ -103,11 +103,11 @@ export class APICourse {
         };
     };
 
-
     // delete
     static deleteSingleInstituteCourse(id: string) {
         return async function deleteSingleInstituteCourse(dispatch: AppDispatch) {
-            const response = await API.delete(`/api/institute/course/${id}`);
+            console.log("triggered");
+            const response = await APIWithToken.delete(`/api/institute/course/${id}`);
             if (response.status === 200) {
                 dispatch(setLoading(IStatus.SUCCESS));
                 dispatch(setDeleteCourse(id));
@@ -132,7 +132,13 @@ export class APICourse {
     static updateSingleInstituteCourse(id: string, data: ICourseFormData) {
         return async function updateSingleInstituteCourse(dispatch: AppDispatch) {
             try {
-                const response = await API.post(`/api/institute/course/update/${id}`, data);
+                const response = await APIWithToken.post(`/api/institute/course/update/${id}`, data,
+                    {
+                        headers: {
+                            "Content-Type" : "multipart/form-data"
+                        }
+                    }
+                );
                 if (response.status === 200) {
                     dispatch(APICourse.getAllInstituteCourses());
                     dispatch(setLoading(IStatus.SUCCESS));

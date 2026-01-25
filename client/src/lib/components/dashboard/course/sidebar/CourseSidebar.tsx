@@ -5,6 +5,7 @@ import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTy
 import { IDeleteModal, IEditModal } from './courseSidebarTypes';
 import { X, Trash2, Edit2 } from 'lucide-react';
 import Image from 'next/image';
+import CourseEditModal from './edit/CourseEditModal';
 
 interface ICourseSideBar {
   selectedcourse: ICourseDB | null,
@@ -17,21 +18,12 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
     isOpen: false,
     id: ''
   });
-  const [isEditModalData, setIsEditModalData] = useState<IEditModal>({
-    isOpen: false,
-    courseName: "",
-    coursePrice: "",
-    courseLevel: "beginner",
-    courseDescription: "",
-    courseThumbnail: "",
-    courseDuration: "",
-    categoryId: "",
-    courseTeacher: ""
-  });
 
-  console.log("course", selectedcourse?.id);
+  const [isEditModalData, setIsEditModalData] = useState(false);
 
-
+  //Edit modal
+  const editOpenModal = () => setIsEditModalData(true);
+  const editCloseModal = () => setIsEditModalData(false);
 
   return (
     <>
@@ -159,13 +151,23 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
         {/* Fixed Action Buttons at Bottom */}
         <div className="border-t border-gray-200 p-4 bg-white">
           <div className="flex gap-3">
+
+            {/* Edit Button */}
+            {isEditModalData &&
+              <CourseEditModal
+                courses={selectedcourse}
+                editCloseModal={editCloseModal}
+              />
+            }
             <button
-              onClick={() => console.log('Edit clicked')}
+              onClick={editOpenModal}
               className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
             >
               <Edit2 size={18} />
               Edit
             </button>
+
+            {/* Delete Button */}
             <button
               onClick={() => console.log('Delete clicked')}
               className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"

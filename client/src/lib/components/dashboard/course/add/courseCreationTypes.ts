@@ -1,6 +1,6 @@
 export interface ICourseFormData {
     courseName: string,
-    coursePrice: string | number,
+    coursePrice: string,
     courseLevel: 'beginner' | 'intermediate' | 'advance',
     courseDescription: string,
     courseThumbnail: File | null | string,

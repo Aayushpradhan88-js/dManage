@@ -13,10 +13,7 @@ interface IEditCategory {
     categoryDescription: string
 };
 
-const EditCategoryModal: React.FC<IEditCategory> = ({ closeEditModal, categoryId,
-    //  categoryName, categoryDescription 
-
-}) => {
+const EditCategoryModal: React.FC<IEditCategory> = ({ closeEditModal, categoryId}) => {
 
     //Task : Showing the older data in the form before updating the category
     const dispatch = useAppDispatch();
@@ -57,8 +54,7 @@ const EditCategoryModal: React.FC<IEditCategory> = ({ closeEditModal, categoryId
         });
         closeEditModal();
     };
-
-
+    
     return (
         <div id="modal" className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="fixed inset-0 bg-black/40" />

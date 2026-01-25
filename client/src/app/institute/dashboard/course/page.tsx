@@ -4,31 +4,18 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
-import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
 import CourseSidebar from '@/src/lib/components/dashboard/course/sidebar/CourseSidebar';
-import store from '@/src/lib/store/store';
+// import store from '@/src/lib/store/store';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
-  const { data: courses, status, selectedCourse } = useAppSelector((store) => store.course);
+  const { data: courses, selectedCourse } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
-
-  // console.log("courses", courses);
-
   useEffect(() => {
     dispatch(APICourse.getAllInstituteCourses()); //api call fetch all course
   }, []);
 
-  // console.log("courses", courses);
-
-  // useEffect(() => {
-  //   if (courses) {
-  //     console.log("courses", courses);
-  //   }
-  // }, [courses]);
-
-  // if (status === 'success') return <div>Loading...</div>;
   if (!courses) return <div>No data</div>;
 
   //modal form open & close
@@ -48,11 +35,6 @@ const CoursePage = () => {
     setIsSidebarOpen(true);
     console.log("2. Sidebar should open");
   };
-
-  useEffect(() => {
-    console.log("3. selectedCourse updated:", selectedCourse);
-  }, [selectedCourse]);
-  // console.log("handleRowClick", selectedCourse?.id)
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
