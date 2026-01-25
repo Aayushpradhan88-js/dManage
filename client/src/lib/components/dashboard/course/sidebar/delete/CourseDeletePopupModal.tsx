@@ -20,6 +20,7 @@ const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, delete
 
     try {
       const courseId = selectedcourse?.id;
+      //@ts-ignore
       await dispatch(APICourse.deleteSingleInstituteCourse(courseId));
       // Close modal after short delay
       setTimeout(() => {
