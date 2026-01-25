@@ -116,13 +116,15 @@ export class APICourse {
     };
 
     //single course
-    static getSingleInstituteCourse(id: ICourseDB) {
+    static getSingleInstituteCourse(id: string) {
         return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
-            const response = await API.get(`/api/institute/course/${id}`);
+            console.log("api call to backend");
+            const response = await APIWithToken.get(`/api/institute/course/${id}`);
             if (response.status === 200) {
+                dispatch(setSingleCourse(response.data.datas));
                 dispatch(setLoading(IStatus.SUCCESS));
-                dispatch(setSingleCourse(response.data));
             };
+            console.log("api response goes to component page");
         };
     };
 

@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
-// import { IDeleteModal, IEditAdditionalParamerter } from '../course/courseTypes';
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
 import CourseSidebar from '@/src/lib/components/dashboard/course/sidebar/CourseSidebar';
+import store from '@/src/lib/store/store';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const CoursePage = () => {
     dispatch(APICourse.getAllInstituteCourses()); //api call fetch all course
   }, []);
 
-  console.log("courses", courses);
+  // console.log("courses", courses);
 
   // useEffect(() => {
   //   if (courses) {
@@ -37,12 +37,14 @@ const CoursePage = () => {
   const closeModal = () => setIsModalOpen(false);
 
   //sidebar
-  const sidebarOpenModal = () => setIsSidebarOpen(true);
   const sidebarCloseModal = () => setIsSidebarOpen(false);
 
-  const handleRowClick = (courseId: ICourseDB) => {
+  const handleRowClick = (courseId: string) => {
     dispatch(APICourse.getSingleInstituteCourse(courseId));
+    setIsSidebarOpen(true);
   };
+
+  // console.log("handleRowClick", courseId)
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -112,7 +114,7 @@ const CoursePage = () => {
                 courses.map((course) => (
                   <tr
                     key={course.id}
-                    onClick={() => handleRowClick(course)}
+                    onClick={() => handleRowClick(course.id)}
                     className={`cursor-pointer transition ${selectedCourse?.id === course?.id
                       ? 'bg-green-50 border-l-4 border-green-500'
                       : 'hover: bg-red-500'
@@ -168,12 +170,14 @@ const CoursePage = () => {
           </table>
         </div>
       </div >
-      <CourseSidebar
-        course={selectedCourse}
-        sidebarCloseModal={sidebarCloseModal}
-      />
-    </div >
 
+      {isSidebarOpen && selectedCourse && (
+        <CourseSidebar
+          course={selectedCourse}
+          sidebarCloseModal={sidebarCloseModal}
+        />
+      )}
+    </div >
   )
 }
 

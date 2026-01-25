@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
-import { useAppSelector } from '@/src/lib/store/hooks/customHook';
-import { IDeleteModal, IEditModal } from './courseSidebarTypes';
-import { useDispatch } from 'react-redux';
-import { X } from 'lucide-react'
+"use client"
+
+import React, { useState } from 'react';
 import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
+import { IDeleteModal, IEditModal } from './courseSidebarTypes';
+import { X, Trash2, Edit2 } from 'lucide-react';
 
 interface ICourseSideBar {
-  course: ICourseDB,
+  course: ICourseDB | null,
   sidebarCloseModal: () => void
 }
 
 const CourseSidebar: React.FC<ICourseSideBar> = ({ course, sidebarCloseModal }) => {
-  const dispatch = useDispatch();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
     isOpen: false,
     id: ''
@@ -29,10 +28,9 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ course, sidebarCloseModal }) 
     courseTeacher: ""
   });
 
-  console.log(course);
+  console.log("course", course);
 
-  const { selectedCourse, status } = useAppSelector((store) => store.course);
-  console.log("course", selectedCourse);
+
 
   return (
     <>
@@ -40,7 +38,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ course, sidebarCloseModal }) 
       <div className="w-96 bg-white border-l shadow-lg flex flex-col">
         {/* Header */}
 
-        {/* Sidebar close but */}
+        {/* Sidebar close button */}
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Course Details</h2>
           <button
@@ -53,75 +51,74 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ course, sidebarCloseModal }) 
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
+
           {/* Thumbnail */}
           <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-            {course.courseThumbnail 
-            // ? (
-            //   <Image
-            //     src={course.courseThumbnail}
-            //     // alt={course.courseName}
-            //     className="w-full h-full object-cover"
-            //   />
-            // ) : (
-            //   <div className="flex items-center justify-center h-full text-gray-400">
-            //     No thumbnail
-            //   </div>
-            // )
-            }
+            {course?.courseThumbnail}
           </div>
 
           {/* Course Info */}
           <div className="space-y-4">
+
+            {/* Name */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Name</label>
               <p className="text-lg font-semibold text-gray-900 mt-1">
-                {course.courseName}
+                {course?.courseName}
               </p>
             </div>
 
+            {/* Price */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Price</label>
               <p className="text-lg font-semibold text-gray-900 mt-1">
-                Rs. {course.coursePrice}
+                Rs. {course?.coursePrice}
               </p>
             </div>
 
+            {/* Level */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Level</label>
               <p className="text-gray-900 mt-1 capitalize">
-                {course.courseLevel}
+                {course?.courseLevel}
               </p>
             </div>
 
+            {/* Description */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Description</label>
               <p className="text-gray-700 mt-1">
-                {course.courseDescription}
+                {course?.courseDescription}
               </p>
             </div>
 
+            {/* Category */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Category</label>
               <p className="text-gray-900 mt-1">
-                {course.category_id}
+                {course?.category_id}
               </p>
             </div>
 
+            {/* Duration */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Duration</label>
               <p className="text-gray-900 mt-1">
-                {course.courseDuration}
+                {course?.courseDuration}
               </p>
             </div>
 
+            {/* createdAt */}
             <div>
               <label className="text-xs text-gray-500 uppercase tracking-wide">Created At</label>
               <p className="text-gray-900 mt-1">
-                {/* {new Date(course.createdAt).toLocaleDateString('en-US', {
+                {/* {new Date(course?.createdAt)?.toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })} */}
+
+                {/* {new Date(course?.createdAt.toDateString())} */}
               </p>
             </div>
           </div>
