@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
-import { IDeleteModal, IEditModal } from './courseSidebarTypes';
 import { X, Trash2, Edit2 } from 'lucide-react';
-import Image from 'next/image';
 import CourseEditModal from './edit/CourseEditModal';
 import CourseDeletePopupModal from './delete/CourseDeletePopupModal';
 
 interface ICourseSideBar {
   selectedcourse: ICourseDB | null,
   sidebarCloseModal: () => void
-}
+};
 
 const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseModal }) => {
   const [isEditModalData, setIsEditModalData] = useState<boolean>(false);     //edit

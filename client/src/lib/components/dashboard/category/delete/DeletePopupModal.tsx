@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppDispatch } from '@/src/lib/store/hooks/customHook'
+import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
