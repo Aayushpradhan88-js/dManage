@@ -23,18 +23,12 @@ function CategoryPage() {
     categoryName: '',
     categoryDescription: ''
   });
-  const [searchedText, setSearchedText] = useState<string>("");
+  const [searchedText, setSearchedText] = useState<string>(""); //search
 
   //api call fetch all category
   useEffect(() => {
     dispatch(APICategory.fetchAllCategory());
   }, []);
-
-  // useEffect(() => {
-  //   if (categories) {
-  //     console.log("categories", categories);
-  //   }
-  // }, [categories]);
 
   if (status === 'success') return <div>Loading...</div>;
   if (!categories) return <div>No data</div>;
@@ -101,7 +95,7 @@ function CategoryPage() {
             type="text"
             value={searchedText}
             onChange={(e) => setSearchedText(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2  focus:border-green-600 bg-white"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-green-500"
             placeholder="Search Category"
           />
         </div>

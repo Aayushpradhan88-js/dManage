@@ -11,7 +11,8 @@ const CoursePage = () => {
   const dispatch = useAppDispatch();
   const { data: courses, selectedCourse } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [searchedText, setSearchedText] = useState<string>("");
   useEffect(() => {
     dispatch(APICourse.getAllInstituteCourses()); //api call fetch all course
   }, []);
@@ -36,6 +37,8 @@ const CoursePage = () => {
     console.log("2. Sidebar should open");
   };
 
+  const filteredData = courses.filter((c) => c.courseName.includes(searchedText));
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
@@ -56,9 +59,9 @@ const CoursePage = () => {
           {/* Search Bar */}
           <input
             type="text"
-            // value={searchedText}
-            // onChange={(e) => setSearchedText(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2  focus:border-green-600 bg-white"
+            value={searchedText}
+            onChange={(e) => setSearchedText(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-green-500"
             placeholder="Search Course"
           />
         </div>
@@ -100,8 +103,8 @@ const CoursePage = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {courses.length > 0 ?
-                courses.map((course) => (
+              {filteredData.length > 0 ?
+                filteredData.map((course) => (
                   <tr
                     key={course.id}
                     onClick={() => handleRowClick(course.id)}
@@ -149,7 +152,7 @@ const CoursePage = () => {
                         </svg>
                         <p className="text-lg font-medium">No categories found</p>
                         <p className="text-sm mt-1">
-                          {/* {searchedText ? 'Try adjusting your search' : 'Get started by adding a new category'} */}
+                          {searchedText ? 'Try adjusting your search' : 'Get started by adding a new category'}
                         </p>
                       </div>
                     </td>
