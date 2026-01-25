@@ -6,6 +6,7 @@ import { IStatus } from "../../../global/types/type";
 import {API} from "../../../global/types/apiCall";
 import { AppDispatch } from "../../../store";
 import { useAppDispatch } from "../../../hooks/customHook";
+import { setSelectedCourse } from "../course/courseSlice";
 
 const initialState: ITeacherInitialState = {
     teacher: {
@@ -32,6 +33,8 @@ const teacherSlice = createSlice({
         setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
+
+        setSelectedTeacher
     },
 });
 
