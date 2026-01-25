@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '@/src/lib/store/hooks/customHook';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes';
-import {toast} from 'sonner';
+import { toast } from 'sonner';
 
-interface IDeleteModal{
-  selectedcourse: ICourseDB ,
+interface IDeleteModal {
+  selectedcourse: ICourseDB | null,
   deleteCloseModal: () => void
 }
 
-const CourseDeletePopupModal: React.FC<IDeleteModal> = ({selectedcourse, deleteCloseModal}) => {
+const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, deleteCloseModal }) => {
   const dispatch = useAppDispatch();
   const [Loading, setLoading] = useState(false);
 
