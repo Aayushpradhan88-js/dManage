@@ -12,7 +12,7 @@ const CoursePage = () => {
   const dispatch = useAppDispatch();
   const { data: courses, status, selectedCourse } = useAppSelector((store) => store.course);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
 
   // console.log("courses", courses);
 
@@ -37,14 +37,22 @@ const CoursePage = () => {
   const closeModal = () => setIsModalOpen(false);
 
   //sidebar
-  const sidebarCloseModal = () => setIsSidebarOpen(false);
-
-  const handleRowClick = (courseId: string) => {
-    dispatch(APICourse.getSingleInstituteCourse(courseId));
-    setIsSidebarOpen(true);
+  const sidebarCloseModal = () => {
+    setIsSidebarOpen(false)
+    // dispatch(selectedCourse(null));
   };
 
-  // console.log("handleRowClick", courseId)
+  const handleRowClick = (courseId: string) => {
+    console.log("1. Row clicked, courseId:", courseId);
+    dispatch(APICourse.getSingleInstituteCourse(courseId));
+    setIsSidebarOpen(true);
+    console.log("2. Sidebar should open");
+  };
+
+  useEffect(() => {
+    console.log("3. selectedCourse updated:", selectedCourse);
+  }, [selectedCourse]);
+  // console.log("handleRowClick", selectedCourse?.id)
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -115,14 +123,14 @@ const CoursePage = () => {
                   <tr
                     key={course.id}
                     onClick={() => handleRowClick(course.id)}
-                    className={`cursor-pointer transition ${selectedCourse?.id === course?.id
+                    className={`cursor-pointer transition ${selectedCourse?.id === course.id
                       ? 'bg-green-50 border-l-4 border-green-500'
-                      : 'hover: bg-red-500'
+                      : 'hover: bg-gray-50'
                       }`}
                   >
                     {/* ID */}
                     <td className="px-6 py-4">
-                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course.id}>
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course?.id}>
                         {course?.id.slice(0, 8)}...
                       </div>
                     </td>
@@ -173,7 +181,7 @@ const CoursePage = () => {
 
       {isSidebarOpen && selectedCourse && (
         <CourseSidebar
-          course={selectedCourse}
+          selectedcourse={selectedCourse}
           sidebarCloseModal={sidebarCloseModal}
         />
       )}

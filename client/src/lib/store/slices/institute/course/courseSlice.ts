@@ -43,7 +43,7 @@ const courseSlice = createSlice({
             };
         },
 
-        setSingleCourse: (state, action: PayloadAction<ICourseDB>) => {
+        setSelectedCourse: (state, action: PayloadAction<ICourseDB>) => {
             state.selectedCourse = action.payload;
         },
 
@@ -53,7 +53,7 @@ const courseSlice = createSlice({
     },
 });
 
-export const { setCourse, setLoading, setDeleteCourse, setSingleCourse, setUpdateCourse } = courseSlice.actions;
+export const { setCourse, setLoading, setDeleteCourse, setSelectedCourse, setUpdateCourse } = courseSlice.actions;
 export default courseSlice.reducer;
 
 //API Call
@@ -120,11 +120,11 @@ export class APICourse {
         return async function getSingleInstituteCourseThunk(dispatch: AppDispatch) {
             console.log("api call to backend");
             const response = await APIWithToken.get(`/api/institute/course/${id}`);
-            if (response.status === 200) {
-                dispatch(setSingleCourse(response.data.datas));
+            if (response.status === 200 || response.status === 201) {
+                dispatch(setSelectedCourse(response.data.data[0]));
                 dispatch(setLoading(IStatus.SUCCESS));
             };
-            console.log("api response goes to component page");
+            console.log("api response goes to component page", response.data);
         };
     };
 
