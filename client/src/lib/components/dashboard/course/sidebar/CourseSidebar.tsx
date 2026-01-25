@@ -42,14 +42,16 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
       />
 
       {/* Sidebar Panel */}
-      <div className="fixed right-0 top-0 h-screen w-[400px] bg-white shadow-2xl z-50 flex flex-col animate-slide-in">
+      <div className="fixed right-0 top-0 h-screen w-100 bg-white shadow-2xl z-50 flex flex-col animate-slide-in">
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Course Details</h2>
+
+          {/* Cross symbol */}
           <button
             onClick={sidebarCloseModal}
-            className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition"
+            className="p-1 cursor-pointer text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition"
           >
             <X size={20} />
           </button>
@@ -159,14 +161,14 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
           <div className="flex gap-3">
             <button
               onClick={() => console.log('Edit clicked')}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
+              className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium"
             >
               <Edit2 size={18} />
               Edit
             </button>
             <button
               onClick={() => console.log('Delete clicked')}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
+              className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
             >
               <Trash2 size={18} />
               Delete
@@ -175,9 +177,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
         </div>
       </div>
     </>
-
-
-  )
-}
+  );
+};
 
 export default CourseSidebar;
