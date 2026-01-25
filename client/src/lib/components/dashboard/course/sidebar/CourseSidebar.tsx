@@ -6,6 +6,7 @@ import { IDeleteModal, IEditModal } from './courseSidebarTypes';
 import { X, Trash2, Edit2 } from 'lucide-react';
 import Image from 'next/image';
 import CourseEditModal from './edit/CourseEditModal';
+import CourseDeletePopupModal from './delete/CourseDeletePopupModal';
 
 interface ICourseSideBar {
   selectedcourse: ICourseDB | null,
@@ -13,17 +14,16 @@ interface ICourseSideBar {
 }
 
 const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseModal }) => {
-
-  const [isDeleteModalData, setIsDeleteModalData] = useState<IDeleteModal>({
-    isOpen: false,
-    id: ''
-  });
-
-  const [isEditModalData, setIsEditModalData] = useState(false);
+  const [isEditModalData, setIsEditModalData] = useState<boolean>(false);     //edit
+  const [isDeleteModalData, setIsDeleteModalData] = useState<boolean>(false); //delete
 
   //Edit modal
   const editOpenModal = () => setIsEditModalData(true);
   const editCloseModal = () => setIsEditModalData(false);
+
+  //Delete Modal
+  const deleteOpenModal = () => setIsDeleteModalData(true);
+  const deleteCloseModal = () => setIsDeleteModalData(false);
 
   return (
     <>
@@ -168,8 +168,14 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
             </button>
 
             {/* Delete Button */}
+            {isDeleteModalData && 
+              <CourseDeletePopupModal 
+                deleteCloseModal = {deleteCloseModal}
+                selectedcourse = {selectedcourse}
+              />
+            }
             <button
-              onClick={() => console.log('Delete clicked')}
+              onClick={deleteOpenModal}
               className="cursor-pointer flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
             >
               <Trash2 size={18} />
