@@ -9,6 +9,7 @@ import { ITeacherForm } from "@/src/lib/components/dashboard/teacher/add/teacher
 
 const teacherInitialState: ITeacherInitialState = {
     data: [],
+    selectedTeacher: null,
     status: IStatus.LOADING,
 };
 
@@ -21,6 +22,9 @@ const teacherSlice = createSlice({
         },
         setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
+        },
+        setSelectedTeacher: (state, action: PayloadAction<IteacherDB>) => {
+            state.selectedTeacher = action.payload;
         },
     },
 });
@@ -51,7 +55,7 @@ export class APIInstituteTeacher {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
                 console.log("backend data processing")
-                const response = await APIWithToken.post("/api/institute/teacher/create", data, 
+                const response = await APIWithToken.post("/api/institute/teacher/create", data,
                     {
                         headers: {
                             "Content-Type": "multipart/form-data"
@@ -67,6 +71,19 @@ export class APIInstituteTeacher {
                 console.error("api institute teacher error creation", error);
                 dispatch(setLoading(IStatus.ERROR));
             };
+        };
+    };
+    
+    //single teacher
+    static getSingleInstituteteacher(id: string) {
+        return async function getSingleInstituteteacherThunk(dispatch: AppDispatch) {
+            console.log("api call to backend");
+            const response = await APIWithToken.get(`/api/institute/teacher/${id}`);
+            if (response.status === 200 || response.status === 201) {
+                dispatch(setSelectedteacher(response.data.data[0]));
+                dispatch(setLoading(IStatus.SUCCESS));
+            };
+            console.log("api response goes to component page", response.data);
         };
     };
 

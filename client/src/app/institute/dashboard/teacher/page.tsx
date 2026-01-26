@@ -10,6 +10,7 @@ const TeacherPage = () => {
   const dispatch = useDispatch();
   const {data: teacher} = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
@@ -21,6 +22,19 @@ const TeacherPage = () => {
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
 
+  //sidebar
+    const sidebarCloseModal = () => {
+      setIsSidebarOpen(false)
+      // dispatch(selectedCourse(null));
+    };
+  
+    const handleRowClick = (courseId: string) => {
+      console.log("1. Row clicked, courseId:", courseId);
+      dispatch(APIInstituteTeacher.getSingleInstituteCourse(courseId));
+      setIsSidebarOpen(true);
+      console.log("2. Sidebar should open");
+    };
+  
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
