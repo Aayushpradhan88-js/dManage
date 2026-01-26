@@ -1,7 +1,17 @@
-import React from 'react'
+"use client"
 
-const teacherPage = () => {
-  
+import React, { useEffect } from 'react';
+import { useAppSelector } from '@/src/lib/store/hooks/customHook';
+import { useDispatch } from 'react-redux';
+import { APIInstituteTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
+
+const TeacherPage = () => {
+  const dispatch = useDispatch();
+  const {data: teacher} = useAppSelector((store) => store.teacher);
+
+  useEffect(() => {
+    dispatch(APIInstituteTeacher.getAllTeacher())
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -50,64 +60,73 @@ const teacherPage = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Info
+                  ID
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  TeacherID
+                  Name
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Courses
+                  Email
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Phone
+                  Salary
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-2/6">
-                  Address
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
+                  Joined Date
                 </th>
                 <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  Actions
+                  View More
                 </th>
               </tr>
             </thead>
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {/* {filteredData.length > 0 ? ( */}
-                {/* // filteredData.map((category: ICategoryStateAdditionalData) => ( */}
+              {teacher.length > 0 ? ( 
+                teacher.map((t) => (
                   <tr 
-                  // key={category.id} 
+                  key={t.id} 
                   className="hover:bg-gray-50 transition-colors">
                     {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" 
-                      // title={category.id}
+                      title={t?.id}
                       >
-                        {/* // {category?.id.slice(0, 8)}... */}
+                        {t?.id
+                        .slice(0, 8)
+                        }
                       </div>
                     </td>
 
                     {/* Name */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
-                        {/* {category?.categoryName} */}
+                        {t?.teacherName}
                       </div>
                     </td>
 
-                    {/* Description */}
+                    {/* Email */}
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-600 line-clamp-2">
-                        {/* {category?.categoryDescription} */}
+                        {t?.teacherEmail}
+                      </div>
+                    </td>
+                      
+                    {/* Salary */}
+                     <td className="px-6 py-4">
+                      <div className="text-sm text-gray-600 line-clamp-2">
+                        रु {t?.salary}
                       </div>
                     </td>
 
-                    {/* Created At */}
+                    {/* Joined <Date></Date> */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {/* {new Date(category?.createdAt?.toString())?.toLocaleDateString('en-US', {
+                        {new Date(t?.joinedDate?.toString())?.toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'short',
                           day: 'numeric'
-                        })} */}
+                        })}
                       </div>
                     </td>
 
@@ -151,19 +170,17 @@ const teacherPage = () => {
                         </button>
 
                         {/* More Options */}
-                        <button
+                        {/* <button
                           className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                           title="More"
                         >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                          </svg>
-                        </button>
+                          {/*    */}
+                        {/* </button> */}
                       </div>
                     </td>
                   </tr>
-                {/* )) */}
-              {/* ) : ( */}
+                 )) 
+              ) : ( 
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center text-gray-500">
@@ -177,7 +194,7 @@ const teacherPage = () => {
                     </div>
                   </td>
                 </tr>
-              {/* )} */}
+               )} 
             </tbody>
           </table>
         </div>
@@ -196,4 +213,4 @@ const teacherPage = () => {
   );
 }
 
-export default teacherPage
+export default TeacherPage;

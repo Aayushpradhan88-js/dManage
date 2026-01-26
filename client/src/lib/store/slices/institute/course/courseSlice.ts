@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseDB, ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
-import { API, APIWithToken } from "../../../global/types/apiCall";
+import {  APIWithToken } from "../../../global/types/apiCall";
 import { ICourseFormData } from "@/src/lib/components/dashboard/course/add/courseCreationTypes";
 
 const courseInitialState: ICourseState = {

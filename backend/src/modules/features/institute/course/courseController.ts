@@ -14,7 +14,7 @@ class CourseController {
             courseLevel,
             courseDescription,
             courseDuration,
-            categoryId
+            categoryId,
         } = req.body;
         console.log("✅step 1: All data from the body", courseName, courseDescription,
             coursePrice,

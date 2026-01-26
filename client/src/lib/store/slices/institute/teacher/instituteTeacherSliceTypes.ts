@@ -1,6 +1,7 @@
 import { IStatus } from "../../../global/types/type";
 
 export interface ITeacherState{
+    id: string,
     teacherName: string,
     teacherEmail: string,
     teacherPassword: string,
@@ -13,6 +14,6 @@ export interface ITeacherState{
 };
 
 export interface ITeacherInitialState {
-    teacher: ITeacherState,
+    data: ITeacherState[],
     status: IStatus
 };
