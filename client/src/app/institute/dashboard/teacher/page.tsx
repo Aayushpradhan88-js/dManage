@@ -1,17 +1,25 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '@/src/lib/store/hooks/customHook';
 import { useDispatch } from 'react-redux';
 import { APIInstituteTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
+import TeacherCreationModal from '@/src/lib/components/dashboard/teacher/add/TeacherCreationModal';
 
 const TeacherPage = () => {
   const dispatch = useDispatch();
   const {data: teacher} = useAppSelector((store) => store.teacher);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
-  },[])
+  },[]);
+
+  
+  //modal form open & close
+  //Create Action
+  const openCreateModal = () => setIsCreateModalOpen(true);
+  const closeCreateModal = () => setIsCreateModalOpen(false);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -40,15 +48,15 @@ const TeacherPage = () => {
         </div>
 
         {/* Add Category Button */}
-        {/* {isModalOpen && <CategoryCreationModal closeModal={closeModal} />} */}
+        {isCreateModalOpen && <TeacherCreationModal closeModal={closeCreateModal} />}
         <button
-          // onClick={openModal}
+          onClick={openCreateModal}
           className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-linear-to-r bg-green-500 text-white rounded-lg  hover:bg-green-600 transition-all font-medium"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Add Category
+          Add Teacher
         </button>
       </div>
 

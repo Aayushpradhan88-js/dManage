@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 import { ICourseFormData } from './courseCreationTypes';
-import store from '@/src/lib/store/store';
 
 interface ICloseModal {
     closeModal: () => void

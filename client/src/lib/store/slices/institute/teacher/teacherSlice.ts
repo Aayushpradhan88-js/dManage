@@ -1,10 +1,11 @@
 //teacher slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITeacherInitialState, ITeacherState } from "./instituteTeacherSliceTypes";
+import { ITeacherInitialState } from "./instituteTeacherSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { APIWithToken } from "../../../global/types/apiCall";
 import { AppDispatch } from "../../../store";
+import { ITeacherForm } from "@/src/lib/components/dashboard/teacher/add/teacherCreationModalTypes";
 
 const teacherInitialState: ITeacherInitialState = {
     data: [],
@@ -46,13 +47,22 @@ export class APIInstituteTeacher {
         };
     };
 
-    static createTeacher(data: ITeacherState) {
+    static createTeacher(data: ITeacherForm) {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
-                const response = await APIWithToken.post("/api/institute/teacher", data);
+                console.log("backend data processing")
+                const response = await APIWithToken.post("/api/institute/teacher/create", data, 
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                );
                 if (response.status === 201) {
+                    await dispatch(APIInstituteTeacher.getAllTeacher())
                     dispatch(setLoading(IStatus.SUCCESS));
                 };
+                console.log("backend data processing done")
             } catch (error) {
                 console.error("api institute teacher error creation", error);
                 dispatch(setLoading(IStatus.ERROR));

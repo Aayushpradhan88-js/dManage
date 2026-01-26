@@ -11,89 +11,82 @@ class TeacherController {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
-        };
+        }
 
-        const { teacherName, teacherEmail, teacherPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId } = req.body;
-        if (!teacherName || !teacherEmail || !teacherPassword || !teacherPhoneNumber || !teacherExperience || !joinedDate || !salary || !courseId) {
+        const { teacherName, teacherEmail, teacherPhoneNumber, teacherExperience, joinedDate, salary } = req.body;
+
+        if (!teacherName || !teacherEmail || !teacherPhoneNumber || !teacherExperience || !joinedDate || !salary) {
             return res.status(400).json({ errorMessage: "fill all the fields" });
-        };
+        }
 
-        const passwordData = generateRandomPasswordService.genereateHashPassword(teacherName);
+        const passwordData = await generateRandomPasswordService.genereateHashPassword(teacherName);
         if (!passwordData) {
             return res.status(500).json({ errorMessage: "password hashing failed" });
-        };
+        }
 
-        const teacherPhoto: string = req.file ? req.file.path : "https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg?semt=ais_hybrid&w=740&q=80"
+        const teacherPhoto: string = req.file ? req.file.path : "https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg";
 
-        //inserting teacher data with course_id
-        const data = await sequelize.query(`
-            INSERT INTO  teacher_${currentInstituteNumber}(
+        // ✅ Fixed: Removed trailing comma after teacherPhoto
+        await sequelize.query(`
+        INSERT INTO teacher_${currentInstituteNumber}(
+            teacherName,
+            teacherEmail,
+            teacherPassword,
+            teacherPhoneNumber,
+            teacherExperience,
+            joinedDate,
+            salary,
+            teacherPhoto
+        ) VALUES(?,?,?,?,?,?,?,?)
+    `, {
+            type: QueryTypes.INSERT,
+            replacements: [
                 teacherName,
                 teacherEmail,
-                teacherPassword,
+                passwordData.hashPassword,
                 teacherPhoneNumber,
                 teacherExperience,
                 joinedDate,
                 salary,
-                teacherPhoto,
-                course_id
-            ) VALUES(?,?,?,?,?,?,?,?,?)`, {
-            type: QueryTypes.INSERT,
-            replacements: [
-                teacherName, teacherEmail, (await passwordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, teacherPhoto, courseId
+                teacherPhoto
             ]
         });
 
-        //query teacher_id from db
         const teacherData: { id: string }[] = await sequelize.query(`
-                SELECT id FROM teacher_${currentInstituteNumber} WHERE teacherEmail=?
-            `, {
+        SELECT id FROM teacher_${currentInstituteNumber} WHERE teacherEmail=?
+    `, {
             type: QueryTypes.SELECT,
             replacements: [teacherEmail]
         });
-
-        // console.log(teacherData, "data");
 
         const teacherId = teacherData[0]?.id;
         if (!teacherId) {
             return res.status(500).json({ errorMessage: "failed to get teacher id" });
         }
 
-        //update course_id with teacher_id
-        await sequelize.query(`
-                UPDATE course_${currentInstituteNumber} SET teacher_id=? WHERE id=?`,
-            {
-                type: QueryTypes.UPDATE,
-                replacements: [teacherId, courseId]
-            }
-        );
-
-        // console.log("✅teacher email triggered")
         const mailInformation = {
             to: teacherEmail,
             subject: "Welcome to Software Development Course",
-            text: `Here is you're email: ${teacherEmail} & password: ${(await passwordData).plainPassword}`
+            text: `Here is your email: ${teacherEmail} & password: ${passwordData.plainPassword}`
         };
 
-        // console.log("✅nodemailer module triggered")
         try {
             await MailService.sendMail(mailInformation);
             return res.status(200).json({
                 success: true,
-                datas: {
+                data: {
+                    teacherId,
                     instituteNumber: currentInstituteNumber,
-                    Name: teacherName,
-                    email: teacherEmail,
-                    course: courseId
+                    name: teacherName,
+                    email: teacherEmail
                 },
-                message: `teacher created successfully on institute ${currentInstituteNumber}`
+                message: `Teacher created successfully`
             });
         } catch (error) {
             console.error("Email failed:", error);
-            return res.status(200).json({
+            return res.status(500).json({
                 success: false,
-                datas: data,
-                message: "teacher creation failed"
+                message: "Teacher created but email failed"
             });
         };
     };
