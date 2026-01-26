@@ -1,40 +1,40 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '@/src/lib/store/hooks/customHook';
+import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
 import { useDispatch } from 'react-redux';
-import { APIInstituteTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
+import { APIInstituteTeacher, setSelectedTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
 import TeacherCreationModal from '@/src/lib/components/dashboard/teacher/add/TeacherCreationModal';
 
 const TeacherPage = () => {
-  const dispatch = useDispatch();
-  const {data: teacher} = useAppSelector((store) => store.teacher);
+  const dispatch = useAppDispatch();
+  const { data: teacher } = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
-  },[]);
-
+  }, []);
+  
   
   //modal form open & close
   //Create Action
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
-
+  
   //sidebar
-    const sidebarCloseModal = () => {
-      setIsSidebarOpen(false)
-      // dispatch(selectedCourse(null));
-    };
-  
-    const handleRowClick = (courseId: string) => {
-      console.log("1. Row clicked, courseId:", courseId);
-      dispatch(APIInstituteTeacher.getSingleInstituteCourse(courseId));
-      setIsSidebarOpen(true);
-      console.log("2. Sidebar should open");
-    };
-  
+  const sidebarCloseModal = () => {
+    setIsSidebarOpen(false)
+    // dispatch(selectedCourse(null));
+  };
+
+  const handleRowClick = (courseId: string) => {
+    console.log("1. Row clicked, courseId:", courseId);
+    dispatch(APIInstituteTeacher.getSingleInstituteCourse(courseId));
+    setIsSidebarOpen(true);
+    console.log("2. Sidebar should open");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Page Header */}
@@ -104,18 +104,23 @@ const TeacherPage = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {teacher.length > 0 ? ( 
+              {teacher.length > 0 ? (
                 teacher.map((t) => (
-                  <tr 
-                  key={t.id} 
-                  className="hover:bg-gray-50 transition-colors">
+                  <tr
+                    key={t.id}
+                    onClick={() => handleRowClick(t.id)}
+                    
+                    className={`cursor-pointer transition ${setSelectedTeacher === t.id
+                      ? 'bg-green-50 border-l-4 border-green-500'
+                      : 'hover: bg-gray-50'
+                      }`}>
                     {/* ID */}
                     <td className="px-6 py-4">
-                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" 
-                      title={t?.id}
+                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5"
+                        title={t?.id}
                       >
                         {t?.id
-                        .slice(0, 8)
+                          .slice(0, 8)
                         }
                       </div>
                     </td>
@@ -133,9 +138,9 @@ const TeacherPage = () => {
                         {t?.teacherEmail}
                       </div>
                     </td>
-                      
+
                     {/* Salary */}
-                     <td className="px-6 py-4">
+                    <td className="px-6 py-4">
                       <div className="text-sm text-gray-600 line-clamp-2">
                         रु {t?.salary}
                       </div>
@@ -201,8 +206,8 @@ const TeacherPage = () => {
                       </div>
                     </td>
                   </tr>
-                 )) 
-              ) : ( 
+                ))
+              ) : (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center text-gray-500">
@@ -216,7 +221,7 @@ const TeacherPage = () => {
                     </div>
                   </td>
                 </tr>
-               )} 
+              )}
             </tbody>
           </table>
         </div>

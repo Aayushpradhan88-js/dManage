@@ -15,5 +15,6 @@ export interface ITeacherState{
 
 export interface ITeacherInitialState {
     data: ITeacherState[],
-    status: IStatus
+    selectedTeacher: ITeacherState | null,
+    status: IStatus,
 };

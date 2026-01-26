@@ -1,7 +1,7 @@
 //teacher slice
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITeacherInitialState } from "./instituteTeacherSliceTypes";
+import { ITeacherInitialState, ITeacherState } from "./instituteTeacherSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { APIWithToken } from "../../../global/types/apiCall";
 import { AppDispatch } from "../../../store";
@@ -23,13 +23,13 @@ const teacherSlice = createSlice({
         setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
-        setSelectedTeacher: (state, action: PayloadAction<IteacherDB>) => {
+        setSelectedTeacher: (state, action: PayloadAction<ITeacherState>) => {
             state.selectedTeacher = action.payload;
         },
     },
 });
 
-export const { setTeacher, setLoading } = teacherSlice.actions;
+export const { setTeacher, setLoading, setSelectedTeacher } = teacherSlice.actions;
 export default teacherSlice.reducer;
 
 //API Call
@@ -41,9 +41,13 @@ export class APIInstituteTeacher {
                 const response = await APIWithToken.get('/api/institute/teacher/');
                 console.log("response", response.data.datas);
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setTeacher(response.data.datas));
-                    dispatch(setLoading(IStatus.SUCCESS));
-                }
+                    if (response.data.datas || response.data.datas.length > 0) {
+                        dispatch(setTeacher(response.data.datas));
+                        dispatch(setLoading(IStatus.SUCCESS));
+                    }
+                } else {
+                    dispatch(setLoading(IStatus.ERROR));
+                };
             } catch (error) {
                 console.log("Internal Server", error);
                 dispatch(setLoading(IStatus.ERROR));
@@ -54,7 +58,6 @@ export class APIInstituteTeacher {
     static createTeacher(data: ITeacherForm) {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
-                console.log("backend data processing")
                 const response = await APIWithToken.post("/api/institute/teacher/create", data,
                     {
                         headers: {
@@ -65,7 +68,13 @@ export class APIInstituteTeacher {
                 if (response.status === 201) {
                     await dispatch(APIInstituteTeacher.getAllTeacher())
                     dispatch(setLoading(IStatus.SUCCESS));
+                    return {
+                        success: true,
+                        data: response.data,
+                    };
                 };
+                // console.log("backend data processing", response.data)
+                // console.log("backend data processing", response.data.datas)
                 console.log("backend data processing done")
             } catch (error) {
                 console.error("api institute teacher error creation", error);
@@ -73,14 +82,14 @@ export class APIInstituteTeacher {
             };
         };
     };
-    
+
     //single teacher
     static getSingleInstituteteacher(id: string) {
         return async function getSingleInstituteteacherThunk(dispatch: AppDispatch) {
             console.log("api call to backend");
             const response = await APIWithToken.get(`/api/institute/teacher/${id}`);
             if (response.status === 200 || response.status === 201) {
-                dispatch(setSelectedteacher(response.data.data[0]));
+                dispatch(setSelectedTeacher(response.data.data[0]));
                 dispatch(setLoading(IStatus.SUCCESS));
             };
             console.log("api response goes to component page", response.data);
