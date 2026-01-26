@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITeacherInitialState, ITeacherState } from "./instituteTeacherSliceTypes";
 import { IStatus } from "../../../global/types/type";
-import {API} from "../../../global/types/apiCall";
+import {APIWithToken} from "../../../global/types/apiCall";
 import { AppDispatch } from "../../../store";
 import { useAppDispatch } from "../../../hooks/customHook";
 import { setSelectedCourse } from "../course/courseSlice";
@@ -33,8 +33,6 @@ const teacherSlice = createSlice({
         setLoading: (state: ITeacherInitialState, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
-
-        setSelectedTeacher
     },
 });
 
@@ -46,7 +44,7 @@ export default teacherSlice.reducer;
 export class APIInstituteTeacher {
     static getAllTeacher(){
         return async getAllTeacherThunk(dispatch: useAppDispatch) {
-            
+            await APIWithToken.get('/api')
         }
     }
 

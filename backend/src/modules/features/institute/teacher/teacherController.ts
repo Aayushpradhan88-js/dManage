@@ -52,7 +52,7 @@ class TeacherController {
             replacements: [teacherEmail]
         });
 
-        console.log(teacherData, "data");
+        // console.log(teacherData, "data");
 
         const teacherId = teacherData[0]?.id;
         if (!teacherId) {
@@ -79,16 +79,21 @@ class TeacherController {
         try {
             await MailService.sendMail(mailInformation);
             return res.status(200).json({
-                datas: data,
                 success: true,
+                datas: {
+                    instituteNumber: currentInstituteNumber,
+                    Name: teacherName,
+                    email: teacherEmail,
+                    course: courseId
+                },
                 message: `teacher created successfully on institute ${currentInstituteNumber}`
             });
         } catch (error) {
             console.error("Email failed:", error);
             return res.status(200).json({
+                success: false,
                 datas: data,
-                success: true,
-                message: "teacher created but email failed"
+                message: "teacher creation failed"
             });
         };
     };
@@ -113,8 +118,8 @@ class TeacherController {
         };
 
         return res.status(200).json({
-            datas: getAllTeacher,
             success: true,
+            datas: getAllTeacher,
             message: `Institute ${currentInstituteNumber} Teachers data fetched successfully`
         });
     }
