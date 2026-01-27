@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 interface ICloseModal {
     closeModal: () => void
-}
+};
 
 const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
             [name]: name === "teacherPhoto" ? e.target.files[0] : value
         });
     };
-    console.log(" ✅step: 1 userData", teacherFormData);
+    // console.log(" ✅step: 1 userData", teacherFormData);
 
     //Form Submission to Backend
     const handleFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -115,8 +115,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             name="teacherName"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                             placeholder="John Doe" 
-                             required
+                            placeholder="John Doe"
+                            required
                         />
 
                         {/* teacher Email */}
@@ -127,8 +127,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="teacherEmail"
                             name="teacherEmail"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
-                            placeholder="john@email.com" 
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                            placeholder="john@email.com"
                             required
                         />
 
@@ -140,8 +140,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="teacherPhoneNumber"
                             name="teacherPhoneNumber"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
-                            placeholder="XXXXXXXXXX" 
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                            placeholder="XXXXXXXXXX"
                             required
                         />
 
@@ -154,8 +154,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             type="text"
                             name="teacherExperience"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
-                            placeholder="" 
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                            placeholder=""
                             required
                         />
 
@@ -168,8 +168,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             name="joinedDate"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                             placeholder="YYY-MM-D" 
-                             required
+                            placeholder="YYY-MM-D"
+                            required
                         />
 
                         {/* teacher salary */}
@@ -180,9 +180,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="salary"
                             name="salary"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                             placeholder=""
-                             required
+                            required
                         />
 
                         {/* teacher Photo */}

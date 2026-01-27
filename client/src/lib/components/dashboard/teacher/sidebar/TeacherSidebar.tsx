@@ -117,7 +117,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                                     Salary
                                 </label>
                                 <p className="text-sm text-gray-900 font-mono">
-                                    {selectedTeacher?.salary}
+                                    रु {selectedTeacher?.salary}
                                 </p>
                             </div>
 
@@ -134,7 +134,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                     </div>
                 </div>
 
-                {/* Fixed Action Buttons at Bottom */}
+                {/* Action Buttons at Bottom */}
                 <div className="border-t border-gray-200 p-4 bg-white">
                     <div className="flex gap-3">
 
@@ -158,7 +158,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             <TeacherDeletePopupModal
                                 selectedTeacher={selectedTeacher}
                                 deleteCloseModal={deleteCloseModal}
-                                sidebarCloseModal = {sidebarCloseModal}
+                                sidebarCloseModal={sidebarCloseModal}
                             />
                         }
                         <button
@@ -172,7 +172,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default TeacherSidebar
+export default TeacherSidebar;

@@ -10,7 +10,7 @@ const TeacherPage = () => {
   const dispatch = useAppDispatch();
   const { data: teacher, selectedTeacher } = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
