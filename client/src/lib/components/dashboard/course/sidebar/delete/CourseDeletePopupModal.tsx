@@ -9,9 +9,10 @@ import { toast } from 'sonner';
 interface IDeleteModal {
   selectedcourse: ICourseDB | null,
   deleteCloseModal: () => void
+  sidebarCloseModal: () => void,
 }
 
-const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, deleteCloseModal }) => {
+const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, deleteCloseModal,sidebarCloseModal }) => {
   const dispatch = useAppDispatch();
   const [Loading, setLoading] = useState(false);
 
@@ -22,9 +23,11 @@ const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, delete
       const courseId = selectedcourse?.id;
       //@ts-ignore
       await dispatch(APICourse.deleteSingleInstituteCourse(courseId));
+
       // Close modal after short delay
       setTimeout(() => {
         deleteCloseModal();
+        sidebarCloseModal();
       }, 600);
 
       toast.success('Deleted category successfully');
@@ -39,7 +42,7 @@ const CourseDeletePopupModal: React.FC<IDeleteModal> = ({ selectedcourse, delete
 
 
   return (
-    <div className="fixed  bg-black/40 inset-0 z-50 flex items-center justify-center">
+    <div className="fixed bg-black/40 inset-0 z-50 flex items-center justify-center">
       <div >
         {/* overlay */}
         <div aria-hidden="true" className="fixed inset-0 w-full h-full bg-black/10 cursor-pointer">

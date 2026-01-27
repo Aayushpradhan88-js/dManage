@@ -5,8 +5,8 @@ export interface ICourseFormData {
     courseDescription: string,
     courseThumbnail: File | null | string,
     courseDuration: string,
+    teacherId: string,
     categoryId: string,
-    courseTeacher?: string,
 }
 
 export interface ICourseTableRow {

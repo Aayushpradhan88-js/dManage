@@ -79,6 +79,16 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
                 </p>
               </div>
 
+              {/* Course Instructor */}
+              <div>
+                <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                  Course Instructor
+                </label>
+                <p className="text-base font-semibold text-gray-900">
+                  {selectedcourse?.teacher_id}
+                </p>
+              </div>
+
               {/* Price */}
               <div>
                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
@@ -104,7 +114,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                   Description
                 </label>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-base font-semibold text-gray-900">
                   {selectedcourse?.courseDescription}
                 </p>
               </div>
@@ -114,7 +124,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                   Category ID
                 </label>
-                <p className="text-sm text-gray-900 font-mono">
+                <p className="text-base font-semibold text-gray-900 ">
                   {selectedcourse?.category_id}
                 </p>
               </div>
@@ -124,7 +134,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                   Duration
                 </label>
-                <p className="text-sm text-gray-900">
+                <p className="text-base font-semibold text-gray-900">
                   {selectedcourse?.courseDuration}
                 </p>
               </div>
@@ -134,7 +144,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                   Created At
                 </label>
-                <p className="text-sm text-gray-900">
+                <p className="text-base font-semibold text-gray-900">
                   {selectedcourse?.createdAt && new Date(selectedcourse.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -155,6 +165,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
               <CourseEditModal
                 courses={selectedcourse}
                 editCloseModal={editCloseModal}
+                sidebarCloseModal={sidebarCloseModal}
               />
             }
             <button
@@ -166,10 +177,11 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
             </button>
 
             {/* Delete Button */}
-            {isDeleteModalData && 
-              <CourseDeletePopupModal 
-                deleteCloseModal = {deleteCloseModal}
-                selectedcourse = {selectedcourse}
+            {isDeleteModalData &&
+              <CourseDeletePopupModal
+                selectedcourse={selectedcourse}
+                deleteCloseModal={deleteCloseModal}
+                sidebarCloseModal={sidebarCloseModal}
               />
             }
             <button

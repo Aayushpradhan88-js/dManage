@@ -14,33 +14,42 @@ class CourseController {
             courseLevel,
             courseDescription,
             courseDuration,
-            categoryId,
+            teacherId,
+            categoryId
         } = req.body;
-        console.log("✅step 1: All data from the body", courseName, courseDescription,
+        console.log("✅step 1: All data from the body", 
+            courseName, 
             coursePrice,
-            courseDuration,
             courseLevel,
+            courseDescription,
+            courseDuration,
+            teacherId,
             categoryId
         )
 
         const courseThumbnail = req.file ? req.file.path : null;
 
-        if (!courseName || !coursePrice || !courseLevel || !courseDescription || !courseThumbnail || !courseDuration || !categoryId) {
+        if (!courseName ||
+            !coursePrice ||
+            !courseLevel ||
+            !courseDescription ||
+            !courseThumbnail ||
+            !courseDuration ||
+            !teacherId ||
+            !categoryId
+        ) {
             return res.status(400).json({
                 errorMessage: 'fill all the required fields'
             });
         };
-
-        console.log('courseThumbnail', courseThumbnail);
-
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
         };
-        // console.log("✅ Full req.user:", req.user);
-        // console.log("✅ Type of req.user:", typeof req.user);
-        // console.log("✅ currentInstituteNumber:", req.user?.currentInstituteNumber);
-        // const [instertId, affectedRow] = 
+        console.log("✅ Full req.user:", req.user);
+        console.log("✅ Type of req.user:", typeof req.user);
+        console.log("✅ currentInstituteNumber:", req.user?.currentInstituteNumber);
+        // const [instertId, affectedRow] = +
         await sequelize.query(`
             INSERT INTO course_${currentInstituteNumber}(
                 courseName,
@@ -49,10 +58,19 @@ class CourseController {
                 courseDuration, 
                 courseLevel, 
                 courseThumbnail,
+                teacher_id,
                 category_id
-            ) VALUES(?,?,?,?,?,?,?)`, {
+            ) VALUES(?,?,?,?,?,?,?,?)`, {
             type: QueryTypes.INSERT,
-            replacements: [courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail, categoryId
+            replacements: [
+                courseName,
+                coursePrice,
+                courseDescription,
+                courseDuration,
+                courseLevel,
+                courseThumbnail,
+                teacherId,
+                categoryId
             ]
         });
         // console.log({ instertId, affectedRow });
@@ -60,8 +78,10 @@ class CourseController {
             success: true,
             datas: {
                 institute: currentInstituteNumber,
-                categoryName: courseName,
-                categoryDescription: courseDescription
+                courseName: courseName,
+                courseDescription: courseDescription,
+                teacherName: teacherId,
+                categoryName: categoryId
             },
             message: `course created successfully at institute ${currentInstituteNumber}`
         });
@@ -88,7 +108,7 @@ class CourseController {
         return res.status(200).json({
             success: true,
             datas: getAllCourses,
-            message: "All courses fetched successfully"
+            message: `All courses fetched successfully institute ${currentInstituteNumber}`
         });
     };
 
@@ -116,12 +136,13 @@ class CourseController {
         return res.status(200).json({
             success: true,
             data: singleCourse,
-            message: "single course fetched successfully",
+            message: `single course fetched successfully at institute ${currentInstituteNumber}`
         });
     };
 
     //update course`
     static async updateSingleCourse(req: IExtendedRequest, res: Response) {
+        console.log("update api hit");
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -139,10 +160,20 @@ class CourseController {
             courseDescription,
             coursePrice,
             courseDuration,
-            courseLevel
+            courseLevel,
+            teacherId,
+            categoryId
         } = req.body;
 
-        const courseThumbnail = req.file ? req?.file?.path : null
+        console.log("course", courseName,
+            courseDescription,
+            coursePrice,
+            courseDuration,
+            courseLevel,
+            teacherId,
+            categoryId)
+
+        const courseThumbnail = req.file ? req?.file?.path : null;
 
         //updating course data - 1
         await sequelize.query(`
@@ -152,6 +183,8 @@ class CourseController {
                     coursePrice=?,
                     courseDuration=?,
                     courseLevel=?,
+                    teacher_id,
+                    category_id,
                     courseThumbnail=?,
                     updatedAt=NOW()
                 WHERE id=?
@@ -163,8 +196,9 @@ class CourseController {
                 coursePrice,
                 courseDuration,
                 courseLevel,
+                teacherId,
+                categoryId,
                 courseThumbnail,
-                courseId
             ]
         });
         // console.log("data", updatedData); output: [null, 1]
@@ -174,11 +208,10 @@ class CourseController {
             SELECT * FROM course_${currentInstituteNumber} 
             WHERE id=?
             `, {
-                replacements: [courseId],
-                type: QueryTypes.SELECT
-            }
-        );
-            // console.log(updatedData)
+            replacements: [courseId],
+            type: QueryTypes.SELECT
+        });
+        // console.log(updatedData)
 
         return res.status(200).json({
             success: true,
@@ -186,11 +219,11 @@ class CourseController {
                 instituteNumber: currentInstituteNumber,
                 updatedData
             },
-            message: "Course updated successfully"
+            message: `ourse updated successfully at institute ${currentInstituteNumber}`
         });
     };
 
-     //delete course
+    //delete course
     static async deleteSingleCourse(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         const courseId = req.params.id;

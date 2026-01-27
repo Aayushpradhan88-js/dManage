@@ -1,18 +1,21 @@
+'use client'
+
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
 import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTypes'
 import React, { ChangeEvent, useState } from 'react'
 import { IEditModal } from '../courseSidebarTypes';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
-import { toast } from 'sonner'
-import store from '@/src/lib/store/store';
+import { toast } from 'sonner';
 
 interface IEdit {
   courses: ICourseDB | null,
-  editCloseModal: () => void
+  editCloseModal: () => void,
+  sidebarCloseModal: () => void
 };
 
-const CourseEditModal: React.FC<IEdit> = ({ courses, editCloseModal }) => {
+const CourseEditModal: React.FC<IEdit> = ({ courses, editCloseModal, sidebarCloseModal }) => {
   const dispatch = useAppDispatch();
+  console.log("testing update ",courses?.courseDescription);
   const [editFormData, setEditFormData] = useState<IEditModal>({
     courseName: courses?.courseName || '',
     courseDescription: courses?.courseDescription || '',
@@ -48,6 +51,7 @@ const CourseEditModal: React.FC<IEdit> = ({ courses, editCloseModal }) => {
     // Close modal after short delay
     setTimeout(() => {
       editCloseModal();
+      sidebarCloseModal();
     }, 600);
 
     toast.success('Category Updated successfully');
@@ -56,7 +60,6 @@ const CourseEditModal: React.FC<IEdit> = ({ courses, editCloseModal }) => {
   //Cancel
   const handleCancel = () => {
     setEditFormData({
-      isOpen: false,
       courseName: '',
       courseDescription: '',
       coursePrice: '',

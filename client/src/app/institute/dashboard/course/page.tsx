@@ -5,24 +5,22 @@ import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook
 import CourseCreationModal from '@/src/lib/components/dashboard/course/add/CourseCreationModal';
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import CourseSidebar from '@/src/lib/components/dashboard/course/sidebar/CourseSidebar';
-// import store from '@/src/lib/store/store';
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
-  const { data: courses, selectedCourse } = useAppSelector((store) => store.course);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { data: courses, selectedCourse } = useAppSelector((store) => store.course); // course slice data
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [searchedText, setSearchedText] = useState<string>("");
+
   useEffect(() => {
     dispatch(APICourse.getAllInstituteCourses()); //api call fetch all course
   }, []);
 
-  if (!courses) return <div>No data</div>;
-
   //modal form open & close
-  //Create Action
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  //create Action
+  const openCreateModal = () => setIsCreateModalOpen(true);
+  const closeCreateModal = () => setIsCreateModalOpen(false);
 
   //sidebar
   const sidebarCloseModal = () => {
@@ -31,12 +29,13 @@ const CoursePage = () => {
   };
 
   const handleRowClick = (courseId: string) => {
-    console.log("1. Row clicked, courseId:", courseId);
+    // console.log("1. Row clicked, courseId:", courseId);
     dispatch(APICourse.getSingleInstituteCourse(courseId));
     setIsSidebarOpen(true);
-    console.log("2. Sidebar should open");
+    // console.log("2. Sidebar should open");
   };
 
+  //search
   const filteredData = courses.filter((c) => c.courseName.includes(searchedText));
 
   return (
@@ -67,9 +66,9 @@ const CoursePage = () => {
         </div>
 
         {/* Add Course Button */}
-        {isModalOpen && <CourseCreationModal closeModal={closeModal} />}
+        {isCreateModalOpen && <CourseCreationModal closeModal={closeCreateModal} />}
         <button
-          onClick={openModal}
+          onClick={openCreateModal}
           className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-linear-to-r bg-green-500 text-white rounded-lg  hover:bg-green-600 transition-all font-medium"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,13 +118,13 @@ const CoursePage = () => {
                         {course?.id.slice(0, 8)}...
                       </div>
                     </td>
-                    {/* ID */}
+                    {/* course Name */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
                         {course?.courseName}
                       </div>
                     </td>
-                    {/* ID */}
+                    {/* Course Description */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
                         {course?.courseDescription}
@@ -164,6 +163,7 @@ const CoursePage = () => {
         </div>
       </div >
 
+      {/* sidebar */}
       {isSidebarOpen && selectedCourse && (
         <CourseSidebar
           selectedcourse={selectedCourse}
@@ -171,7 +171,7 @@ const CoursePage = () => {
         />
       )}
     </div >
-  )
-}
+  );
+};
 
 export default CoursePage;
