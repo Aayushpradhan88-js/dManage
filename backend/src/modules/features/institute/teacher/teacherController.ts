@@ -66,7 +66,7 @@ class TeacherController {
 
         const mailInformation = {
             to: teacherEmail,
-            subject: "Welcome to Software Development Course",
+            subject: "Welcome to Software Development teacher",
             text: `Here is your email: ${teacherEmail} & password: ${passwordData.plainPassword}`
         };
 
@@ -117,6 +117,7 @@ class TeacherController {
         });
     }
 
+    //get single teacher
     static async getSingleTeacher(req: IExtendedRequest, res: Response) {
         const currentInstituteNumber = req?.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
@@ -130,7 +131,7 @@ class TeacherController {
             });
         };
 
-        const [results] = await sequelize.query(`
+        const singleTeacher = await sequelize.query(`
                 SELECT * From teacher_${currentInstituteNumber} WHERE id=?
             `,
             {
@@ -138,14 +139,36 @@ class TeacherController {
                 type: QueryTypes.SELECT
             }
         );
-        if (!results) {
+        if (!singleTeacher) {
             return res.status(404).json({ errorMessage: "Teacher not found" });
         };
 
         return res.status(200).json({
-            datas: results,
             success: true,
+            data: singleTeacher,
             message: `single teacher fetched successfully of institute ${currentInstituteNumber}`
+        });
+    };
+
+    //delete single teacher
+    static async deleteSingleteacher(req: IExtendedRequest, res: Response) {
+        const currentInstituteNumber = req.user?.currentInstituteNumber;
+        const teacherId = req.params.id;
+        if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
+            return res.status(400).json({ errorMessage: "Invalid institute number" });
+        };
+
+        const deletedteacher = await sequelize.query(`
+            DELETE FROM teacher_${currentInstituteNumber} 
+            WHERE id=?`
+            , {
+                replacements: [teacherId],
+                type: QueryTypes.DELETE,
+            });
+        return res.status(200).json({
+            success: true,
+            data: deletedteacher,
+            message: `teacher deleted successfully from institute ${currentInstituteNumber} `
         });
     };
 
@@ -163,7 +186,7 @@ class TeacherController {
     //         });
     //     };
 
-    //     const { teacherName, teacherEmail, teacherPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId } = req.body;
+    //     const { teacherName, teacherEmail, teacherPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, teacherId } = req.body;
 
     //     if (!teacherPassword) {
     //         return res.status(402).json({
@@ -175,11 +198,11 @@ class TeacherController {
 
     //     const [results] = await sequelize.query(`
     //                 UPDATE teacher_${currentInstituteNumber}
-    //                 SET teacherName = ?, teacherEmail = ?, teacherPassword = ?, teacherPhoneNumber = ?, teacherExperience = ?, joinedDate = ?, salary = ?, courseId = ?, updatedAt=NOW()
+    //                 SET teacherName = ?, teacherEmail = ?, teacherPassword = ?, teacherPhoneNumber = ?, teacherExperience = ?, joinedDate = ?, salary = ?, teacherId = ?, updatedAt=NOW()
     //                 WHERE id=?
     //             `,
     //         {
-    //             replacements: [teacherName, teacherEmail, (await updatePasswordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, courseId, teacherId],
+    //             replacements: [teacherName, teacherEmail, (await updatePasswordData).hashPassword, teacherPhoneNumber, teacherExperience, joinedDate, salary, teacherId, teacherId],
     //             type: QueryTypes.UPDATE
     //         }
     //     );

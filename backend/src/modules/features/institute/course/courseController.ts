@@ -116,7 +116,7 @@ class CourseController {
         return res.status(200).json({
             success: true,
             data: singleCourse,
-            message: "Course fetched successfully",
+            message: "single course fetched successfully",
         });
     };
 

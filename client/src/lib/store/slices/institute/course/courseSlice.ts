@@ -20,11 +20,9 @@ const courseSlice = createSlice({
         setCourse: (state, action: PayloadAction<any>) => {
             state.data = action.payload;
         },
-
         setLoading: (state, action: PayloadAction<IStatus>) => {
             state.status = action.payload;
         },
-
         setDeleteCourse: (state, action: PayloadAction<string>) => {
             const index = state.data.findIndex((course) => {
                 const courseId = course.id;
@@ -42,11 +40,9 @@ const courseSlice = createSlice({
                 console.log("no course found");
             };
         },
-
         setSelectedCourse: (state, action: PayloadAction<ICourseDB>) => {
             state.selectedCourse = action.payload;
         },
-
         setUpdateCourse: (state, action: PayloadAction<null>) => {
             state.selectedCourse = action.payload;
         },

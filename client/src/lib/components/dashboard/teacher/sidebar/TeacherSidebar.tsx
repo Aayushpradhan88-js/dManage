@@ -4,13 +4,17 @@ import React, { useState } from 'react'
 import { ITeacherState } from '@/src/lib/store/slices/institute/teacher/instituteTeacherSliceTypes';
 import { Edit2, Trash2, X } from 'lucide-react';
 import TeacherEditModal from './add/TeacherEditModal';
+import TeacherDeletePopupModal from './delete/TeacherDeletePopupModal';
 
 interface ITeacherSideBar {
-  selectedTeacher: ITeacherState| null,
-  sidebarCloseModal: () => void
+    selectedTeacher: ITeacherState | null,
+    sidebarCloseModal: () => void
 };
 
 const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarCloseModal }) => {
+
+    console.log("teacher sidebar opended 1", selectedTeacher?.teacherExperience);
+    console.log("teacher sidebar opended 2", selectedTeacher ? Object.keys(selectedTeacher) : []);
     const [isEditModalData, setIsEditModalData] = useState<boolean>(false);     //edit
     const [isDeleteModalData, setIsDeleteModalData] = useState<boolean>(false); //delete
 
@@ -81,17 +85,16 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             {/* Email */}
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-                                    Price
+                                    Email
                                 </label>
                                 <p className="text-base font-semibold text-gray-900">
-                                    Rs. {selectedTeacher?.teacherEmail}
-                                </p>
+                                    {selectedTeacher?.teacherEmail || 'N/A'}                                </p>
                             </div>
 
                             {/* Experience */}
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-                                    Level
+                                    Experience
                                 </label>
                                 <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium capitalize">
                                     {selectedTeacher?.teacherExperience}
@@ -101,7 +104,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             {/* Joined Date */}
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-                                    Description
+                                    Joined Date
                                 </label>
                                 <p className="text-sm text-gray-700 leading-relaxed">
                                     {selectedTeacher?.joinedDate}
@@ -111,7 +114,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             {/* Salary */}
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-                                    Category ID
+                                    Salary
                                 </label>
                                 <p className="text-sm text-gray-900 font-mono">
                                     {selectedTeacher?.salary}
@@ -121,7 +124,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             {/* PhoneNumber */}
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-                                    Duration
+                                    Phone Number
                                 </label>
                                 <p className="text-sm text-gray-900">
                                     {selectedTeacher?.teacherPhoneNumber}
@@ -153,8 +156,8 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                         {/* Delete Button */}
                         {isDeleteModalData &&
                             <TeacherDeletePopupModal
-                                deleteCloseModal={deleteCloseModal}
                                 selectedTeacher={selectedTeacher}
+                                deleteCloseModal={deleteCloseModal}
                             />
                         }
                         <button

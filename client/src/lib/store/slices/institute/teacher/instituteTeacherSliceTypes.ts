@@ -10,7 +10,6 @@ export interface ITeacherState{
     joinedDate: string,
     salary: string,
     teacherPhoto: string,
-    course: string
 };
 
 export interface ITeacherInitialState {

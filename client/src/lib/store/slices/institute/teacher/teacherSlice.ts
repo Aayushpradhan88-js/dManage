@@ -26,15 +26,33 @@ const teacherSlice = createSlice({
         setSelectedTeacher: (state, action: PayloadAction<ITeacherState>) => {
             state.selectedTeacher = action.payload;
         },
+        setDeleteTeacher: (state, action: PayloadAction<string>) => {
+            const index = state.data.findIndex((teacher) => {
+                const teacherId = teacher.id;
+                if (teacherId === action.payload) {
+                    console.log("getting data");
+                    return true;
+                } else {
+                    console.log("failed to get id");
+                };
+            });
+
+            if (index !== -1) { //if index value is not equal to -1 
+                state.data.splice(index, 1);
+            } else {
+                console.log("no teacher found");
+            };
+        },
     },
 });
 
-export const { setTeacher, setLoading, setSelectedTeacher } = teacherSlice.actions;
+export const { setTeacher, setLoading, setSelectedTeacher, setDeleteTeacher } = teacherSlice.actions;
 export default teacherSlice.reducer;
 
 //API Call
 
 export class APIInstituteTeacher {
+    //get all teacher
     static getAllTeacher() {
         return async function getAllTeacherThunk(dispatch: AppDispatch) {
             try {
@@ -55,6 +73,7 @@ export class APIInstituteTeacher {
         };
     };
 
+    //create teacher
     static createTeacher(data: ITeacherForm) {
         return async function createTeacherThunk(dispatch: AppDispatch) {
             try {
@@ -86,13 +105,25 @@ export class APIInstituteTeacher {
     //single teacher
     static getSingleInstituteteacher(id: string) {
         return async function getSingleInstituteteacherThunk(dispatch: AppDispatch) {
-            console.log("api call to backend");
+            // console.log("api call to backend");
             const response = await APIWithToken.get(`/api/institute/teacher/${id}`);
             if (response.status === 200 || response.status === 201) {
                 dispatch(setSelectedTeacher(response.data.data[0]));
                 dispatch(setLoading(IStatus.SUCCESS));
             };
             console.log("api response goes to component page", response.data);
+        };
+    };
+
+
+    static deleteSingleInstituteTeacher(id: string) {
+        return async function deleteSingleInstituteTeacher(dispatch: AppDispatch) {
+            console.log("triggered");
+            const response = await APIWithToken.delete(`/api/institute/teacher/${id}`);
+            if (response.status === 200) {
+                dispatch(setDeleteTeacher(id));
+                dispatch(setLoading(IStatus.SUCCESS));
+            };
         };
     };
 

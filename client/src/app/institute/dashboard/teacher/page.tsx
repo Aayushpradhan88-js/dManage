@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook';
-import { useDispatch } from 'react-redux';
-import { APIInstituteTeacher, setSelectedTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
+import { APIInstituteTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
 import TeacherCreationModal from '@/src/lib/components/dashboard/teacher/add/TeacherCreationModal';
 import TeacherSidebar from '@/src/lib/components/dashboard/teacher/sidebar/TeacherSidebar';
 
@@ -12,11 +11,10 @@ const TeacherPage = () => {
   const { data: teacher, selectedTeacher } = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-
+  
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
   }, []);
-
 
   //modal form open & close
   //Create Action
@@ -29,9 +27,9 @@ const TeacherPage = () => {
     // dispatch(selectedCourse(null));
   };
 
-  const handleRowClick = (courseId: string) => {
+  const handleRowClick = async (courseId: string) => {
     console.log("1. Row clicked, courseId:", courseId);
-    dispatch(APIInstituteTeacher.getSingleInstituteteacher(courseId));
+    await dispatch(APIInstituteTeacher.getSingleInstituteteacher(courseId));
     setIsSidebarOpen(true);
     console.log("2. Sidebar should open");
   };
