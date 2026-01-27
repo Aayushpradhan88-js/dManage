@@ -8,10 +8,11 @@ import { toast } from 'sonner';
 
 interface IDeleteModal {
   selectedTeacher: ITeacherState | null,
-  deleteCloseModal: () => void
+  deleteCloseModal: () => void,
+  sidebarCloseModal: () => void
 }
 
-const TeacherDeletePopupModal: React.FC<IDeleteModal> = ({ selectedTeacher, deleteCloseModal }) => {
+const TeacherDeletePopupModal: React.FC<IDeleteModal> = ({ selectedTeacher, deleteCloseModal, sidebarCloseModal }) => {
   const dispatch = useAppDispatch();
   const [Loading, setLoading] = useState(false);
 
@@ -25,6 +26,7 @@ const TeacherDeletePopupModal: React.FC<IDeleteModal> = ({ selectedTeacher, dele
       // Close modal after short delay
       setTimeout(() => {
         deleteCloseModal();
+        sidebarCloseModal();
       }, 600);
 
       toast.success('Deleted category successfully');

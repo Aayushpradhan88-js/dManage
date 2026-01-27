@@ -24,7 +24,7 @@ instituteTeacherRouter.route("/:id").get(
 
 instituteTeacherRouter.route("/:id").delete(
     UserVerification.userAuthorizationAccessVerification,
-    GlobalErrorHandler.asyncErrorHandler(TeacherController.getSingleTeacher)
+    GlobalErrorHandler.asyncErrorHandler(TeacherController.deleteSingleteacher)
 );
 
 export default instituteTeacherRouter;

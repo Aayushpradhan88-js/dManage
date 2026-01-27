@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { ITeacherState } from '@/src/lib/store/slices/institute/teacher/instituteTeacherSliceTypes';
 import { Edit2, Trash2, X } from 'lucide-react';
-import TeacherEditModal from './add/TeacherEditModal';
+import TeacherEditModal from './edit/TeacherEditModal';
 import TeacherDeletePopupModal from './delete/TeacherDeletePopupModal';
 
 interface ITeacherSideBar {
@@ -158,6 +158,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                             <TeacherDeletePopupModal
                                 selectedTeacher={selectedTeacher}
                                 deleteCloseModal={deleteCloseModal}
+                                sidebarCloseModal = {sidebarCloseModal}
                             />
                         }
                         <button

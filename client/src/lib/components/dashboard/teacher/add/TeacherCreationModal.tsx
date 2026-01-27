@@ -40,7 +40,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
         setLoading(true);
 
         try {
-            await dispatch(APIInstituteTeacher.createTeacher(teacherFormData));  //API Call teacher Slice      
+            await dispatch(APIInstituteTeacher?.createTeacher(teacherFormData));  //API Call teacher Slice      
+            await dispatch(APIInstituteTeacher?.getAllTeacher()); //showing immediate data in the table
             setTeacherFormData({
                 teacherName: "",
                 teacherEmail: "",
@@ -113,7 +114,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             type="text"
                             name="teacherName"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Full stack web development teacher" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                             placeholder="John Doe" 
+                             required
                         />
 
                         {/* teacher Email */}
@@ -124,7 +127,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="teacherEmail"
                             name="teacherEmail"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="XXXXX" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                            placeholder="john@email.com" 
+                            required
                         />
 
                         {/* teacher PhoneNumber*/}
@@ -135,7 +140,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="teacherPhoneNumber"
                             name="teacherPhoneNumber"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                            placeholder="XXXXXXXXXX" 
+                            required
                         />
 
                         {/* teacherExperience */}
@@ -147,7 +154,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             type="text"
                             name="teacherExperience"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                            placeholder="" 
+                            required
                         />
 
                         {/* teacher joinedDate */}
@@ -158,7 +167,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="joinedDate"
                             name="joinedDate"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                             placeholder="YYY-MM-D" 
+                             required
                         />
 
                         {/* teacher salary */}
@@ -169,7 +180,9 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             id="salary"
                             name="salary"
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
+                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" 
+                            placeholder=""
+                             required
                         />
 
                         {/* teacher Photo */}
@@ -181,9 +194,8 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             name="teacherPhoto"
                             type='file'
                             onChange={handleChange}
-                            className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
+                            className="cursor-pointer w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="3 month" required
                         />
-
                     </div>
 
                     <div className="flex justify-end gap-3">
@@ -209,7 +221,7 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
-                                        Adding Teacher...
+                                        Creating Teacher...
                                     </>
                                 ) :
                                 (
