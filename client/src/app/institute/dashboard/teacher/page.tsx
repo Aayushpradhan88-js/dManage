@@ -11,6 +11,7 @@ const TeacherPage = () => {
   const { data: teacher, selectedTeacher } = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [searchedText, setIsSearchedText] = useState('');
   
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
@@ -23,8 +24,7 @@ const TeacherPage = () => {
 
   //sidebar
   const sidebarCloseModal = () => {
-    setIsSidebarOpen(false)
-    // dispatch(selectedCourse(null));
+    setIsSidebarOpen(false);
   };
 
   const handleRowClick = async (courseId: string) => {
@@ -33,6 +33,8 @@ const TeacherPage = () => {
     setIsSidebarOpen(true);
     console.log("2. Sidebar should open");
   };
+
+  const filterSearch = teacher.filter((t) => t.teacherName.includes(searchedText));
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -53,8 +55,8 @@ const TeacherPage = () => {
 
           <input
             type="text"
-            // value={searchedText}
-            // onChange={(e) => setSearchedText(e.target.value)}
+            value={searchedText}
+            onChange={(e) => setIsSearchedText(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2  focus:border-green-600 bg-white"
             placeholder="Search Category"
           />
@@ -100,8 +102,8 @@ const TeacherPage = () => {
 
             {/* Table Body */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {teacher.length > 0 ? (
-                teacher.map((t) => (
+              {filterSearch.length > 0 ? (
+                filterSearch.map((t) => (
                   <tr
                     key={t.id}
                     onClick={() => handleRowClick(t.id)}
