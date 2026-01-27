@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import { ITeacherState } from '@/src/lib/store/slices/institute/teacher/instituteTeacherSliceTypes';
-import { Edit2, Trash2 } from 'lucide-react';
+import { Edit2, Trash2, X } from 'lucide-react';
+import TeacherEditModal from './add/TeacherEditModal';
 
 interface ITeacherSideBar {
   selectedTeacher: ITeacherState| null,

@@ -5,23 +5,24 @@ import { useAppDispatch, useAppSelector } from '@/src/lib/store/hooks/customHook
 import { useDispatch } from 'react-redux';
 import { APIInstituteTeacher, setSelectedTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
 import TeacherCreationModal from '@/src/lib/components/dashboard/teacher/add/TeacherCreationModal';
+import TeacherSidebar from '@/src/lib/components/dashboard/teacher/sidebar/TeacherSidebar';
 
 const TeacherPage = () => {
   const dispatch = useAppDispatch();
-  const { data: teacher } = useAppSelector((store) => store.teacher);
+  const { data: teacher, selectedTeacher } = useAppSelector((store) => store.teacher);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-  
+
   useEffect(() => {
     dispatch(APIInstituteTeacher.getAllTeacher())
   }, []);
-  
-  
+
+
   //modal form open & close
   //Create Action
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
-  
+
   //sidebar
   const sidebarCloseModal = () => {
     setIsSidebarOpen(false)
@@ -30,7 +31,7 @@ const TeacherPage = () => {
 
   const handleRowClick = (courseId: string) => {
     console.log("1. Row clicked, courseId:", courseId);
-    dispatch(APIInstituteTeacher.getSingleInstituteCourse(courseId));
+    dispatch(APIInstituteTeacher.getSingleInstituteteacher(courseId));
     setIsSidebarOpen(true);
     console.log("2. Sidebar should open");
   };
@@ -96,9 +97,6 @@ const TeacherPage = () => {
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
                   Joined Date
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-1/6">
-                  View More
-                </th>
               </tr>
             </thead>
 
@@ -109,8 +107,8 @@ const TeacherPage = () => {
                   <tr
                     key={t.id}
                     onClick={() => handleRowClick(t.id)}
-                    
-                    className={`cursor-pointer transition ${setSelectedTeacher === t.id
+
+                    className={`cursor-pointer transition ${selectedTeacher?.id === t.id
                       ? 'bg-green-50 border-l-4 border-green-500'
                       : 'hover: bg-gray-50'
                       }`}>
@@ -156,55 +154,6 @@ const TeacherPage = () => {
                         })}
                       </div>
                     </td>
-
-                    {/* Actions */}
-                    <td className="px-10 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
-
-                        {/* Edit Button */}
-                        {/* {isEditModalData.isOpen && <EditCategoryModal
-                          closeEditModal={closeEditModal}
-                          categoryId={isEditModalData.categoryId}
-                          categoryName={isEditModalData.categoryName}
-                          categoryDescription={isEditModalData.categoryDescription}
-                        />} */}
-                        <button
-                          // onClick={() => openEditModal(category.id, category.categoryName, category.categoryDescription)}
-                          title="Edit"
-                          className="cursor-pointer  p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-
-                        {/* {isDeleteModalData.isOpen && (
-                          <DeletePopupModal
-                            closeDeleteModal={closeDeleteModal}
-                            categoryId={isDeleteModalData.id}
-                          />
-                        )} */}
-
-                        {/* Delete Button */}
-                        <button
-                          // onClick={() => openDeleteModal(category.id)}
-                          className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-
-                        {/* More Options */}
-                        {/* <button
-                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                          title="More"
-                        >
-                          {/*    */}
-                        {/* </button> */}
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -225,6 +174,13 @@ const TeacherPage = () => {
             </tbody>
           </table>
         </div>
+
+        {isSidebarOpen && selectedTeacher && (
+        <TeacherSidebar
+          selectedTeacher={selectedTeacher}
+          sidebarCloseModal={sidebarCloseModal}
+        />
+      )}
 
         {/* Table Footer */}
         {/* {filteredData.length > 0 && (
