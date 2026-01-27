@@ -1,6 +1,9 @@
 import React from 'react'
 
-const TeacherEditModal = () => {
+// interface I
+
+const TeacherEditModal = ({}) => {
+
   return (
     <div>TeacherEditModal</div>
   )

@@ -139,9 +139,9 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                     <div className="flex gap-3">
 
                         {/* Edit Button */}
-                        {isEditModalData &&
+                        {/* {isEditModalData &&
                             <TeacherEditModal
-                                Teachers={selectedTeacher}
+                                // Teachers={selectedTeacher}
                                 editCloseModal={editCloseModal}
                             />
                         }
@@ -151,7 +151,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                         >
                             <Edit2 size={18} />
                             Edit
-                        </button>
+                        </button> */}
 
                         {/* Delete Button */}
                         {isDeleteModalData &&
