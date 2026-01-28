@@ -162,19 +162,18 @@ class CourseController {
             courseDuration,
             courseLevel,
             teacherId,
-            categoryId
+            categoryId,
         } = req.body;
-
-        console.log("course", courseName,
-            courseDescription,
-            coursePrice,
-            courseDuration,
-            courseLevel,
-            teacherId,
-            categoryId
-        )
-
+        // console.log("course", courseName,
+        //     courseDescription,
+        //     coursePrice,
+        //     courseDuration,
+        //     courseLevel,
+        //     teacherId,
+        //     categoryId
+        // )
         const courseThumbnail = req.file ? req?.file?.path : null;
+        // console.log("courseThumbnail", courseThumbnail)
 
         //updating course data - 1
         await sequelize.query(`
@@ -186,7 +185,7 @@ class CourseController {
                     courseLevel=?,
                     teacher_id = ?,
                     category_id = ?,
-                    courseThumbnail=?,
+                    courseThumbnail= ?,
                     updatedAt=NOW()
                 WHERE id=?
             `, {
@@ -200,6 +199,7 @@ class CourseController {
                 teacherId,
                 categoryId,
                 courseThumbnail,
+                courseId
             ]
         });
         // console.log("data", updatedData); output: [null, 1]

@@ -57,8 +57,8 @@ const TeacherPage = () => {
             type="text"
             value={searchedText}
             onChange={(e) => setIsSearchedText(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2  focus:border-green-600 bg-white"
-            placeholder="Search Category"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-green-500"
+            placeholder="Search Teacher"
           />
         </div>
 

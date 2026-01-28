@@ -5,7 +5,7 @@ import { ICourseDB } from '@/src/lib/store/slices/institute/course/courseSliceTy
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { APICourse } from '@/src/lib/store/slices/institute/course/courseSlice';
 import { toast } from 'sonner';
-import { ICourseEditModal, IEditModal } from '../courseSidebarTypes';
+import { ICourseEditModal } from '../courseSidebarTypes';
 import { APIInstituteTeacher } from '@/src/lib/store/slices/institute/teacher/teacherSlice';
 import { APICategory } from '@/src/lib/store/slices/institute/category/categorySlice';
 
@@ -17,7 +17,7 @@ interface IEdit {
 
 const CourseEditModal: React.FC<IEdit> = ({ selectedCourses, editCloseModal, sidebarCloseModal }) => {
   const dispatch = useAppDispatch();
-  console.log("testing update ", selectedCourses?.courseDescription);
+  console.log("testing update ", selectedCourses?.courseLevel);
   const [editFormData, setEditFormData] = useState<ICourseEditModal>({
     id: selectedCourses?.id || '',
     courseName: selectedCourses?.courseName || '',
@@ -93,21 +93,21 @@ const CourseEditModal: React.FC<IEdit> = ({ selectedCourses, editCloseModal, sid
       [name]: name === 'courseThumbnail' ? e.target.files[0] : value
     });
   };
- useEffect(() => {
-        dispatch(APICourse.getAllInstituteCourses()); //Course Fetch
-        if (categories.length === 0) {
-            dispatch(APICategory.fetchAllCategory()); //Category Fetch
-        };
-        if (teachers.length == 0) {
-            dispatch(APIInstituteTeacher.getAllTeacher()); //Teacher Fetch
-        }
-    }, []);
+  useEffect(() => {
+    dispatch(APICourse.getAllInstituteCourses()); //Course Fetch
+    if (categories.length === 0) {
+      dispatch(APICategory.fetchAllCategory()); //Category Fetch
+    };
+    if (teachers.length == 0) {
+      dispatch(APIInstituteTeacher.getAllTeacher()); //Teacher Fetch
+    }
+  }, []);
   //Submission
   const handleEditFormSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("id", selectedCourses?.id);
+    console.log("id", selectedCourses?.courseDuration);
     if (!selectedCourses?.id) return;
     await dispatch(APICourse.updateSingleInstituteCourse(selectedCourses?.id, editFormData)); //API Call Slice
 

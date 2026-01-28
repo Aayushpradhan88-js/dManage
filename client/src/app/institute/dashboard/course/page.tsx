@@ -10,7 +10,7 @@ const CoursePage = () => {
   const dispatch = useAppDispatch();
   const { data: courses, selectedCourse } = useAppSelector((store) => store.course); // course slice data
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [searchedText, setSearchedText] = useState<string>("");
 
   useEffect(() => {
@@ -115,12 +115,12 @@ const CoursePage = () => {
                     {/* ID */}
                     <td className="px-6 py-4">
                       <div className="text-sm font-mono text-gray-500 truncate max-w-37.5" title={course?.id}>
-                        {course?.id.slice(0, 8)}...
+                        {course?.id.slice(0, 8)}
                       </div>
                     </td>
                     {/* course Name */}
                     <td className="px-6 py-4">
-                      <div className="text-sm font-mono text-gray-500 truncate max-w-37.5">
+                      <div className="text-sm font-medium text-gray-900">
                         {course?.courseName}
                       </div>
                     </td>

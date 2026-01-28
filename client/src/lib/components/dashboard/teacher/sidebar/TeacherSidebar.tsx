@@ -106,7 +106,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                     Joined Date
                                 </label>
-                                <p className="text-sm text-gray-700 leading-relaxed">
+                                <p className="text-base font-semibold text-gray-900">
                                     {selectedTeacher?.joinedDate}
                                 </p>
                             </div>
@@ -116,7 +116,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                     Salary
                                 </label>
-                                <p className="text-sm text-gray-900 font-mono">
+                                <p className="text-base font-semibold text-gray-900">
                                     रु {selectedTeacher?.salary}
                                 </p>
                             </div>
@@ -126,7 +126,7 @@ const TeacherSidebar: React.FC<ITeacherSideBar> = ({ selectedTeacher, sidebarClo
                                 <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                     Phone Number
                                 </label>
-                                <p className="text-sm text-gray-900">
+                                <p className="text-base font-semibold text-gray-900">
                                     {selectedTeacher?.teacherPhoneNumber}
                                 </p>
                             </div>
