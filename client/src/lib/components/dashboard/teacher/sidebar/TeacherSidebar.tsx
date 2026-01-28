@@ -1,9 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { ITeacherState } from '@/src/lib/store/slices/institute/teacher/instituteTeacherSliceTypes';
-import { Edit2, Trash2, X } from 'lucide-react';
-import TeacherEditModal from './edit/TeacherEditModal';
+import { Trash2, X } from 'lucide-react';
 import TeacherDeletePopupModal from './delete/TeacherDeletePopupModal';
 
 interface ITeacherSideBar {
