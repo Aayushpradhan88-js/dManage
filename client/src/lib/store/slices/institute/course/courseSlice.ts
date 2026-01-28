@@ -6,6 +6,7 @@ import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
 import {  APIWithToken } from "../../../global/types/apiCall";
 import { ICourseFormData } from "@/src/lib/components/dashboard/course/add/courseCreationTypes";
+import { ICourseEditModal, IEditModal } from "@/src/lib/components/dashboard/course/sidebar/courseSidebarTypes";
 
 const courseInitialState: ICourseState = {
     data: [],
@@ -125,7 +126,7 @@ export class APICourse {
     };
 
     //update course
-    static updateSingleInstituteCourse(id: string, data: ICourseFormData) {
+    static updateSingleInstituteCourse(id: string, data: ICourseEditModal) {
         return async function updateSingleInstituteCourse(dispatch: AppDispatch) {
             try {
                 const response = await APIWithToken.post(`/api/institute/course/update/${id}`, data,

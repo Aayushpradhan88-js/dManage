@@ -3,13 +3,14 @@ export interface IDeleteModal {
     id: string,
 }
 
-export interface IEditModal {
-    courseName: string,
-    courseDescription: string,
-    coursePrice: string,
-    courseDuration: string,
-    courseLevel: 'beginner' | 'intermediate' | 'advance',
-    courseThumbnail: string,
+export interface ICourseEditModal {
+    id: string,
+    courseName?: string,
+    courseDescription?: string,
+    coursePrice?: string,
+    courseDuration?: string,
+    courseLevel?: 'beginner' | 'intermediate' | 'advance',
+    courseThumbnail?: string,
+    teacherId?: string,
     categoryId?: string,
-    courseTeacher?: string,
 }

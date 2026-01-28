@@ -36,3 +36,5 @@ Quick URLS:
           4b. teacher: http://localhost:3000/institute/dashboard/teacher
           4c. course: http://localhost:3000/institute/dashboard/course
           4d. category: http://localhost:3000/institute/dashboard/category
+
+          

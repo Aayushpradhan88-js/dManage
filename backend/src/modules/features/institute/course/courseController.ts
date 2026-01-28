@@ -171,7 +171,8 @@ class CourseController {
             courseDuration,
             courseLevel,
             teacherId,
-            categoryId)
+            categoryId
+        )
 
         const courseThumbnail = req.file ? req?.file?.path : null;
 
@@ -183,8 +184,8 @@ class CourseController {
                     coursePrice=?,
                     courseDuration=?,
                     courseLevel=?,
-                    teacher_id,
-                    category_id,
+                    teacher_id = ?,
+                    category_id = ?,
                     courseThumbnail=?,
                     updatedAt=NOW()
                 WHERE id=?

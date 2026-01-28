@@ -163,7 +163,7 @@ const CourseSidebar: React.FC<ICourseSideBar> = ({ selectedcourse, sidebarCloseM
             {/* Edit Button */}
             {isEditModalData &&
               <CourseEditModal
-                courses={selectedcourse}
+                selectedCourses={selectedcourse}
                 editCloseModal={editCloseModal}
                 sidebarCloseModal={sidebarCloseModal}
               />
