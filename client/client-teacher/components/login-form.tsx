@@ -32,6 +32,15 @@ export function LoginForm({
           <form>
             <FieldGroup>
               <Field>
+                <FieldLabel htmlFor="email">Institute Number</FieldLabel>
+                <Input
+                  id="instituteNumber"
+                  type="text"
+                  placeholder="XXXX"
+                  required
+                />
+              </Field>
+              <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
