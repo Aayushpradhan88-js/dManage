@@ -9,9 +9,10 @@ import jwt from "jsonwebtoken";
 import { JWT_EXPIRY, JWT_SECRET } from "../../../config/env";
 
 interface ITeacherData {
-    id: string;
-    teacherPassword: string;
-    teacherEmail: string
+    id: string,
+    teacherInstituteNumber: string|number,
+    teacherEmail: string,
+    teacherPassword: string,
 }
 
 class TeacherController {
@@ -86,8 +87,6 @@ class TeacherController {
             },
             message: "Teacher logged in successfully"
         });
-
-
     }
 }
 

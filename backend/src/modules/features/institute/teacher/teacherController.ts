@@ -67,7 +67,7 @@ class TeacherController {
         const mailInformation = {
             to: teacherEmail,
             subject: "Welcome to Software Development teacher",
-            text: `Here is your email: ${teacherEmail} & password: ${passwordData.plainPassword}`
+            text: `Here is your email: ${teacherEmail} password: ${passwordData.plainPassword} & instituteNumber: ${currentInstituteNumber}`
         };
 
         try {

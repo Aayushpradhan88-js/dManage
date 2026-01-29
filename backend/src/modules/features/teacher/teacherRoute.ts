@@ -5,7 +5,7 @@ import GlobalErrorHandler from "../../global/services/asyncErrorHandler";
 import TeacherController from "./teacherController";
 const teacherLoginRoute = express.Router();
 
-teacherLoginRoute.route("/teacher-login").post(
+teacherLoginRoute.route("/login").post(
     GlobalErrorHandler.asyncErrorHandler(TeacherController.teacherLogin)
 );
 

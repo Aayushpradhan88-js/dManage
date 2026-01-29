@@ -23,8 +23,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(cors({
-    // origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
+    // origin: 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -48,5 +48,8 @@ app.use("/api/institute/category", instituteCategoryRoute);
 
 // console.log("✅ step: TEACHER ROUTER TRIGGERED")
 app.use("/api/institute/teacher", instituteTeacherRouter);
+
+//TEACHER-PAGE-api
+app.use("/api/teacher", teacherLoginRoute);
 
 export default app;
