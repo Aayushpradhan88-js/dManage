@@ -17,57 +17,60 @@ import {
   Globe,
   Smartphone,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function HomePage() {
   // const [selectedPlan, setSelectedPlan] = useState("professional");
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
       {/* Navbar */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
+      <nav className="fixed top-0 w-full z-50 border-b bg-slate-100">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            <GraduationCap className="h-8 w-8 text-green-700" />
+            <span className=" text-green-700 text-2xl font-bold">
               TrainHub
             </span>
           </div>
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-sm font-medium hover:text-primary transition">
+          <div className="hidden md:flex text-black items-center space-x-8">
+            <a href="#features" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
               Features
             </a>
-            <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition">
+            <a href="#how-it-works" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
               How It Works
             </a>
-            <a href="#pricing" className="text-sm font-medium hover:text-primary transition">
+            <a href="#pricing" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
               Pricing
             </a>
-            <Button variant="ghost">Sign In</Button>
+            <Link href="/auth/login">
+              <Button variant="signupButton">Sign In</Button>
+            </Link>
             <Button>Get Started</Button>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4">
+      <section className="pt-32 pb-20 px-3">
         <div className="container mx-auto text-center">
           <Badge className="mb-4" variant="secondary">
             🚀 Launch Your Training Institute in Minutes
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-green-700">
             Complete Training
             <br />
             Management System
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-xl  mb-8 max-w-2xl mx-auto">
             Empower your institute with an all-in-one platform to manage students, teachers, and
             courses. Get started in just a few clicks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8">
+            <Button size="lg" className="text-lg cursor-pointer px-8">
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8">
+            <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
               Watch Demo
             </Button>
           </div>
@@ -81,8 +84,8 @@ export default function HomePage() {
               { label: "Success Rate", value: "99.9%" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-4xl font-bold text-slate-700 mb-2">{stat.value}</div>
+                <div className="text-sm text-slate-700">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -93,9 +96,9 @@ export default function HomePage() {
       <section id="features" className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="mb-4">Features</Badge>
-            <h2 className="text-4xl font-bold mb-4">Everything You Need to Succeed</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <Badge className="mb-4 text-2xl">Features</Badge>
+            <h2 className="text-4xl font-bold text-slate-700 mb-4">Everything You Need to Succeed</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Powerful features designed to streamline your training institute operations
             </p>
           </div>
@@ -114,7 +117,7 @@ export default function HomePage() {
                 title: "Teacher Portal",
                 description:
                   "Dedicated portal for teachers to manage courses, assignments, and student interactions.",
-                color: "text-purple-600",
+                color: "text-green-600",
               },
               {
                 icon: BookOpen,
@@ -166,9 +169,9 @@ export default function HomePage() {
       <section id="how-it-works" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="mb-4">Simple Process</Badge>
-            <h2 className="text-4xl font-bold mb-4">Get Started in 3 Easy Steps</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <Badge className="mb-4 text-2xl">Simple Process</Badge>
+            <h2 className="text-4xl font-bold mb-4 text-slate-700">Get Started in 3 Easy Steps</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Launch your complete training management system in minutes
             </p>
           </div>
@@ -193,12 +196,12 @@ export default function HomePage() {
             ].map((item, index) => (
               <div key={index} className="text-center relative">
                 <div className="mb-6">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-green-700   mb-6 text-white flex items-center justify-center  text-3xl font-bold shadow-lg">
                     {item.step}
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+                <h3 className="text-2xl font-bold mb-3 text-slate-700">{item.title}</h3>
+                <p className=" text-slate-700">{item.description}</p>
               </div>
             ))}
           </div>
@@ -206,13 +209,13 @@ export default function HomePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-slate-50">
+      {/* <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="mb-4">Why Choose Us</Badge>
+              <Badge className="mb-4 text-2xl">Why Choose Us</Badge>
               <h2 className="text-4xl font-bold mb-6">Built for Modern Training Institutes</h2>
-              <p className="text-lg text-muted-foreground mb-8">
+              <p className="text-lg  mb-8">
                 Our platform is designed with the latest technology to ensure your institute stays
                 ahead of the competition.
               </p>
@@ -242,21 +245,21 @@ export default function HomePage() {
                 <Card key={index} className="text-center p-6 hover:shadow-lg transition">
                   <item.icon className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <div className="text-2xl font-bold mb-2">{item.value}</div>
-                  <div className="text-sm text-muted-foreground">{item.label}</div>
+                  <div className="text-sm ">{item.label}</div>
                 </Card>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Pricing Section */}
       <section id="pricing" className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 ">
           <div className="text-center mb-16">
-            <Badge className="mb-4">Pricing</Badge>
-            <h2 className="text-4xl font-bold mb-4">Choose Your Perfect Plan</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <Badge className="mb-4 text-2xl">Pricing</Badge>
+            <h2 className="text-4xl font-bold mb-4 text-slate-700">Choose Your Perfect Plan</h2>
+            <p className="text-xl  max-w-2xl mx-auto text-slate-600">
               Flexible pricing options for institutes of all sizes
             </p>
           </div>
@@ -286,7 +289,6 @@ export default function HomePage() {
                   "Unlimited courses",
                   "Advanced analytics",
                   "Priority support",
-                  "Custom branding",
                 ],
                 popular: true,
               },
@@ -309,8 +311,8 @@ export default function HomePage() {
               <Card
                 key={index}
                 className={`relative ${plan.popular
-                    ? "border-primary shadow-xl scale-105"
-                    : "hover:shadow-lg"
+                  ? "border-primary shadow-xl scale-105"
+                  : "hover:shadow-lg"
                   } transition-all duration-300`}
               >
                 {plan.popular && (
@@ -321,7 +323,7 @@ export default function HomePage() {
                   <CardDescription>{plan.description}</CardDescription>
                   <div className="mt-4">
                     <span className="text-5xl font-bold">{plan.price}</span>
-                    {plan.price !== "Custom" && <span className="text-muted-foreground">/month</span>}
+                    {plan.price !== "Custom" && <span className="">/month</span>}
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -344,21 +346,21 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-purple-600 text-white">
+      <section className="py-20 from-primary to-green-600">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-green-700 ">
             Ready to Transform Your Training Institute?
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto text-slate-700" >
             Join hundreds of institutes already using TrainHub to manage their operations
             efficiently.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
+            <Button size="lg" className="text-lg px-8 bg-slate-700 cursor-pointer text-white hover:text-white hover:bg-slate-900">
               Start Your Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 bg-transparent text-white border-white hover:bg-white/10">
+            <Button size="lg" className="text-black cursor-pointer text-lg px-8 bg-transparent hover:text-white hover:bg-green-700">
               Schedule a Demo
             </Button>
           </div>
