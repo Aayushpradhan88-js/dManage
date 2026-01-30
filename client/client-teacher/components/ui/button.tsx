@@ -22,7 +22,9 @@ const buttonVariants = cva(
         signupButton :
           "hover:bg-green-500 cursor-pointer hover:text-black-foreground bg-green-400",
         watchDemo:
-        "border bg-background shadow-xs hover:bg-slate-700 hover:text-slate-700 cursor-pointer dark:bg-input/30 "
+        "border bg-background shadow-xs hover:bg-slate-700 hover:text-slate-700 cursor-pointer dark:bg-input/30 ",
+        teacherLoginButton:
+          "hover:bg-green-700 cursor-pointer hover:text-black-foreground bg-green-600"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

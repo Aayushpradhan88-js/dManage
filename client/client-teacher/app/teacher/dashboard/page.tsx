@@ -2,7 +2,7 @@ import React from 'react'
 
 const TeacherDashboard = () => {
   return (
-    <div>TeacherDashboard</div>
+    <div>Welcome to the teacher Dashboard</div>
   );
 };
 

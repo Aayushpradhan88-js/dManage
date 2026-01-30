@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -14,19 +13,16 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import Link from "next/link"
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardTitle>Teacher Login</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
@@ -62,12 +58,12 @@ export function LoginForm({
                 <Input id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
+                <Link href='/teacher/dashboard'>
+                  <Button type="submit" variant="signupButton">Login</Button>
+                </Link>
+
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Continue as a Student? <a href="#">Sign up</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
