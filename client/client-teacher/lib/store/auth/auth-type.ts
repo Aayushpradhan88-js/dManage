@@ -7,6 +7,6 @@ export interface ITeacherAuth {
 };
 
 export interface IInitialTeacherAuth {
-    data: ITeacherAuth[],
-    status: IStatus.LOADING
+    data: ITeacherAuth,
+    status: IStatus
 };
