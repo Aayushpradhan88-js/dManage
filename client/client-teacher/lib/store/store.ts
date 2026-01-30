@@ -1,4 +1,4 @@
-import { configureStore, Store } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import teacherAuthSlice from "../store/auth/auth-slice"
 
 const store = configureStore({

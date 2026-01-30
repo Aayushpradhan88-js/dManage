@@ -1,6 +1,6 @@
 'use client'
 
-import axios from "axios";
+import axios from "axios"
 
 const teacherAPI = axios.create({
     baseURL: "http://localhost:8000",
