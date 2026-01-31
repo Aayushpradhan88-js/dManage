@@ -14,9 +14,32 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { ChangeEvent, FormEvent, useState } from "react"
+import { ITeacherAuth } from "@/lib/store/auth/auth-type"
+import { APITeacherAuth } from "@/lib/store/auth/auth-slice"
+import { useAppDispatch } from "@/lib/global/hooks/customHooks"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+  const dispatch = useAppDispatch();
+  const [teacherFormData, setTeacherFormData] = useState<ITeacherAuth>({
+    teacherInstitute: "",
+    teacherEmail: "",
+    teacherPassword: ""
+  });
 
+  const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target
+    setTeacherFormData({
+      ...teacherFormData,
+      [name]: value
+    })
+  }
+
+  const handleLoginFormSubmission =  async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  await dispatch(APITeacherAuth.teacherLogin(teacherFormData));
+  
+};
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -25,13 +48,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
           <CardTitle>Teacher Login</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form
+          onSubmit={handleLoginFormSubmission}
+          >
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Institute Number</FieldLabel>
                 <Input
                   id="instituteNumber"
                   type="text"
+                  name="teacherInstitute"
+                  onChange={handleChange}
                   placeholder="XXXX"
                   required
                 />
@@ -41,27 +68,24 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 <Input
                   id="email"
                   type="email"
+                  name="teacherEmail"
+                  onChange={handleChange}
                   placeholder="m@example.com"
                   required
                 />
               </Field>
               <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" required />
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <Input
+                  id="password"
+                  type="password"
+                  name="teacherPassword"
+                  onChange={handleChange}
+                  required
+                />
               </Field>
               <Field>
-                <Link href='/teacher/dashboard'>
                   <Button type="submit" variant="signupButton">Login</Button>
-                </Link>
-
                 <FieldDescription className="text-center">
                   Continue as a Student? <a href="#">Sign up</a>
                 </FieldDescription>

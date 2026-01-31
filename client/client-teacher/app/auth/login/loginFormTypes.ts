@@ -1,0 +1,3 @@
+interface ILoginForm {
+    teacherInstitute
+}

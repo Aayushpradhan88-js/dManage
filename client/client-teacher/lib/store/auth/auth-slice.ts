@@ -29,20 +29,19 @@ const teacherAuthSlice = createSlice({
 export const { setTeacher, setStatus } = teacherAuthSlice.actions;
 export default teacherAuthSlice.reducer;
 
-export class TeacherAuth {
-    static teacherLogin(data: ITeacherAuth) {
+export class APITeacherAuth {
+    static teacherLogin(teacherFormData: ITeacherAuth) {
         return async function teacherLoginThunk(dispatch: AppDispatch) {
             try {
                 console.log("triggered teacher login");
-                const response = await teacherAPI.post('/api/teacher/login', data);
+                const response = await teacherAPI.post('/api/teacher/login', teacherFormData);
                 console.log("data", response.data.datas);
                 if (response.status === 200 || response.status === 201) {
-                    if (response.data > 0) {
-                        dispatch(setTeacher(response.data.datas));
-                        dispatch(setStatus(IStatus.SUCCESS));
-                    };
-                };
-                dispatch(setStatus(IStatus.ERROR));
+                    dispatch(setTeacher(response.data.datas));
+                    dispatch(setStatus(IStatus.SUCCESS));
+                } else {
+                    dispatch(setStatus(IStatus.ERROR));                    
+                }
             } catch (error) {
                 console.log("error", error);
                 dispatch(setStatus(IStatus.ERROR));
