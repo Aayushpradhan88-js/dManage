@@ -3,10 +3,13 @@ import { IStatus } from "@/lib/global/types/types"
 export interface ITeacherAuth {
     teacherInstitute: string,
     teacherEmail: string,
+};
+
+export interface ITeacherLogin extends ITeacherAuth {
     teacherPassword: string
 };
 
 export interface IInitialTeacherAuth {
-    data: ITeacherAuth,
+    data: ITeacherAuth[],
     status: IStatus
 };

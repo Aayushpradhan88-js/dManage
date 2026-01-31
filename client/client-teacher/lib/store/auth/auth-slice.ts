@@ -1,15 +1,11 @@
 import { IStatus } from "@/lib/global/types/types"
-import { IInitialTeacherAuth, ITeacherAuth } from "./auth-type"
+import { IInitialTeacherAuth, ITeacherAuth, ITeacherLogin } from "./auth-type"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { teacherAPI } from "@/lib/global/api/teacherApiCall"
 import { AppDispatch } from "../store"
 
 const initialTeacherAuthState: IInitialTeacherAuth = {
-    data: {
-        teacherInstitute: "",
-        teacherEmail: "",
-        teacherPassword: ""
-    },
+    data: [],
     status: IStatus.LOADING
 };
 
@@ -17,7 +13,7 @@ const teacherAuthSlice = createSlice({
     name: "teacherAuthSlice",
     initialState: initialTeacherAuthState,
     reducers: {
-        setTeacher: (state, action: PayloadAction<ITeacherAuth>) => {
+        setTeacher: (state, action: PayloadAction<ITeacherAuth[]>) => {
             state.data = action.payload;
         },
         setStatus: (state, action) => {
@@ -30,7 +26,7 @@ export const { setTeacher, setStatus } = teacherAuthSlice.actions;
 export default teacherAuthSlice.reducer;
 
 export class APITeacherAuth {
-    static teacherLogin(teacherFormData: ITeacherAuth) {
+    static teacherLogin(teacherFormData: ITeacherLogin) {
         return async function teacherLoginThunk(dispatch: AppDispatch) {
             try {
                 console.log("triggered teacher login");

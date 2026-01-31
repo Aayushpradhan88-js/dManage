@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,15 +15,16 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
 import { ChangeEvent, FormEvent, useState } from "react"
-import { ITeacherAuth } from "@/lib/store/auth/auth-type"
+import {  ITeacherLogin } from "@/lib/store/auth/auth-type"
 import { APITeacherAuth } from "@/lib/store/auth/auth-slice"
 import { useAppDispatch } from "@/lib/global/hooks/customHooks"
+import { useRouter } from "next/router"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const dispatch = useAppDispatch();
-  const [teacherFormData, setTeacherFormData] = useState<ITeacherAuth>({
+  const router = useRouter();
+  const [teacherFormData, setTeacherFormData] = useState<ITeacherLogin>({
     teacherInstitute: "",
     teacherEmail: "",
     teacherPassword: ""
@@ -38,7 +41,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const handleLoginFormSubmission =  async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   await dispatch(APITeacherAuth.teacherLogin(teacherFormData));
-  
+  router.push("/teacher/dashboard")
 };
 
   return (
