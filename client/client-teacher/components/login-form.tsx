@@ -19,7 +19,8 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import {  ITeacherLogin } from "@/lib/store/auth/auth-type"
 import { APITeacherAuth } from "@/lib/store/auth/auth-slice"
 import { useAppDispatch } from "@/lib/global/hooks/customHooks"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation";
+
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const dispatch = useAppDispatch();

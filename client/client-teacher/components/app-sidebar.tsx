@@ -34,7 +34,7 @@ const data = {
   navMain: [
     {
       title: "Students",
-      url: "#",
+      url: "/teacher/dashboard/students",
       icon: IconUsers,
     },
     {
@@ -102,16 +102,16 @@ const data = {
       url: "#",
       icon: IconSettings,
     },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    // {
+    //   title: "Get Help",
+    //   url: "#",
+    //   icon: IconHelp,
+    // },
+    // {
+    //   title: "Search",
+    //   url: "#",
+    //   icon: IconSearch,
+    // },
   ],
 }
 
@@ -127,7 +127,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Teacher Dashboard</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

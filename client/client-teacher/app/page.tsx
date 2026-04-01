@@ -271,9 +271,9 @@ export default function HomePage() {
                 price: "$29",
                 description: "Perfect for small institutes",
                 features: [
-                  "Up to 50 students",
-                  "5 teachers",
-                  "10 courses",
+                  "Up to 10 students",
+                  "2 teachers",
+                  "4 courses",
                   "Basic analytics",
                   "Email support",
                 ],
