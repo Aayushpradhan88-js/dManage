@@ -29,7 +29,9 @@ export default function HomePage() {
           <div className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-green-700" />
             <span className=" text-green-700 text-2xl font-bold">
-              TrainHub
+              {/* TrainHub */}
+              {/* eManage */}
+              dManage
             </span>
           </div>
           <div className="hidden md:flex text-black items-center space-x-8">
@@ -54,15 +56,17 @@ export default function HomePage() {
       <section className="pt-32 pb-20 px-3">
         <div className="container mx-auto text-center">
           <Badge className="mb-4" variant="secondary">
-            🚀 Launch Your Training Institute in Minutes
+            🚀 Manage everything in seconds
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-green-700">
-            Complete Training
+            {/* Complete Training */}
+            Save Time & Money 
             <br />
-            Management System
+            {/* Management System */}
+            By Managing Everything
           </h1>
           <p className="text-xl  mb-8 max-w-2xl mx-auto">
-            Empower your institute with an all-in-one platform to manage students, teachers, and
+            Empower your institute,colleges,schools,universities with an all-in-one platform to manage students, teachers, and
             courses. Get started in just a few clicks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -72,6 +76,10 @@ export default function HomePage() {
             </Button>
             <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
               Watch Demo
+            </Button>
+            <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
+              Create custom website
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
 

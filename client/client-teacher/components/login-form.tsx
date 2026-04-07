@@ -42,7 +42,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const handleLoginFormSubmission =  async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   await dispatch(APITeacherAuth.teacherLogin(teacherFormData));
-  router.push("/teacher/dashboard")
+  router.push("/teacher/dashboard/overview")
 };
 
   return (
