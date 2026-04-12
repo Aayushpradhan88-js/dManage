@@ -21,3 +21,29 @@ Key highlights of the dManage.com project include:
 7. Accessible
 8. Maintainable
 
+# Tech Stack
+
+## Frontend
+- Next.js
+- React.js
+- Tailwind CSS
+- TypeScript
+- Shadcn UI
+
+## Backend
+- Node.js
+- Express.js
+- TypeScript
+
+## Database
+- PostgreSQL
+
+## Deployment
+- Vercel
+- Render/Railway
+
+## Other
+- Git
+- GitHub
+- VS Code
+- Chrome

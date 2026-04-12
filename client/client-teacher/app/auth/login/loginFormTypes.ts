@@ -1,3 +1,0 @@
-// interface ILoginForm {
-//     teacherInstitute
-// }

@@ -178,38 +178,30 @@ That is the cleanest v1 model.
 Instead of changing the person into a new permanent global role, think in events:
 
 ### A normal visitor
-
 - not logged in
 
 ### A user after signup
-
 - row created in `users`
 - `system_role = user`
 
 ### A student after buying a course
-
 - row created in `course_enrollments`
 - if needed, create `institute_memberships(role = student)`
 
 ### An admin after institute approval
-
 - row created in `institute_applications`
 - super-admin approves application
 - row created in `institutes`
 - row created in `institute_memberships(role = admin)`
 
 ### A teacher after assignment
-
 - if teacher already has account, create membership with `role = teacher`
 - then assign teacher to a course via `course_teachers`
-
 This avoids destructive role overwrites.
 
 ## 7. Recommended Backend Folder Structure
-
 Keep one backend.
 
-```text
 backend/
   src/
     app.ts
@@ -244,17 +236,14 @@ backend/
 ```
 
 ### Important backend rule
-
 Feature modules should be business-based, not dashboard-based.
 
 Good:
-
 - `courses`
 - `memberships`
 - `announcements`
 
 Avoid:
-
 - `student-dashboard`
 - `admin-dashboard`
 - `teacher-dashboard`
