@@ -1,4 +1,8 @@
-//DATABASE TABLE CREATION FILE
+/**
+ * @deprecated LEGACY — Sequelize user model. Kept for reference during migration.
+ * New code should use the Drizzle schema from `src/db/schema.ts`.
+ * This file will be removed once all controllers are migrated to Drizzle.
+ */
 
 import { Table, Column, Model, DataType } from 'sequelize-typescript'
 

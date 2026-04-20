@@ -1,0 +1,314 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Roles Enum
+enum SystemRole {
+  user
+  super_admin
+
+  @@map("system_role")
+}
+
+enum InstituteRole {
+  admin
+  teacher
+  student
+
+  @@map("institute_role")
+}
+
+enum ApplicationStatus {
+  pending
+  approved
+  rejected
+
+  @@map("application_status")
+}
+
+enum CourseStatus {
+  draft
+  published
+  archived
+
+  @@map("course_status")
+}
+
+enum AnnouncementScope {
+  institute
+  course
+
+  @@map("announcement_scope")
+}
+
+enum OrderStatus {
+  pending
+  completed
+  failed
+  refunded
+
+  @@map("order_status")
+}
+
+// 1. Users
+model User {
+  id              String   @id @default(uuid()) @db.Uuid
+  username        String   @db.VarChar(100)
+  email           String   @unique @db.VarChar(255)
+  password        String   @db.VarChar(255)
+  systemRole      SystemRole @default(user) @map("system_role")
+  avatarUrl       String?  @map("avatar_url")
+  isEmailVerified Boolean  @default(false) @map("is_email_verified")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // relations
+  createdInstitutes     Institute[]
+  instituteApplications InstituteApplication[] @relation("Applicant")
+  reviewedApplications  InstituteApplication[] @relation("Reviewer")
+  instituteMemberships  InstituteMembership[]
+  courseEnrollments     CourseEnrollment[]
+  lessonProgress        LessonProgress[]
+  orders                Order[]
+  announcements         Announcement[]
+
+  @@map("users")
+}
+
+// 2. Institutes
+model Institute {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(200)
+  slug        String   @unique @db.VarChar(200)
+  description String?
+  logoUrl     String?  @map("logo_url")
+  createdBy   String   @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  creator     User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  
+  memberships   InstituteMembership[]
+  courses       Course[]
+  announcements Announcement[]
+
+  @@map("institutes")
+}
+
+// 3. Institute applications
+model InstituteApplication {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  instituteName String   @map("institute_name") @db.VarChar(200)
+  message       String?
+  status        ApplicationStatus @default(pending)
+  reviewedBy    String?  @map("reviewed_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user          User     @relation("Applicant", fields: [userId], references: [id], onDelete: Cascade)
+  reviewer      User?    @relation("Reviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@index([userId], name: "idx_inst_app_user")
+  @@map("institute_applications")
+}
+
+// 4. Institute memberships
+model InstituteMembership {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  instituteId String   @map("institute_id") @db.Uuid
+  role        InstituteRole
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institute   Institute @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  
+  courseTeachers CourseTeacher[]
+
+  @@unique([userId, instituteId], name: "uq_membership_user_institute")
+  @@index([instituteId], name: "idx_membership_institute")
+  @@map("institute_memberships")
+}
+
+// 5. Courses
+model Course {
+  id           String   @id @default(uuid()) @db.Uuid
+  instituteId  String   @map("institute_id") @db.Uuid
+  title        String   @db.VarChar(300)
+  description  String?
+  thumbnailUrl String?  @map("thumbnail_url")
+  price        Decimal  @default(0) @db.Decimal(10,2)
+  status       CourseStatus @default(draft)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  institute    Institute @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+
+  teachers            CourseTeacher[]
+  enrollments         CourseEnrollment[]
+  chapters            CourseChapter[]
+  liveClasses         LiveClass[]
+  announcementTargets AnnouncementTarget[]
+  orders              Order[]
+
+  @@index([instituteId], name: "idx_course_institute")
+  @@map("courses")
+}
+
+// 6. Course teachers
+model CourseTeacher {
+  id           String   @id @default(uuid()) @db.Uuid
+  courseId     String   @map("course_id") @db.Uuid
+  membershipId String   @map("membership_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  course       Course              @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  membership   InstituteMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, membershipId], name: "uq_course_teacher")
+  @@map("course_teachers")
+}
+
+// 7. Course enrollments
+model CourseEnrollment {
+  id         String   @id @default(uuid()) @db.Uuid
+  courseId   String   @map("course_id") @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  enrolledAt DateTime @default(now()) @map("enrolled_at") @db.Timestamptz
+
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId], name: "uq_course_enrollment")
+  @@map("course_enrollments")
+}
+
+// 8. Course chapters
+model CourseChapter {
+  id         String   @id @default(uuid()) @db.Uuid
+  courseId   String   @map("course_id") @db.Uuid
+  title      String   @db.VarChar(300)
+  sortOrder  Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  course     Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons    CourseLesson[]
+
+  @@index([courseId], name: "idx_chapter_course")
+  @@map("course_chapters")
+}
+
+// 9. Course lessons
+model CourseLesson {
+  id              String   @id @default(uuid()) @db.Uuid
+  chapterId       String   @map("chapter_id") @db.Uuid
+  title           String   @db.VarChar(300)
+  contentType     String   @default("video") @map("content_type") @db.VarChar(50)
+  contentUrl      String?  @map("content_url")
+  durationSeconds Int?     @map("duration_seconds")
+  sortOrder       Int      @default(0) @map("sort_order")
+  isFree          Boolean  @default(false) @map("is_free")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  chapter         CourseChapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  progress        LessonProgress[]
+
+  @@index([chapterId], name: "idx_lesson_chapter")
+  @@map("course_lessons")
+}
+
+// 10. Live classes
+model LiveClass {
+  id              String   @id @default(uuid()) @db.Uuid
+  courseId        String   @map("course_id") @db.Uuid
+  title           String   @db.VarChar(300)
+  description     String?
+  meetingUrl      String?  @map("meeting_url")
+  scheduledAt     DateTime @map("scheduled_at") @db.Timestamptz
+  durationMinutes Int?     @map("duration_minutes")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId], name: "idx_live_class_course")
+  @@map("live_classes")
+}
+
+// 11. Announcements
+model Announcement {
+  id          String   @id @default(uuid()) @db.Uuid
+  instituteId String   @map("institute_id") @db.Uuid
+  title       String   @db.VarChar(300)
+  body        String?
+  scope       AnnouncementScope @default(institute)
+  createdBy   String   @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  institute   Institute            @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  author      User                 @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  targets     AnnouncementTarget[]
+
+  @@index([instituteId], name: "idx_announcement_institute")
+  @@map("announcements")
+}
+
+// 12. Announcement targets
+model AnnouncementTarget {
+  id             String   @id @default(uuid()) @db.Uuid
+  announcementId String   @map("announcement_id") @db.Uuid
+  courseId       String?  @map("course_id") @db.Uuid
+
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  course         Course?      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([announcementId], name: "idx_ann_target_announcement")
+  @@map("announcement_targets")
+}
+
+// 13. Lesson progress
+model LessonProgress {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  lessonId        String   @map("lesson_id") @db.Uuid
+  isCompleted     Boolean  @default(false) @map("is_completed")
+  progressPercent Int      @default(0) @map("progress_percent")
+  completedAt     DateTime? @map("completed_at") @db.Timestamptz
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson          CourseLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId], name: "uq_lesson_progress_user_lesson")
+  @@map("lesson_progress")
+}
+
+// 14. Orders
+model Order {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  courseId        String   @map("course_id") @db.Uuid
+  amount          Decimal  @db.Decimal(10,2)
+  currency        String   @default("USD") @db.VarChar(10)
+  status          OrderStatus @default(pending)
+  paymentProvider String?  @map("payment_provider") @db.VarChar(50)
+  paymentId       String?  @map("payment_id") @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([userId], name: "idx_order_user")
+  @@index([courseId], name: "idx_order_course")
+  @@map("orders")
+}
