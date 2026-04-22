@@ -44,10 +44,12 @@ export default function HomePage() {
             <a href="#pricing" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
               Pricing
             </a>
-            <Link href="/auth/login">
+            <Link href="/login">
               <Button variant="signupButton">Sign In</Button>
             </Link>
-            <Button>Get Started</Button>
+            <Link href="/register">
+              <Button>Get Started</Button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -70,17 +72,21 @@ export default function HomePage() {
             courses. Get started in just a few clicks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg cursor-pointer px-8">
-              Start Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/register">
+              <Button size="lg" className="text-lg cursor-pointer px-8">
+                Start Free Trial
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
             <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
               Watch Demo
             </Button>
-            <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
-              Create custom website
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/institute/becomeInstitute">
+              <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
+                Create custom website
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
 
           {/* Stats */}
@@ -364,10 +370,12 @@ export default function HomePage() {
             efficiently.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 bg-slate-700 cursor-pointer text-white hover:text-white hover:bg-slate-900">
-              Start Your Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/register">
+              <Button size="lg" className="text-lg px-8 bg-slate-700 cursor-pointer text-white hover:text-white hover:bg-slate-900">
+                Start Your Free Trial
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
             <Button size="lg" className="text-black cursor-pointer text-lg px-8 bg-transparent hover:text-white hover:bg-green-700">
               Schedule a Demo
             </Button>

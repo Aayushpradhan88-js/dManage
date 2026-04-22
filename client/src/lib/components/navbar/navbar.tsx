@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function Navbar() {
     return (
         <header className="sticky inset-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-lg">
@@ -9,9 +11,10 @@ function Navbar() {
                 </div>
                 <div className="flex grow" />
                 <div className="hidden items-center justify-center gap-6 md:flex">
-                    <a href="#" className="font-dm text-sm font-medium text-slate-700">Sign in</a>
-                    <a href="#" className="rounded-md bg-linear-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">Become an Institute
-                    </a>
+                    <Link href="/login" className="font-dm text-sm font-medium text-slate-700 transition hover:text-slate-950">Sign in</Link>
+                    <Link href="/register" className="font-dm text-sm font-medium text-slate-700 transition hover:text-slate-950">Register</Link>
+                    <Link href="/institute/becomeInstitute" className="rounded-md bg-linear-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">Become an Institute
+                    </Link>
                 </div>
                 <div className="relative flex items-center justify-center md:hidden">
                     <button type="button">
