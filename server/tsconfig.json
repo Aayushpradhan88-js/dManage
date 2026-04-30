@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "ESNext",
     "target": "ES2020",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "types": ["node"],
     // For nodejs:
     // "lib": ["esnext"],
@@ -47,11 +47,11 @@
     "emitDecoratorMetadata": true,
 
     "strictPropertyInitialization": false, // optional but recommended for sequelize
-    "esModuleInterop": true
+    "esModuleInterop": true,
 
     //.ts extenstion fixing code
     // "emitDeclarationOnly": true,
-    // "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true
   },
   "ts-node": {
     "esm": true,

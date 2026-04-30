@@ -5,8 +5,8 @@
   "main": "server.ts",
   "type": "module",
   "scripts": {
-    "start": "nodemon --exec node --loader ts-node/esm server.ts",
-    "dev": "nodemon server.ts",
+    "start": "ts-node-esm server.ts",
+    "dev": "ts-node-esm server.ts",
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev",
     "db:push": "npx prisma db push",

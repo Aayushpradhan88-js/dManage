@@ -1,10 +1,11 @@
-//custom hook
-
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../store"
 
 //For components 
-const useAppDispatch = useDispatch.withTypes<AppDispatch>(); //useDispatch + types = custom hook
-const useAppSelector = useSelector.withTypes<RootState>();
 
-export {useAppDispatch,useAppSelector};
+//For fetching data
+const useAppDispatch = useDispatch.withTypes<AppDispatch>() //useDispatch + types = custom hook
+//For reading data
+const useAppSelector = useSelector.withTypes<RootState>()
+
+export { useAppDispatch, useAppSelector }

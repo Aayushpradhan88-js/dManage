@@ -1,45 +1,51 @@
-import { NextFunction, Response } from "express";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../../config/env";
-import { User } from "../../../database/models/userModel";
-import IExtendedRequest from "../types/types";
+import type { NextFunction, Response } from "express"
+import jwt from "jsonwebtoken"
+import { JWT_SECRET } from "../../config/env"
+import IExtendedRequest from "../types/types"
+import { db } from "../../db/connection"
+import type { JwtPayload } from "../auth/auth-types"
 
 class UserVerification {
-    static userAuthorizationAccessVerification(req: IExtendedRequest, res: Response, next: NextFunction) {
-        try {
-            const token = req.headers.authorization; //getting token from headers
-            if (!token) {
-                return res.status(401).json({ message: "Token not found" });
-            };
+  static async userAuthorizationAccessVerification(
+    req: IExtendedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const bearerToken = req.headers.authorization
+      console.log("middleware", bearerToken)
+      const token = bearerToken?.startsWith("Bearer ")
+        ? bearerToken.slice(7)
+        : bearerToken
 
-            //verifying token
-            jwt.verify((token as string), JWT_SECRET, async (error, decoded: any) => {
-                if (error) {
-                    return res.status(403).json({ message: "Invalid token" })
-                };
+      if (!token) {
+        return res.status(401).json({ message: "Token not found" })
+      }
 
-                //verifying is user existes or not 
-                const userData = await User.findByPk(decoded.id,{
-                    attributes: ['id', 'currentInstituteNumber']
-                });
-                if (!userData) {
-                    return res.status(401).json({ message: "Invalid user" })
-                };
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
+      const userData = await db.user.findUnique({
+        where: { id: decoded.id },
+        select: {
+          id: true,
+        },
+      })
 
-                req.user = {
-                    'id': userData.id,
-                    'currentInstituteNumber': userData.currentInstituteNumber
-                }
-                next();
-            });
-        } catch (error) {
-            console.error("✗ Server Error: Failed to authorize user", (error as Error).stack);
-            return res.status(500).json({
-                errorMessage: (error as Error).message,
-                fullErrorMessage: error
-            });
-        };
-    };
-};
+      if (!userData) {
+        return res.status(401).json({ message: "Invalid user" })
+      }
 
-export default UserVerification;
+      req.user = {
+        id: userData.id,
+      }
+
+      next()
+    } catch (error) {
+      return res.status(403).json({
+        message: "Invalid token",
+        error: (error as Error).message,
+      })
+    }
+  }
+}
+
+export default UserVerification

@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IInstituteInitialState, IInstituteState } from "./instituteSliceTypes"
 import { IStatus } from "../../global/types/type";
-import {APIWithToken} from "../../global/types/apiCall";
+import { APIWithToken } from "../../global/API/apiCall";
 import { AppDispatch } from "../../store";
 
 const initialState: IInstituteInitialState = {

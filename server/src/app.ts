@@ -1,55 +1,35 @@
-import express, { NextFunction, Request, Response } from 'express';
-import authRouter from './modules/global/auth/authRouter';
-import cors from 'cors'
-import instituteRouter from './modules/features/institute/instituteRoutes';
-import instituteCourseRouter from './modules/features/institute/course/courseRoutes';
-import instituteCategoryRoute from './modules/features/institute/category/categoryRoute';
-import instituteTeacherRouter from './modules/features/institute/teacher/teacherRoutes';
-import teacherLoginRoute from './modules/features/teacher/teacherRoute';
+import express from "express";
+import type { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import authRouter from "./global/auth/auth-router.ts";
+
 const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    console.log("✅ 8 Frontend request",
-        req.headers.origin
-    );
-
-    console.log("Incomming Request..............");
-    // console.log(`${req.method} ${req.originalUrl}`);
-    // console.log('Headers: ', req.headers);
-    // console.log('Body: ', `${req.baseUrl} ${req.body}`);
-    // console.log('Query:', req.query);
-    
-    next();
+  console.log("Incoming frontend request origin:", req.headers.origin);
+  console.log("Incoming Request..............");
+  next();
 });
 
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
-    // origin: 'http://localhost:3000',
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+    ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/auth", authRouter);
 
-// console.log("✅ step:9 AUTH ROUTER TRIGGERED")
-app.use("/api/auth", authRouter, teacherLoginRoute);
-
-// console.log("✅ step: INSTITUTE ROUTER TRIGGERED")
-app.use("/api/institute", instituteRouter);
-
-// console.log("✅ step: COURSE ROUTER TRIGGERED")
-app.use("/api/institute/course", instituteCourseRouter);
-
-// console.log("✅ step: CATEGORY ROUTER TRIGGERED")
-app.use("/api/institute/category", instituteCategoryRoute);
-
-// console.log("✅ step: TEACHER ROUTER TRIGGERED")
-app.use("/api/institute/teacher", instituteTeacherRouter);
-
-//TEACHER-PAGE-api
-app.use("/api/teacher", teacherLoginRoute);
+// Legacy institute and teacher routes are intentionally left out for now.
+// They still depend on older modules that need migration before they are safe to mount.
 
 export default app;

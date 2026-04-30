@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStatus } from "../../../global/types/type";
 import { ICategoryInitialState, ICategoryStateData, ICategoryStateAdditionalData } from "./categorySliceTypes";
 import { AppDispatch } from "../../../store";
-import { APIWithToken } from "../../../global/types/apiCall";
+import { APIWithToken } from "../../../global/API/apiCall";
 import { setStatus } from "../instituteSlice";
 
 const initialState: ICategoryInitialState = {

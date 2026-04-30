@@ -8,7 +8,6 @@ import studentSlice from "./slices/student/studentSlice"
 import courseSlice from "./slices/institute/course/courseSlice"
 import categorySlice from "./slices/institute/category/categorySlice"
 
-// makeStore is a global variable
 const store = configureStore({
     reducer: {
         auth: authSlice,

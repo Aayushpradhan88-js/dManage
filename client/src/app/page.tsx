@@ -1,6 +1,5 @@
 "use client";
 
-// import { useState } from "react";
 import { Button } from "../lib/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../lib/components/ui/card";
 import { Badge } from "../lib/components/ui/badge";
@@ -13,46 +12,15 @@ import {
   Shield,
   CheckCircle2,
   ArrowRight,
-  Zap,
-  Globe,
-  Smartphone,
 } from "lucide-react";
 import Link from "next/link";
+import Navbar from "../lib/components/navbar/navbar";
 
 export default function HomePage() {
-  // const [selectedPlan, setSelectedPlan] = useState("professional");
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 border-b bg-slate-100">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <GraduationCap className="h-8 w-8 text-green-700" />
-            <span className=" text-green-700 text-2xl font-bold">
-              {/* TrainHub */}
-              {/* eManage */}
-              dManage
-            </span>
-          </div>
-          <div className="hidden md:flex text-black items-center space-x-8">
-            <a href="#features" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-              Features
-            </a>
-            <a href="#how-it-works" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-              How It Works
-            </a>
-            <a href="#pricing" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-              Pricing
-            </a>
-            <Link href="/login">
-              <Button variant="signupButton">Sign In</Button>
-            </Link>
-            <Link href="/register">
-              <Button>Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar/>
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-3">

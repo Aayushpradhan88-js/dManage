@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICourseDB, ICourseState } from "./courseSliceTypes";
 import { IStatus } from "../../../global/types/type";
 import { AppDispatch } from "../../../store";
-import {  APIWithToken } from "../../../global/types/apiCall";
+import { APIWithToken } from "../../../global/API/apiCall";
 import { ICourseFormData } from "@/src/lib/components/dashboard/course/add/courseCreationTypes";
 import { ICourseEditModal, IEditModal } from "@/src/lib/components/dashboard/course/sidebar/courseSidebarTypes";
 
@@ -132,7 +132,7 @@ export class APICourse {
                 const response = await APIWithToken.post(`/api/institute/course/update/${id}`, data,
                     {
                         headers: {
-                            "Content-Type" : "multipart/form-data"
+                            "Content-Type": "multipart/form-data"
                         }
                     }
                 );

@@ -1,83 +1,151 @@
-//auth slice
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import {
+  IAuthApiUser,
+  IAuthInitialStateType,
+  ILoginApiResponse,
+  IRegisterApiResponse,
+  IUser,
+} from "./authTypes"
+import { IStatus } from "../../global/types/type"
+import { IRegister } from "@/src/app/(auth)/register/registerTypes"
+import { ILogin } from "@/src/app/(auth)/login/loginTypes"
+import { API } from "../../global/API/apiCall"
+import { AppDispatch } from "../../store"
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IAuthInitialStateType, IUser } from "./authTypes";
-import { IStatus } from "../../global/types/type";
-import { IRegister } from "@/src/app/(auth)/register/registerTypes";
-import { ILogin } from "@/src/app/(auth)/login/loginTypes";
-import { API } from "../../global/types/apiCall";
-import { AppDispatch } from "../../store";
+const AUTH_STORAGE_KEY = "auth_user"
+
+const emptyUser: IUser = {
+  id: "",
+  username: "",
+  email: "",
+  systemRole: "user",
+  activeRole: "user",
+  token: "",
+}
 
 const initialState: IAuthInitialStateType = {
-    user: {
-        username: "",
-        token: ""
-    },
-    status: IStatus.LOADING
-};
+  user: emptyUser,
+  status: IStatus.IDLE,
+}
+
+const persistAuthUser = (user: IUser) => {
+  if (typeof window === "undefined") {
+    return
+  }
+
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user))
+  localStorage.setItem("user_name", user.username)
+  localStorage.setItem("user_email", user.email)
+  localStorage.setItem("user_role", user.activeRole)
+  localStorage.setItem("user_system_role", user.systemRole)
+  localStorage.setItem("user_token", user.token)
+}
+
+const clearPersistedAuthUser = () => {
+  if (typeof window === "undefined") {
+    return
+  }
+
+  localStorage.removeItem(AUTH_STORAGE_KEY)
+  localStorage.removeItem("user_name")
+  localStorage.removeItem("user_email")
+  localStorage.removeItem("user_active_role")
+  localStorage.removeItem("user_system_role")
+  localStorage.removeItem("user_token")
+}
 
 const authSlice = createSlice({
-    name: "auth slice",
-    initialState: initialState,
-    reducers: {
-        setUser: (state: IAuthInitialStateType, action: PayloadAction<IUser>) => {
-            state.user = action.payload;
-        },
-
-        setStatus: (state: IAuthInitialStateType, action: PayloadAction<IStatus>) => {
-            state.status = action.payload;
-        },
+  name: "auth",
+  initialState,
+  reducers: {
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload
     },
-});
+    setStatus: (state, action: PayloadAction<IStatus>) => {
+      state.status = action.payload
+    },
+    clearUser: (state) => {
+      state.user = emptyUser
+      state.status = IStatus.IDLE
+    },
+  },
+})
 
-export const { setUser, setStatus } = authSlice.actions;
-export default authSlice.reducer;
+const toStoreUser = (user: IAuthApiUser, token = ""): IUser => ({
+  ...user,
+  token,
+})
 
-//API Call
+export const { setUser, setStatus, clearUser } = authSlice.actions
+export default authSlice.reducer
+export {
+  AUTH_STORAGE_KEY,
+  emptyUser,
+  clearPersistedAuthUser,
+  persistAuthUser
+}
+
 export class APIAuth {
-    static register(userData: IRegister) {
-        return async function registerUserThunk(dispatch: AppDispatch) {
-            try {
-                console.log("✅step: 5 incomming form data", userData)
 
-                console.log("✅step: 6 calling backend api");
-                const response = await API.post("/api/auth/register", userData);
-                console.log("✅step: 7 calling backend api", response);
-                console.log("✅step: 7.o calling backend api", response.data);
+  //register slice
+  static register(userData: IRegister) {
+    return async function registerUserThunk(dispatch: AppDispatch) {
+      dispatch(setStatus(IStatus.LOADING))
 
-                // const{username,email} = response.data.datas
-                if (response.status === 201) {
-                    dispatch(setUser(response.data.datas))
-                    dispatch(setStatus(IStatus.SUCCESS));
-                    console.log("✅step: 8 response data", response.data)
-                };
-            } catch (error) {
-                console.error("❌ Registration failed:", {
-                    message: (error as Error).message,
-                });
-                dispatch(setStatus(IStatus.ERROR));
-            };
-        };
-    };
+      try {
+        const payload = {
+          username: userData.username,
+          email: userData.email,
+          password: userData.password,
+          confirmPassword: userData.confirmPassword,
+        }
 
+        const response = await API.post<IRegisterApiResponse>(
+          "/api/auth/register",
+          payload
+        )
+        console.log("response backend", response)
+        console.log("response backend", response.data.data.user)
 
-    static login(userData: ILogin) {
-        return async function loginUserThunk(dispatch: AppDispatch) {
-            try {
-                const response = await API.post("/api/auth/login", userData);
-                console.log("backend data", response.data.datas)
-                if (response.status === 201) {
-                    dispatch(setUser(response.data.datas));
-                    //          localStorage.setItem("user_token", response.data.datas.token);
-                    // localStorage.setItem("user_name", response.data.datas.username);
-                    dispatch(setStatus(IStatus.SUCCESS));
-                };
-                localStorage.setItem("user_token", response.data.datas.token);
-                localStorage.setItem("user_name", response.data.datas.username);
-            } catch (error) {
-                console.error("Register success", error);
-                dispatch(setStatus(IStatus.ERROR));
-            };
-        };
-    };
-};
+        const storeUser = toStoreUser(response.data.data.user)
+
+        dispatch(setUser(storeUser))
+        dispatch(setStatus(IStatus.SUCCESS))
+        persistAuthUser(storeUser)
+        return true
+      } catch (error) {
+        console.error("Registration failed", error)
+        dispatch(setStatus(IStatus.ERROR))
+        return false
+      }
+    }
+  }
+
+  //login slice
+  static login(userData: ILogin) {
+    return async function loginUserThunk(dispatch: AppDispatch) {
+      dispatch(setStatus(IStatus.LOADING))
+
+      try {
+        const response = await API.post<ILoginApiResponse>(
+          "/api/auth/login",
+          userData
+        )
+
+        const storeUser = toStoreUser(
+          response.data.data.user,
+          response.data.data.token
+        )
+
+        dispatch(setUser(storeUser))
+        dispatch(setStatus(IStatus.SUCCESS))
+        persistAuthUser(storeUser)
+        return true
+      } catch (error) {
+        console.error("Login failed", error)
+        dispatch(setStatus(IStatus.ERROR))
+        return false
+      }
+    }
+  }
+}

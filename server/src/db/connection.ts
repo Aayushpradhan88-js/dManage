@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { config } from "dotenv";
-import { DATABASE_URL } from "../config/env";
+import { DATABASE_URL } from "../config/env.ts";
 config();
 
 const connectionString = DATABASE_URL

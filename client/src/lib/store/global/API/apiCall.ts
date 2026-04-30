@@ -1,6 +1,6 @@
 'use client'
 
-import axios from "axios";
+import axios from "axios"
 
 const API = axios.create({
     baseURL: "http://localhost:8000",
@@ -9,7 +9,7 @@ const API = axios.create({
         "Accept": "application/json"
     },
     withCredentials: true
-});
+})
 
 const APIWithToken = axios.create({
     baseURL: "http://localhost:8000",
@@ -19,6 +19,6 @@ const APIWithToken = axios.create({
         "Accept": "application/json"
     },
     withCredentials: true,
-});
+})
 
-export { API, APIWithToken };
+export { API, APIWithToken }

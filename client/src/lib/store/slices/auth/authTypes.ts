@@ -1,11 +1,40 @@
-import { IStatus } from "../../global/types/type";
+import { IStatus } from "../../global/types/type"
+
+export type AuthRole = "super-admin" | "admin" | "teacher" | "student" | "user"
 
 export interface IUser {
-    username: string;
-    token: string
-};
+  id: string,
+  username: string,
+  email: string,
+  systemRole: "user" | "super_admin",
+  activeRole: AuthRole,
+  token: string,
+}
 
 export interface IAuthInitialStateType {
-    user: IUser;
-    status: IStatus
-};
+  user: IUser,
+  status: IStatus,
+}
+
+export interface IAuthApiUser {
+  id: string,
+  username: string,
+  email: string,
+  systemRole: "user" | "super_admin",
+  activeRole: AuthRole,
+}
+
+export interface IRegisterApiResponse {
+  data: {
+    user: IAuthApiUser,
+  },
+  message: string,
+}
+
+export interface ILoginApiResponse {
+  data: {
+    user: IAuthApiUser,
+    token: string,
+  },
+  message: string,
+}

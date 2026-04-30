@@ -60,31 +60,6 @@ const InstitutePage = () => {
       badge="Institute application"
       title="Apply to become an institute admin."
       description="This page should feel like a reviewable business application, not a casual signup form. We need enough information for the super admin to approve with confidence."
-      panelTitle="Approval checklist"
-      panelDescription="In the backend flow, this submission should create an institute application record with status pending. Only after review should the user get institute admin access."
-      features={[
-        {
-          title: "Linked to personal account",
-          description:
-            "Users should reach this page only after creating a normal account and signing in.",
-        },
-        {
-          title: "Business verification",
-          description:
-            "Collect contact details plus PAN or VAT to support manual review in v1.",
-        },
-        {
-          title: "Pending review state",
-          description:
-            "After submit, show a pending screen instead of sending the user straight to an admin dashboard.",
-        },
-        {
-          title: "Super admin approval",
-          description:
-            "The final role assignment should happen only after backend approval and membership creation.",
-        },
-      ]}
-      primaryCta={{ href: "/register", label: "Create account first" }}
       secondaryCta={{ href: "/login", label: "Already signed in?" }}
     >
       <Card className="overflow-hidden border-slate-200/80 bg-white/95 py-0 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] backdrop-blur">
