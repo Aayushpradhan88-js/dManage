@@ -61,6 +61,12 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload
     },
+    patchUser: (state, action: PayloadAction<Partial<IUser>>) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      }
+    },
     setStatus: (state, action: PayloadAction<IStatus>) => {
       state.status = action.payload
     },
@@ -76,7 +82,7 @@ const toStoreUser = (user: IAuthApiUser, token = ""): IUser => ({
   token,
 })
 
-export const { setUser, setStatus, clearUser } = authSlice.actions
+export const { setUser, patchUser, setStatus, clearUser } = authSlice.actions
 export default authSlice.reducer
 export {
   AUTH_STORAGE_KEY,

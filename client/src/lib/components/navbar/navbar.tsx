@@ -1,150 +1,154 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconChevronDown, IconLogout, IconUserCircle } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "@/src/lib/store/hooks/customHook";
 import { clearPersistedAuthUser, clearUser } from "@/src/lib/store/slices/auth/authSlice";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, LogOut, User, ChevronDown } from "lucide-react";
 import { Button } from "../ui/button";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "../ui/dropdown-menu";
 
 function Navbar() {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const user = useAppSelector((state) => state.auth.user);
-
     const isAuthenticated = Boolean(user.token);
-    console.log("auth user", isAuthenticated)
-    const profileHref =
-        user.activeRole === "super-admin"
-            ? "/super-admin/dashboard"
-            : user.activeRole === "admin"
-                ? "/institute/admin/dashboard"
-                : user.activeRole === "teacher"
-                    ? "/teacher/dashboard"
-                    : user.activeRole === "student"
-                        ? "/student/dashboard"
-                        : "/";
 
     const handleLogout = () => {
         clearPersistedAuthUser();
         dispatch(clearUser());
-        setIsMenuOpen(false);
         router.push("/");
     };
 
     return (
-        <header className="sticky inset-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-lg">
-            <nav className="mx-auto flex max-w-6xl gap-8 px-6 transition-all duration-200 ease-in-out lg:px-12 py-4">
-                {/* <div className="relative flex items-center"> */}
-                {/* <a href="/">
-                        <img src="https://www.svgrepo.com/show/499831/target.svg" loading="lazy" style={{ color: 'transparent' }} width={32} height={32} />
-                    </a> */}
-                {/* </div> */}
-                <div className="flex grow" />
-                <div className="hidden items-center justify-center gap-6 md:flex">
+        <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white backdrop-blur-sm">
+            <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+                {/* Logo Section */}
+                <div className="flex items-center gap-8">
+                    <Link href="/" className="flex items-center space-x-2">
+                        <div className="flex h-9 items-center justify-center rounded bg-white px-2 ring-1 ring-slate-200 shadow-sm">
+                            <GraduationCap className="h-6 w-6 text-green-700" />
+                            <span className="ml-2 text-xl font-bold text-green-700">dManage</span>
+                        </div>
+                    </Link>
 
-                    {isAuthenticated ? (
-                        <div>
-                            <div className="flex items-center space-x-2">
-                                <GraduationCap className="h-8 w-8 text-green-700" />
-                                <span className=" text-green-700 text-2xl font-bold">
-                                    {/* dManage */}
-                                    dManage
-                                </span>
+                    {/* Navigation Links (Desktop) */}
+                    <nav className="hidden md:flex items-center space-x-6">
+                        <Link href="/" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Home
+                        </Link>
+                        <div className="relative group py-4">
+                            <div className="flex items-center gap-1 cursor-pointer text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                                Solutions <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
                             </div>
-                            <div className="hidden md:flex text-black items-center space-x-8">
-                                <a href="#features" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    Features
-                                </a>
-                                <a href="#how-it-works" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    How It Works
-                                </a>
-                                <a href="#pricing" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    Pricing
-                                </a>
-                            </div>
-                            <div className="relative">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsMenuOpen((currentState) => !currentState)}
-                                    className="flex items-center gap-2 rounded-full border border-slate-300 px-3 py-2 text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
-                                >
-                                    <IconUserCircle size={20} />
-                                    <span className="max-w-28 truncate text-sm font-medium">{user.username}</span>
-                                    <IconChevronDown size={16} className={`transition-transform ${isMenuOpen ? "rotate-180" : ""}`} />
-                                </button>
-                           </div>
-                            {isMenuOpen && (
-
-                                <div className="absolute right-0 top-14 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
-                                    <div className="border-b border-slate-100 px-3 py-2">
-                                        <p className="truncate text-sm font-semibold text-slate-900">{user.username}</p>
-                                        <p className="truncate text-xs text-slate-500">{user.email}</p>
-                                        <p className="mt-1 text-xs uppercase tracking-wide text-emerald-700">{user.activeRole}</p>
+                            
+                            {/* Hover Dropdown Menu */}
+                            <div className="absolute -left-4 top-full hidden group-hover:block pt-2 w-[480px]">
+                                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+                                        <div className="space-y-4">
+                                            <Link href="/solutions/live-class" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Live Class
+                                            </Link>
+                                            <Link href="/solutions/course-announcement" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Course Announcement
+                                            </Link>
+                                            <Link href="/solutions/student-management" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Student Management
+                                            </Link>
+                                            <Link href="/solutions/quick-announcement" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Quick Announcement
+                                            </Link>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <Link href="/solutions/progress-tracking" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Progress Tracking
+                                            </Link>
+                                            <Link href="/solutions/revenue-calculation" className="block text-sm font-medium text-slate-600 hover:text-green-700 transition-colors">
+                                                Monthly Revenue Calculation
+                                            </Link>
+                                        </div>
                                     </div>
-
-                                    <Link
-                                        href={profileHref}
-                                        className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <IconUserCircle size={18} />
-                                        Profile
-                                    </Link>
-
-                                    <button
-                                        type="button"
-                                        onClick={handleLogout}
-                                        className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
-                                    >
-                                        <IconLogout size={18} />
-                                        Logout
-                                    </button>
                                 </div>
-                            )}
-                        </div>
-                    ) : (
-                    <nav className="fixed top-0 w-full z-50 border-b bg-slate-100">
-                        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                                <GraduationCap className="h-8 w-8 text-green-700" />
-                                <span className=" text-green-700 text-2xl font-bold">
-                                    {/* dManage */}
-                                    dManage
-                                </span>
-                            </div>
-                            <div className="hidden md:flex text-black items-center space-x-8">
-                                <a href="#features" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    Features
-                                </a>
-                                <a href="#how-it-works" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    How It Works
-                                </a>
-                                <a href="#pricing" className="text-sm font-medium hover:bg-slate-300 rounded-4xl p-2 transition">
-                                    Pricing
-                                </a>
-                                <Link href="/login">
-                                    <Button variant="signupButton">Sign In</Button>
-                                </Link>
-                                <Link href="/register">
-                                    <Button>Get Started</Button>
-                                </Link>
                             </div>
                         </div>
+                        <Link href="#features" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Features
+                        </Link>
+                        <Link href="#pricing" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Pricing
+                        </Link>
+                        <Link href="#docs" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Docs
+                        </Link>
+                        <Link href="#blog" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Blog
+                        </Link>
                     </nav>
+                </div>
+
+                {/* Right side actions */}
+                <div className="flex items-center space-x-4">
+                    {isAuthenticated ? (
+                        <>
+                            <Link href="/institute/becomeInstitute" className="hidden sm:block">
+                                <Button className="bg-green-700 hover:bg-green-800 text-white rounded-lg px-4 h-10 shadow-sm border-0">
+                                    Register Your Institute
+                                </Button>
+                            </Link>
+                            
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full border border-slate-200 hover:border-slate-300">
+                                        <User className="h-6 w-6 text-slate-700" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-64 mt-2 rounded-xl border-slate-200 bg-white p-2 shadow-xl animate-in fade-in zoom-in duration-200">
+                                    <DropdownMenuLabel className="font-normal px-2 py-3">
+                                        <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-semibold text-slate-900">{user.username}</p>
+                                            <p className="text-xs text-slate-500">{user.email}</p>
+                                            <p className="mt-1.5 inline-flex w-fit items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                                                {user.activeRole}
+                                            </p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator className="bg-slate-100" />
+                                    <DropdownMenuItem asChild className="focus:bg-slate-50 focus:text-slate-900 cursor-pointer rounded-lg">
+                                        <Link href="/profile" className="flex items-center gap-3 px-2 py-2.5 text-sm text-slate-700">
+                                            <User className="h-4 w-4" />
+                                            <span>My Profile</span>
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator className="bg-slate-100" />
+                                    <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 px-2 py-2.5 text-sm text-red-600 focus:bg-red-50 focus:text-red-700 cursor-pointer rounded-lg mt-1">
+                                        <LogOut className="h-4 w-4" />
+                                        <span>Log out</span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </>
+                    ) : (
+                        <div className="flex items-center space-x-3">
+                            <Link href="/login">
+                                <Button variant="ghost" className="text-slate-700 hover:bg-slate-50 hover:text-slate-900 h-10 px-4">Sign In</Button>
+                            </Link>
+                            <Link href="/register">
+                                <Button className="bg-green-700 hover:bg-green-800 text-white h-10 px-5 rounded-lg shadow-sm border-0">Get Started</Button>
+                            </Link>
+                        </div>
                     )}
                 </div>
-                <div className="relative flex items-center justify-center md:hidden">
-                    <button type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" className="h-6 w-auto text-slate-900"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-                    </button>
-                </div>
-            </nav>
+            </div>
         </header>
     );
-};
+}
 
 export default Navbar;

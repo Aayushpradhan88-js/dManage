@@ -13,12 +13,22 @@ const API = axios.create({
 
 const APIWithToken = axios.create({
     baseURL: "http://localhost:8000",
-    headers: {
-        "Authorization": typeof window !== 'undefined' ? localStorage.getItem("user_token") : null,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    },
     withCredentials: true,
+})
+
+APIWithToken.interceptors.request.use((config) => {
+    if (typeof window !== "undefined") {
+        const token = localStorage.getItem("user_token")
+
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+    }
+
+    config.headers["Content-Type"] = "application/json"
+    config.headers.Accept = "application/json"
+
+    return config
 })
 
 export { API, APIWithToken }

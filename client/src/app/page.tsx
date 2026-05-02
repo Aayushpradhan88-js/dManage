@@ -14,13 +14,13 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
-import Navbar from "../lib/components/navbar/navbar";
+
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
       {/* Navbar */}
-      <Navbar/>
+
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-3">
