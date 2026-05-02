@@ -1,5 +1,5 @@
 import { Response } from "express";
-import IExtendedRequest from "../../../global/types/types";
+import { IExtendedRequest } from "../../../global/types/types";
 import sequelize from "../../../../database/connection";
 import { QueryTypes, Sequelize } from "sequelize";
 import generateRandomPasswordService from "../../../global/services/generateRandomPassword";
@@ -7,7 +7,7 @@ import MailService from "../../../global/services/nodeMailer";
 
 class TeacherController {
     //create teacher
-    static async createTeacher(req: IExtendedRequest, res: Response) {
+    static async createTeacher(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -92,7 +92,7 @@ class TeacherController {
     };
 
     //get all teacher
-    static async getAllTeacher(req: IExtendedRequest, res: Response) {
+    static async getAllTeacher(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req?.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -118,7 +118,7 @@ class TeacherController {
     }
 
     //get single teacher
-    static async getSingleTeacher(req: IExtendedRequest, res: Response) {
+    static async getSingleTeacher(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req?.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -151,7 +151,7 @@ class TeacherController {
     };
 
     //delete single teacher
-    static async deleteSingleteacher(req: IExtendedRequest, res: Response) {
+    static async deleteSingleteacher(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         const teacherId = req.params.id;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
@@ -173,7 +173,7 @@ class TeacherController {
     };
 
     //update teacher
-    // static async updateSingleCategory(req: IExtendedRequest, res: Response) {
+    // static async updateSingleCategory(req: {IExtendedRequest}, res: Response) {
     //     const currentInstituteNumber = req?.user?.currentInstituteNumber;
     //     if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
     //         return res.status(400).json({ errorMessage: "Invalid institute number" });

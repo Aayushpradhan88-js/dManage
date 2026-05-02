@@ -1,7 +1,7 @@
 //Teacher Controller
 
 import { Response } from "express";
-import IExtendedRequest from "../../global/types/types";
+import { IExtendedRequest } from "../../global/types/types";
 import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
 import * as bcrypt from "bcrypt";
@@ -10,13 +10,13 @@ import { JWT_EXPIRY, JWT_SECRET } from "../../../config/env";
 
 interface ITeacherData {
     id: string,
-    teacherInstituteNumber: string|number,
+    teacherInstituteNumber: string | number,
     teacherEmail: string,
     teacherPassword: string,
 }
 
 class TeacherController {
-    static async teacherLogin(req: IExtendedRequest, res: Response) {
+    static async teacherLogin(req: { IExtendedRequest }, res: Response) {
         const { teacherInstituteNumber, teacherEmail, teacherPassword } = req.body;
 
         if (!teacherInstituteNumber || !teacherEmail || !teacherPassword) {

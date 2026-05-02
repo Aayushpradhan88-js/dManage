@@ -1,11 +1,11 @@
 import { Response, response } from "express"
-import IExtendedRequest from "../../../global/types/types"
+import { IExtendedRequest } from "../../../global/types/types"
 import sequelize from "../../../../database/connection";
 import { QueryTypes } from "sequelize";
 
 class CategoryController {
     //create category
-    static async createCategory(req: IExtendedRequest, res: Response) {
+    static async createCategory(req: { IExtendedRequest }, res: Response) {
         console.log("create category API triggered");
         const instituteNumber = req.user?.currentInstituteNumber;
         if (!instituteNumber || instituteNumber.trim().length === 0) {
@@ -43,7 +43,7 @@ class CategoryController {
     };
 
     //get all category
-    static async getAllCategory(req: IExtendedRequest, res: Response) {
+    static async getAllCategory(req: { IExtendedRequest }, res: Response) {
         // console.log("DB-server triggered");
         const instituteNumber = req.user?.currentInstituteNumber;
         if (!instituteNumber || instituteNumber.trim().length === 0) {
@@ -70,7 +70,7 @@ class CategoryController {
     };
 
     //single category
-    static async getSingleCategory(req: IExtendedRequest, res: Response) {
+    static async getSingleCategory(req: { IExtendedRequest }, res: Response) {
         const categoryId = req.params.id;
         if (!categoryId) {
             return res.status(400).json({
@@ -106,7 +106,7 @@ class CategoryController {
     };
 
     //update category
-    static async updateSingleCategory(req: IExtendedRequest, res: Response) {
+    static async updateSingleCategory(req: { IExtendedRequest }, res: Response) {
         const categoryId = req.params.id;
         if (!categoryId) {
             return res.status(400).json({
@@ -153,7 +153,7 @@ class CategoryController {
     };
 
     //delete category
-    static async deleteSingleCategory(req: IExtendedRequest, res: Response) {
+    static async deleteSingleCategory(req: { IExtendedRequest }, res: Response) {
         const categoryId = req.params.id;
         console.log("categoryId", categoryId);
         if (!categoryId) {

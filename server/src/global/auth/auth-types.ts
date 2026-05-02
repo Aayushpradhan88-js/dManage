@@ -14,6 +14,11 @@ export interface LoginUserDto {
   rememberMe?: boolean,
 }
 
+export interface UpdateProfileDto {
+  username: string,
+  email: string,
+}
+
 export interface AuthenticatedUser {
   id: string,
   username: string,
@@ -28,6 +33,10 @@ export interface RegisterAuthResponse {
 
 export interface LoginAuthResponse extends RegisterAuthResponse {
   token: string,
+}
+
+export interface ProfileAuthResponse {
+  user: AuthenticatedUser,
 }
 
 export interface JwtPayload {

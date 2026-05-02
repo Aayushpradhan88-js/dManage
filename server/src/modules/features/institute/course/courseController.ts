@@ -1,13 +1,13 @@
 //Course Controller
 
 import { Response } from "express";
-import IExtendedRequest from "../../../global/types/types";
-import sequelize from "../../../../database/connection";
+import { IExtendedRequest } from "../../../global/types/types.ts";
+import sequelize from "../../../../database/connection.ts";
 import { QueryTypes } from "sequelize";
 
 class CourseController {
     //create course
-    static async createCourse(req: IExtendedRequest, res: Response) {
+    static async createCourse(req: IExtendedRequest , res: Response) {
         const {
             courseName,
             coursePrice,
@@ -17,8 +17,8 @@ class CourseController {
             teacherId,
             categoryId
         } = req.body;
-        console.log("✅step 1: All data from the body", 
-            courseName, 
+        console.log("✅step 1: All data from the body",
+            courseName,
             coursePrice,
             courseLevel,
             courseDescription,
@@ -88,7 +88,7 @@ class CourseController {
     };
 
     //all course
-    static async getAllCourses(req: IExtendedRequest, res: Response) {
+    static async getAllCourses(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -113,7 +113,7 @@ class CourseController {
     };
 
     //single course
-    static async getSingleCourse(req: IExtendedRequest, res: Response) {
+    static async getSingleCourse(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber?.trim().length === 0) {
             return res.status(400).json({ errorMessage: "Invalid institute number" });
@@ -141,7 +141,7 @@ class CourseController {
     };
 
     //update course`
-    static async updateSingleCourse(req: IExtendedRequest, res: Response) {
+    static async updateSingleCourse(req: { IExtendedRequest }, res: Response) {
         console.log("update api hit");
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {
@@ -225,7 +225,7 @@ class CourseController {
     };
 
     //delete course
-    static async deleteSingleCourse(req: IExtendedRequest, res: Response) {
+    static async deleteSingleCourse(req: { IExtendedRequest }, res: Response) {
         const currentInstituteNumber = req.user?.currentInstituteNumber;
         const courseId = req.params.id;
         if (!currentInstituteNumber || currentInstituteNumber.trim().length === 0) {

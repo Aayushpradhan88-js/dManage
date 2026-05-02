@@ -6,8 +6,10 @@ import type {
   AuthenticatedUser,
   LoginAuthResponse,
   LoginUserDto,
+  ProfileAuthResponse,
   RegisterAuthResponse,
   RegisterUserDto,
+  UpdateProfileDto,
 } from "./auth-types.ts"
 import TokenGenerationService from "../services/generateToken.ts"
 import { APIError } from "../../config/api-error-response.ts"
@@ -67,6 +69,49 @@ export class AuthService {
     }
   }
 
+  //get profile
+  static async getProfile(userId: string): Promise<ProfileAuthResponse> {
+    console.log("userId", userId)
+    const user = await AuthRepository.findUserById(userId)
+    console.log("user", user)
+
+    if (!user) {
+      throw new APIError("User not found", 404)
+    }
+
+    return {
+      user: this.toAuthenticatedUser(user),
+    }
+  }
+
+  //update profile
+  static async updateProfile(
+    userId: string,
+    payload: UpdateProfileDto
+  ): Promise<ProfileAuthResponse> {
+    const sanitizedPayload = this.validateProfilePayload(payload)
+    const user = await AuthRepository.findUserById(userId)
+
+    if (!user) {
+      throw new APIError("User not found", 404)
+    }
+
+    const existingUser = await AuthRepository.findUserByEmail(sanitizedPayload.email)
+    if (existingUser && existingUser.id !== userId) {
+      throw new APIError("An account with this email already exists", 409)
+    }
+
+    const updatedUser = await AuthRepository.updateUser(
+      userId,
+      sanitizedPayload.username,
+      sanitizedPayload.email
+    )
+
+    return {
+      user: this.toAuthenticatedUser(updatedUser),
+    }
+  }
+
   //register validation
   private static validateRegisterPayload(payload: RegisterUserDto): RegisterUserDto {
     console.log("payload", payload)
@@ -100,6 +145,18 @@ export class AuthService {
     }
 
     return { email, password }
+  }
+
+  //profile validation
+  private static validateProfilePayload(payload: UpdateProfileDto): UpdateProfileDto {
+    const username = payload?.username?.trim()
+    const email = payload?.email?.trim().toLowerCase()
+
+    if (!username || !email) {
+      throw new APIError("Name and email are required", 400)
+    }
+
+    return { username, email }
   }
 
   //For authenticated user who wants to enter in platform validation

@@ -1,13 +1,13 @@
 import type { NextFunction, Response } from "express"
 import jwt from "jsonwebtoken"
-import { JWT_SECRET } from "../../config/env"
-import IExtendedRequest from "../types/types"
-import { db } from "../../db/connection"
-import type { JwtPayload } from "../auth/auth-types"
+import { JWT_SECRET } from "../../config/env.ts"
+import { db } from "../../db/connection.ts"
+import type { IExtendedRequest } from "../types/types.ts"
+import type { JwtPayload } from "../auth/auth-types.ts"
 
 class UserVerification {
   static async userAuthorizationAccessVerification(
-    req: IExtendedRequest,
+    req:  IExtendedRequest ,
     res: Response,
     next: NextFunction
   ) {

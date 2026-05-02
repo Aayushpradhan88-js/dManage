@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
 import { db } from "../../../db/connection";
-import IExtendedRequest from "../../global/types/types";
+import { IExtendedRequest } from "../../global/types/types";
 
 class InstituteController {
-    static async createInstitute(req: IExtendedRequest, res: Response, next: NextFunction) {
+    static async createInstitute(req: { IExtendedRequest }, res: Response, next: NextFunction) {
         const {
             instituteName,
             instituteEmail,
@@ -62,27 +62,27 @@ class InstituteController {
         };
     };
 
-    static async createTeacherTable(req: IExtendedRequest, res: Response, next: NextFunction) {
+    static async createTeacherTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
         // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
         next();
     };
 
-    static async createStudentTable(req: IExtendedRequest, res: Response, next: NextFunction) {
+    static async createStudentTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
         // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
         next();
     };
 
-    static async createCourseTable(req: IExtendedRequest, res: Response, next: NextFunction) {
+    static async createCourseTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
         // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
         next();
     };
 
-    static async createCourseChapterTable(req: IExtendedRequest, res: Response) {
+    static async createCourseChapterTable(req: { IExtendedRequest }, res: Response) {
         // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
         return res.status(200).json({ message: "institute resources generated successfully" });
     };
 
-    static async createCategoryTable(req: IExtendedRequest, res: Response, next: NextFunction) {
+    static async createCategoryTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
         // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
         next();
     };

@@ -1,6 +1,19 @@
-import { db } from "../../db/connection.ts";
+import { db } from "../../db/connection.ts"
 
 export class AuthRepository {
+  static async findUserById(id: string) {
+    return await db.user.findUnique({
+      where: { id },
+      include: {
+        instituteMemberships: {
+          where: { isActive: true },
+          orderBy: { createdAt: "desc" },
+          take: 1,
+        },
+      },
+    })
+  }
+
   static async findUserByEmail(email: string) {
     return await db.user.findUnique({
       where: { email },
@@ -36,6 +49,23 @@ export class AuthRepository {
   static loginUser(email: string, password: string) {
     return db.user.findUnique({
       where: { email, password },
+      include: {
+        instituteMemberships: {
+          where: { isActive: true },
+          orderBy: { createdAt: "desc" },
+          take: 1,
+        },
+      },
+    })
+  }
+
+  static updateUser(id: string, username: string, email: string) {
+    return db.user.update({
+      where: { id },
+      data: {
+        username,
+        email,
+      },
       include: {
         instituteMemberships: {
           where: { isActive: true },

@@ -1,6 +1,7 @@
 import type { Response } from "express";
 
 export class ApiResponse {
+  //success response
   static success<T>(
     res: Response,
     options: {
@@ -18,6 +19,7 @@ export class ApiResponse {
     });
   }
 
+  //error response
   static error(
     res: Response,
     options: {
