@@ -105,8 +105,12 @@ model Institute {
 model InstituteApplication {
   id            String   @id @default(uuid()) @db.Uuid
   userId        String   @map("user_id") @db.Uuid
-  instituteName String   @map("institute_name") @db.VarChar(200)
-  message       String?
+  name          String   @map("name") @db.VarChar(200)
+  email         String   @map("email") @db.VarChar(255)
+  phone         String   @map("phone") @db.VarChar(20)
+  address       String?  @map("address") @db.VarChar(255)
+  panNumber     String?  @map("pan_number") @db.VarChar(20)
+  vatNumber     String?  @map("vat_number") @db.VarChar(20)
   status        ApplicationStatus @default(pending)
   reviewedBy    String?  @map("reviewed_by") @db.Uuid
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz

@@ -8,14 +8,15 @@ import { AppDispatch } from "../../store";
 
 const initialState: IInstituteInitialState = {
     institute: {
-        instituteName: " ",
-        instituteEmail: " ",
-        institutePhoneNumber: " ",
-        instituteAddress: " ",
-        instituteVatNumber: " ",
-        institutePanNumber: " ",
+        instituteName: "",
+        instituteEmail: "",
+        institutePhoneNumber: "",
+        institutePhoneCountry: "NP",
+        instituteAddress: "",
+        instituteVatNumber: "",
+        institutePanNumber: "",
     },
-    status: IStatus.LOADING,
+    status: IStatus.IDLE,
 };
 
 const intitituteSlice = createSlice({
@@ -40,18 +41,22 @@ export default intitituteSlice.reducer;
 export class APIInstitute {
     static createInstitute(instituteData: IInstituteState) {
         return async function createInstituteThunk(dispatch: AppDispatch) {
+            dispatch(setStatus(IStatus.LOADING));
+
             try {
                 const response = await APIWithToken.post("/api/institute/", instituteData);
-                // console.log('Token:', localStorage.getItem("user_token"));
                 if (response.status === 200 || response.status === 201) {
-                    dispatch(setInstitute(response.data.datas));
+                    dispatch(setInstitute(instituteData));
                     dispatch(setStatus(IStatus.SUCCESS));
+                    return true;
                 };
 
-                // console.log("Institute success creation", response.data.datas.currentInstituteNumber);
+                dispatch(setStatus(IStatus.ERROR));
+                return false;
             } catch (error) {
                 console.log("Failed to create institute", error);
                 dispatch(setStatus(IStatus.ERROR));
+                return false;
             };
         };
     };

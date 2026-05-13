@@ -1,89 +1,76 @@
 import { NextFunction, Response } from "express";
 import { db } from "../../../db/connection";
 import { IExtendedRequest } from "../../global/types/types";
+import { validateInstituteApplicationPayload } from "./instituteValidation.ts";
 
 class InstituteController {
-    static async createInstitute(req: { IExtendedRequest }, res: Response, next: NextFunction) {
-        const {
-            instituteName,
-            instituteEmail,
-            institutePhoneNumber,
-            instituteAddress,
-            instituteVatNumber = null,
-            institutePanNumber = null
-        } = req.body;
-
-        if (!instituteName || !instituteEmail || !institutePhoneNumber || !instituteAddress) {
-            return res.status(400).json({
-                message: "Provide all the required fields!!"
-            });
-        };
-
+    static async createInstitute(req: IExtendedRequest, res: Response, next: NextFunction) {
         try {
             const userId = req.user?.id;
             if (!userId) {
                 return res.status(404).json({ message: "User not found!!" });
             }
 
-            // In our new schema, Institute has name, and slug. Since we are migrating from dynamic tables to a unified table:
-            const newInstitute = await db.institute.create({
-                data: {
-                    name: instituteName,
-                    slug: instituteName.toLowerCase().replace(/ /g, '-'),
-                    // We can add logic to keep extra dynamic fields if schema updates, but for now we fallback to description
-                    description: `Address: ${instituteAddress}, Phone: ${institutePhoneNumber}, Email: ${instituteEmail}, VAT: ${instituteVatNumber}, PAN: ${institutePanNumber}`,
-                    createdBy: userId
-                }
+            const validatedPayload = validateInstituteApplicationPayload(req.body);
+
+            const existingPendingApplication = await db.instituteApplication.findFirst({
+                where: {
+                    userId,
+                    status: "pending",
+                },
             });
 
-            // Create membership record for the creator
-            await db.instituteMembership.create({
+            if (existingPendingApplication) {
+                return res.status(409).json({
+                    message: "You already have a pending institute application.",
+                });
+            }
+
+            // We intentionally create a pending application instead of a live
+            // institute so the super admin can verify submitted PAN/VAT details
+            // against official government records before granting admin access.
+            const newApplication = await db.instituteApplication.create({
                 data: {
                     userId,
-                    instituteId: newInstitute.id,
-                    role: "admin",
-                    isActive: true
+                    instituteName: validatedPayload.instituteName,
+                    message: JSON.stringify({
+                        instituteEmail: validatedPayload.instituteEmail,
+                        institutePhoneCountry: validatedPayload.institutePhoneCountry,
+                        institutePhoneNumber: validatedPayload.institutePhoneNumber,
+                        instituteAddress: validatedPayload.instituteAddress,
+                        instituteVatNumber: validatedPayload.instituteVatNumber,
+                        institutePanNumber: validatedPayload.institutePanNumber,
+                        governmentVerificationStatus: "pending_manual_review",
+                    }),
                 }
             });
 
-            // Update user to have current roles or system fields if needed
-            // NOTE: user schema replaced currentInstituteNumber with robust relations, you might store it in a session or client.
-
             return res.status(200).json({
-                message: "successfully created institute",
-                data: newInstitute
+                message: "Institute application submitted successfully",
+                data: newApplication
             });
         } catch (error) {
-            console.error("✗ Server Error: Failed to create institute:", (error as Error).stack);
-            return res.status(500).json({
-                errorMessage: (error as Error).message,
-                fullErrorMessage: error
-            });
+            next(error);
         };
     };
 
-    static async createTeacherTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
-        // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
+    static async createTeacherTable(req: IExtendedRequest, res: Response, next: NextFunction) {
         next();
     };
 
-    static async createStudentTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
-        // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
+    static async createStudentTable(req: IExtendedRequest, res: Response, next: NextFunction) {
         next();
     };
 
-    static async createCourseTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
-        // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
+    static async createCourseTable(req: IExtendedRequest, res: Response, next: NextFunction) {
         next();
     };
 
-    static async createCourseChapterTable(req: { IExtendedRequest }, res: Response) {
-        // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
+    static async createCourseChapterTable(req: IExtendedRequest, res: Response) {
         return res.status(200).json({ message: "institute resources generated successfully" });
     };
 
-    static async createCategoryTable(req: { IExtendedRequest }, res: Response, next: NextFunction) {
-        // Table creation handled by Prisma push/migrate, so nothing dynamic happens here anymore
+    static async createCategoryTable(req: IExtendedRequest, res: Response, next: NextFunction) {
         next();
     };
 };

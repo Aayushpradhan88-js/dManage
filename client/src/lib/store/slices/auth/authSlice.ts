@@ -88,12 +88,10 @@ export {
   AUTH_STORAGE_KEY,
   emptyUser,
   clearPersistedAuthUser,
-  persistAuthUser
+  persistAuthUser,
 }
 
 export class APIAuth {
-
-  //register slice
   static register(userData: IRegister) {
     return async function registerUserThunk(dispatch: AppDispatch) {
       dispatch(setStatus(IStatus.LOADING))
@@ -110,8 +108,6 @@ export class APIAuth {
           "/api/auth/register",
           payload
         )
-        console.log("response backend", response)
-        console.log("response backend", response.data.data.user)
 
         const storeUser = toStoreUser(response.data.data.user)
 
@@ -127,7 +123,6 @@ export class APIAuth {
     }
   }
 
-  //login slice
   static login(userData: ILogin) {
     return async function loginUserThunk(dispatch: AppDispatch) {
       dispatch(setStatus(IStatus.LOADING))
@@ -146,11 +141,11 @@ export class APIAuth {
         dispatch(setUser(storeUser))
         dispatch(setStatus(IStatus.SUCCESS))
         persistAuthUser(storeUser)
-        return true
+        return storeUser
       } catch (error) {
         console.error("Login failed", error)
         dispatch(setStatus(IStatus.ERROR))
-        return false
+        return null
       }
     }
   }

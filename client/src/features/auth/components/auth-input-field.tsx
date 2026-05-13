@@ -38,7 +38,7 @@ export function AuthInputField({
   return (
     <Field>
       <div className="flex items-center justify-between gap-3">
-        <FieldLabel htmlFor={id}>{label}</FieldLabel>
+        <FieldLabel htmlFor={id} className="text-xs font-bold uppercase tracking-wider text-slate-500">{label}</FieldLabel>
         {trailingAction}
       </div>
 
@@ -50,7 +50,7 @@ export function AuthInputField({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="h-12 rounded-xl border-slate-200 bg-white"
+        className="h-14 rounded-xl border-slate-200 bg-slate-50/50 focus:bg-white transition-all shadow-sm"
         required={required}
       />
 

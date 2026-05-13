@@ -12,7 +12,7 @@ type AuthSubmitButtonProps = {
 const toneClassName = {
   dark: "bg-slate-950 text-white hover:bg-slate-800",
   emerald:
-    "bg-emerald-700 text-white hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700",
+    "bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-200/50 transition-all active:scale-[0.98]",
 };
 
 export function AuthSubmitButton({
@@ -24,7 +24,7 @@ export function AuthSubmitButton({
   return (
     <Button
       type="submit"
-      className={`flex cursor-pointer h-12 w-full items-center justify-center gap-2 rounded-xl ${toneClassName[tone]}`}
+      className={`flex cursor-pointer h-14 w-full items-center justify-center gap-2 rounded-xl ${toneClassName[tone]}`}
       disabled={disabled || isLoading}
     >
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : label}

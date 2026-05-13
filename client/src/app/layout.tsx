@@ -24,17 +24,20 @@ const metadata: Metadata = {
   description: "SAAS application for managing training sessions and participants.",
 }
 
-// Dashboard routes where the public navbar should be hidden
-const DASHBOARD_PREFIXES = [
+// Dashboard and Auth routes where the public navbar should be hidden
+const HIDE_NAVBAR_PATHS = [
   "/institute/admin/dashboard",
   "/teacher/dashboard",
   "/student/dashboard",
   "/super-admin/dashboard",
+  "/login",
+  "/register",
+  "/institute/becomeInstitute",
 ]
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname()
-  const isDashboard = DASHBOARD_PREFIXES.some((prefix) =>
+  const shouldHideNavbar = HIDE_NAVBAR_PATHS.some((prefix) =>
     pathname.startsWith(prefix)
   )
 
@@ -45,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       >
         <Provider store={store} >
           <AuthHydrator />
-          {!isDashboard && <Navbar />}
+          {!shouldHideNavbar && <Navbar />}
           {children}
         </Provider>
       </body>
