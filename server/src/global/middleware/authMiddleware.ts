@@ -6,11 +6,7 @@ import type { IExtendedRequest } from "../types/types.ts"
 import type { JwtPayload } from "../auth/auth-types.ts"
 
 class UserVerification {
-  static async userAuthorizationAccessVerification(
-    req:  IExtendedRequest ,
-    res: Response,
-    next: NextFunction
-  ) {
+  static async userAuthorizationAccessVerification(req: IExtendedRequest, res: Response, next: NextFunction) {
     try {
       const bearerToken = req.headers.authorization
       console.log("middleware", bearerToken)

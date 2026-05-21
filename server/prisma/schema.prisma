@@ -112,12 +112,15 @@ model InstituteApplication {
   panNumber     String?  @map("pan_number") @db.VarChar(20)
   vatNumber     String?  @map("vat_number") @db.VarChar(20)
   status        ApplicationStatus @default(pending)
+  rejectionReason String? @map("rejection_reason")
   reviewedBy    String?  @map("reviewed_by") @db.Uuid
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  approvedInstituteId String? @map("approved_institute_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   user          User     @relation("Applicant", fields: [userId], references: [id], onDelete: Cascade)
   reviewer      User?    @relation("Reviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+  approvedInstitute Institute? @relation(fields: [approvedInstituteId], references: [id], onDelete: SetNull)
 
   @@index([userId], name: "idx_inst_app_user")
   @@map("institute_applications")

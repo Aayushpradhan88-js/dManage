@@ -1,30 +1,30 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link"
+import React, { ChangeEvent, FormEvent, useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
   ArrowRight,
   FileCheck2,
   MailCheck,
   ShieldAlert,
-} from "lucide-react";
-import { APIInstitute } from "@/src/lib/store/slices/institute/instituteSlice";
-import { IInstituteState } from "@/src/lib/store/slices/institute/instituteSliceTypes";
-import { useAppDispatch, useAppSelector } from "../../../lib/store/hooks/customHook";
-import { AuthShell } from "@/components/auth/auth-shell";
-import { Button } from "@/components/ui/button";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "lucide-react"
+import { APIInstitute } from "@/src/lib/store/slices/institute/instituteSlice"
+import { IInstituteState } from "@/src/lib/store/slices/institute/instituteSliceTypes"
+import { useAppDispatch, useAppSelector } from "../../../lib/store/hooks/customHook"
+import { AuthShell } from "@/components/auth/auth-shell"
+import { Button } from "@/components/ui/button"
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { IStatus } from "@/src/lib/store/global/types/type";
+} from "@/components/ui/select"
+import { IStatus } from "@/src/lib/store/global/types/type"
 import {
   hasInstituteFormErrors,
   normalizeInstitutePhoneNumber,
@@ -32,14 +32,14 @@ import {
   type InstituteDocumentType,
   type InstituteFormErrors,
   validateInstituteForm,
-} from "@/src/features/institute/validation/institute-form";
+} from "@/src/features/institute/validation/institute-form"
 
 const InstitutePage = () => {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const instituteStatus = useAppSelector((state) => state.institute.status);
-  const [documentType, setDocumentType] = useState<InstituteDocumentType>("pan");
-  const [errors, setErrors] = useState<InstituteFormErrors>({});
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const instituteStatus = useAppSelector((state) => state.institute.status)
+  const [documentType, setDocumentType] = useState<InstituteDocumentType>("pan")
+  const [errors, setErrors] = useState<InstituteFormErrors>({})
   const [instituteData, setInstituteData] = useState<IInstituteState>({
     instituteName: "",
     instituteEmail: "",
@@ -48,26 +48,26 @@ const InstitutePage = () => {
     instituteAddress: "",
     instituteVatNumber: "",
     institutePanNumber: "",
-  });
+  })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     const nextValue =
-      name === "institutePhoneNumber" ? normalizeInstitutePhoneNumber(value) : value;
+      name === "institutePhoneNumber" ? normalizeInstitutePhoneNumber(value) : value
 
     setInstituteData((current) => ({
       ...current,
       [name]: nextValue,
-    }));
+    }))
 
     setErrors((currentErrors) => ({
       ...currentErrors,
       [name]: undefined,
-    }));
-  };
+    }))
+  }
 
   const handleInstituteCreateSubmission = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const sanitizedPayload: IInstituteState = {
       ...instituteData,
@@ -79,20 +79,22 @@ const InstitutePage = () => {
         documentType === "pan" ? instituteData.institutePanNumber?.trim() ?? "" : "",
       instituteVatNumber:
         documentType === "vat" ? instituteData.instituteVatNumber?.trim() ?? "" : "",
-    };
+    }
 
-    const validationErrors = validateInstituteForm(sanitizedPayload, documentType);
-    setErrors(validationErrors);
+    const validationErrors = validateInstituteForm(sanitizedPayload, documentType)
+    setErrors(validationErrors)
 
     if (hasInstituteFormErrors(validationErrors)) {
-      return;
+      return
     }
 
-    const isSubmitted = await dispatch(APIInstitute.createInstitute(sanitizedPayload));
+    //api calling
+    const isSubmitted = await dispatch(APIInstitute.createInstitute(sanitizedPayload))
+    
     if (isSubmitted) {
-      router.push("/login");
+      router.push("/login")
     }
-  };
+  }
 
   return (
     <AuthShell
@@ -186,12 +188,12 @@ const InstitutePage = () => {
                     setInstituteData((current) => ({
                       ...current,
                       institutePhoneCountry: value as IInstituteState["institutePhoneCountry"],
-                    }));
+                    }))
                     setErrors((currentErrors) => ({
                       ...currentErrors,
                       institutePhoneCountry: undefined,
                       institutePhoneNumber: undefined,
-                    }));
+                    }))
                   }}
                 >
                   <SelectTrigger className="h-12 w-full rounded-xl border-slate-200 bg-white shadow-sm text-slate-900">
@@ -279,12 +281,12 @@ const InstitutePage = () => {
               <Select
                 value={documentType}
                 onValueChange={(value) => {
-                  setDocumentType(value as InstituteDocumentType);
+                  setDocumentType(value as InstituteDocumentType)
                   setErrors((currentErrors) => ({
                     ...currentErrors,
                     institutePanNumber: undefined,
                     instituteVatNumber: undefined,
-                  }));
+                  }))
                 }}
               >
                 <SelectTrigger className="h-12 w-full rounded-xl border-slate-200 bg-white shadow-sm text-slate-900">
@@ -302,7 +304,7 @@ const InstitutePage = () => {
             <Button
               type="submit"
               disabled={instituteStatus === IStatus.LOADING}
-              className="h-12 w-full rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-sm font-medium"
+              className="h-12 w-full rounded-xl bg-slate-900 text-white cursor-pointer hover:bg-slate-800 transition-all shadow-sm font-medium"
             >
               {instituteStatus === IStatus.LOADING ? "Submitting..." : "Submit Application"}
             </Button>
@@ -321,7 +323,7 @@ const InstitutePage = () => {
         </form>
       </div>
     </AuthShell>
-  );
-};
+  )
+}
 
-export default InstitutePage;
+export default InstitutePage

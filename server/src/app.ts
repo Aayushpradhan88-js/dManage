@@ -2,6 +2,8 @@ import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./global/auth/auth-router.ts";
+import instituteRouter from "./modules/features/institute/instituteRoutes.ts";
+import superAdminRouter from "./modules/features/super-admin/superAdminRoutes.ts";
 
 const app = express();
 
@@ -28,8 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
+app.use("/api/institute", instituteRouter);
+app.use("/api/super-admin", superAdminRouter);
 
-// Legacy institute and teacher routes are intentionally left out for now.
-// They still depend on older modules that need migration before they are safe to mount.
-
-export default app;
+export default app

@@ -4,7 +4,7 @@ export interface IInstituteState {
     instituteName: string,
     instituteEmail: string,
     institutePhoneNumber: string,
-    institutePhoneCountry: "NP" | "IN" | "US" | "CA",
+    institutePhoneCountry: "NP" | "IN",
     instituteAddress: string,
     instituteVatNumber?: string,
     institutePanNumber?: string,

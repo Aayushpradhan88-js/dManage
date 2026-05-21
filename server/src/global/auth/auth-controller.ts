@@ -18,6 +18,7 @@ class AuthController {
   }
 
   static async loginUser(req: Request, res: Response) {
+    console.log("requested data", req.body)
     const authResponse = await AuthService.loginUser(req.body);
 
     return ApiResponse.success(res, {
@@ -28,17 +29,17 @@ class AuthController {
   }
 
   //get profile
-  static async getProfile(req:  IExtendedRequest , res: Response) {
+  static async getProfile(req: IExtendedRequest, res: Response) {
     const authResponse = await AuthService.getProfile(req.user!.id) //confirming it is actually object not null and undefined
     return ApiResponse.success(res, {
       statusCode: 200,
-      message: "Profile fetched successfully",  
+      message: "Profile fetched successfully",
       data: authResponse,
     });
   }
 
   //update profile
-  static async updateProfile(req:  IExtendedRequest , res: Response) {
+  static async updateProfile(req: IExtendedRequest, res: Response) {
     const authResponse = await AuthService.updateProfile(req.user!.id, req.body);
 
     return ApiResponse.success(res, {

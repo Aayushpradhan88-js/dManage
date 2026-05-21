@@ -141,7 +141,7 @@ const TeacherCreationModal: React.FC<ICloseModal> = ({ closeModal }) => {
                             name="teacherPhoneNumber"
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                            placeholder="XXXXXXXXXX"
+                            placeholder="9XXXXXXXXXX"
                             required
                         />
 

@@ -16,7 +16,7 @@ import { APIError } from "../../config/api-error-response.ts"
 
 export class AuthService {
 
-  
+
   //register
   static async registerUser(payload: RegisterUserDto): Promise<RegisterAuthResponse> {
     const sanitizedPayload = this.validateRegisterPayload(payload)

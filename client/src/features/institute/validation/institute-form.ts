@@ -1,6 +1,6 @@
 "use client"
 
-export type SupportedPhoneCountry = "NP" | "IN" | "US" | "CA"
+export type SupportedPhoneCountry = "NP" | "IN" 
 export type InstituteDocumentType = "pan" | "vat"
 
 export interface InstituteFormValues {
@@ -29,8 +29,6 @@ const PHONE_RULES: Record<
 > = {
   NP: { label: "Nepal", countryCode: "+977", nationalNumberLength: 10 },
   IN: { label: "India", countryCode: "+91", nationalNumberLength: 10 },
-  US: { label: "United States", countryCode: "+1", nationalNumberLength: 10 },
-  CA: { label: "Canada", countryCode: "+1", nationalNumberLength: 10 },
 }
 
 export const SUPPORTED_PHONE_COUNTRIES = Object.entries(PHONE_RULES).map(

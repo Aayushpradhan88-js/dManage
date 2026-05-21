@@ -1,6 +1,6 @@
 import { APIError } from "../../../config/api-error-response.ts"
 
-export type SupportedPhoneCountry = "NP" | "IN" | "US" | "CA"
+export type SupportedPhoneCountry = "NP" | "IN"
 
 export interface InstituteApplicationPayload {
   instituteName: string
@@ -18,8 +18,6 @@ const PHONE_RULES: Record<
 > = {
   NP: { label: "Nepal", countryCode: "+977", nationalNumberLength: 10 },
   IN: { label: "India", countryCode: "+91", nationalNumberLength: 10 },
-  US: { label: "United States", countryCode: "+1", nationalNumberLength: 10 },
-  CA: { label: "Canada", countryCode: "+1", nationalNumberLength: 10 },
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -95,9 +93,9 @@ function validateGovernmentDocumentNumber(
   }
 }
 
-export function validateInstituteApplicationPayload(
-  payload: InstituteApplicationPayload
-) {
+//Institute Number
+export function validateInstituteApplicationPayload(payload: InstituteApplicationPayload) {
+  console.log("payload", payload)
   const instituteName = payload?.instituteName?.trim()
   const instituteEmail = payload?.instituteEmail?.trim().toLowerCase()
   const institutePhoneNumber = payload?.institutePhoneNumber?.trim()

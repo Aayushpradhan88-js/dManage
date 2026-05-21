@@ -6,8 +6,8 @@ config();
 
 // console.log("✅ step 1: SERVER STARTED!!!");
 function startServer() {
-    const port:number = SERVER_PORT;
-    app.listen(port,() => {
+    const port: number = SERVER_PORT;
+    app.listen(port, () => {
         console.log(`Server is running on port: ${port}`);
     });
 }
