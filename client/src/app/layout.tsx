@@ -33,6 +33,7 @@ const HIDE_NAVBAR_PATHS = [
   "/login",
   "/register",
   "/institute/becomeInstitute",
+  "/institute/application-status",
 ]
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
