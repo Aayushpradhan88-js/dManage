@@ -150,24 +150,33 @@ class SuperAdminController {
         },
       })
 
-      await tx.instituteMembership.upsert({
+      const existingMembership = await tx.instituteMembership.findFirst({
         where: {
-          userId_instituteId: {
-            userId: application.userId,
-            instituteId: institute.id,
-          },
-        },
-        update: {
-          role: InstituteRole.admin,
-          isActive: true,
-        },
-        create: {
           userId: application.userId,
           instituteId: institute.id,
-          role: InstituteRole.admin,
-          isActive: true,
         },
       })
+
+      if (existingMembership) {
+        await tx.instituteMembership.update({
+          where: {
+            id: existingMembership.id,
+          },
+          data: {
+            role: InstituteRole.admin,
+            isActive: true,
+          },
+        })
+      } else {
+        await tx.instituteMembership.create({
+          data: {
+            userId: application.userId,
+            instituteId: institute.id,
+            role: InstituteRole.admin,
+            isActive: true,
+          },
+        })
+      }
 
       const updatedApplication = await tx.instituteApplication.update({
         where: { id: applicationId },

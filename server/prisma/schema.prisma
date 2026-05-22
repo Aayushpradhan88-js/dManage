@@ -63,6 +63,7 @@ model User {
   email           String   @unique @db.VarChar(255)
   password        String   @db.VarChar(255)
   systemRole      SystemRole @default(user) @map("system_role")
+  instituteRole   InstituteRole? @default(student) @map("institute_role")
   avatarUrl       String?  @map("avatar_url")
   isEmailVerified Boolean  @default(false) @map("is_email_verified")
   createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
@@ -97,6 +98,7 @@ model Institute {
   memberships   InstituteMembership[]
   courses       Course[]
   announcements Announcement[]
+  approvedApplications InstituteApplication[]
 
   @@map("institutes")
 }

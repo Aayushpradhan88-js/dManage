@@ -30,7 +30,7 @@ function resolveDashboardPath(user: IUser) {
     return "/student/dashboard"
   }
 
-  return "/"
+  return "/institute/application-status"
 }
 
 function useLoginForm() {

@@ -1,7 +1,7 @@
 //Mailer Service
 
 import nodemailer from "nodemailer"
-import { NODEMAILER_GMAIL, NODEMAILER_GMAIL_APP_PASSWORD } from "../../../config/env"
+import { NODEMAILER_GMAIL, NODEMAILER_GMAIL_APP_PASSWORD } from "../../config/env.ts"
 
 interface IMailInfo {
     to: string,

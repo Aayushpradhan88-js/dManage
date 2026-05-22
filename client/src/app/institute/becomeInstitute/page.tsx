@@ -5,10 +5,6 @@ import React, { ChangeEvent, FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
-  ArrowRight,
-  FileCheck2,
-  MailCheck,
-  ShieldAlert,
 } from "lucide-react"
 import { APIInstitute } from "@/src/lib/store/slices/institute/instituteSlice"
 import { IInstituteState } from "@/src/lib/store/slices/institute/instituteSliceTypes"
@@ -92,7 +88,7 @@ const InstitutePage = () => {
     const isSubmitted = await dispatch(APIInstitute.createInstitute(sanitizedPayload))
     
     if (isSubmitted) {
-      router.push("/login")
+      router.push("/institute/application-status")
     }
   }
 

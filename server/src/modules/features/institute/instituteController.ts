@@ -6,13 +6,11 @@ import { validateInstituteApplicationPayload } from "./instituteValidation.ts"
 class InstituteController {
     static async createInstitute(req: IExtendedRequest, res: Response, next: NextFunction) {
         const userId = req?.user?.id
-        console.log("id", userId)
         if (!userId) {
             return res.status(404).json({ message: "User not found!!" })
         }
 
         const validatedPayload = validateInstituteApplicationPayload(req.body)
-        console.log("data", validatedPayload)
 
         const existingPendingApplication = await db.instituteApplication.findFirst({
             where: {
@@ -51,7 +49,7 @@ class InstituteController {
                 userId,
                 name: validatedPayload.instituteName,
                 email: validatedPayload.instituteEmail,
-                phone: validatedPayload.institutePhoneCountry,
+                phone: validatedPayload.institutePhoneNumber,
                 address: validatedPayload.instituteAddress,
                 vatNumber: validatedPayload.instituteVatNumber,
                 panNumber: validatedPayload.institutePanNumber,
@@ -62,6 +60,46 @@ class InstituteController {
         return res.status(200).json({
             newApplication,
             message: "Institute application submitted successfully, It will take some time to get verified"
+        })
+    }
+
+    static async getMyInstituteApplication(req: IExtendedRequest, res: Response) {
+        const userId = req?.user?.id
+
+        if (!userId) {
+            return res.status(404).json({ message: "User not found!!" })
+        }
+
+        const application = await db.instituteApplication.findFirst({
+            where: {
+                userId,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            include: {
+                reviewer: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                    },
+                },
+                approvedInstitute: {
+                    select: {
+                        id: true,
+                        name: true,
+                        slug: true,
+                    },
+                },
+            },
+        })
+
+        return res.status(200).json({
+            data: application,
+            message: application
+                ? "Institute application fetched successfully"
+                : "No institute application found for this user",
         })
     }
 

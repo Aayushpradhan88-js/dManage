@@ -19,4 +19,9 @@ instituteRouter.route("/institute-creation").post(
     GlobalErrorHandler.asyncErrorHandler(InstituteController.createInstitute)
 )
 
+instituteRouter.route("/my-application").get(
+    userVerification.userAuthorizationAccessVerification,
+    GlobalErrorHandler.asyncErrorHandler(InstituteController.getMyInstituteApplication)
+)
+
 export default instituteRouter
