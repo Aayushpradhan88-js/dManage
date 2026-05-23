@@ -9,22 +9,27 @@ datasource db {
 }
 
 // Roles Enum
-enum SystemRole {
-  user
+enum DmanageRole {
   super_admin
-
-  @@map("system_role")
-}
-
-enum InstituteRole {
   admin
   teacher
   student
 
-  @@map("institute_role")
+  @@map("dmanage_role")
 }
 
-enum ApplicationStatus {
+enum PlatformType {
+  School
+  College
+  University
+  Academy
+  CoachingCenter
+  OnlineCoaching
+
+  @@map("platform_type")
+}
+
+enum PlatformApplicationFormStatus {
   pending
   approved
   rejected
@@ -36,12 +41,13 @@ enum CourseStatus {
   draft
   published
   archived
+  deleted
 
   @@map("course_status")
 }
 
 enum AnnouncementScope {
-  institute
+  platform
   course
 
   @@map("announcement_scope")
@@ -59,32 +65,36 @@ enum OrderStatus {
 // 1. Users
 model User {
   id              String   @id @default(uuid()) @db.Uuid
+  
   username        String   @db.VarChar(100)
   email           String   @unique @db.VarChar(255)
   password        String   @db.VarChar(255)
-  systemRole      SystemRole @default(user) @map("system_role")
-  instituteRole   InstituteRole? @default(student) @map("institute_role")
+  role            DmanageRole @default(student) @map("dmanage_role")
+  // systemRole      SystemRole @default(user) @map("system_role")
+  // platformRole    PlatformRole? @default(student) @map("institute_role")
   avatarUrl       String?  @map("avatar_url")
   isEmailVerified Boolean  @default(false) @map("is_email_verified")
   createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   // relations
-  createdInstitutes     Institute[]
-  instituteApplications InstituteApplication[] @relation("Applicant")
-  reviewedApplications  InstituteApplication[] @relation("Reviewer")
-  instituteMemberships  InstituteMembership[]
-  courseEnrollments     CourseEnrollment[]
-  lessonProgress        LessonProgress[]
-  orders                Order[]
-  announcements         Announcement[]
+  createdPlatforms          Platform[]
+  platformApplications      PlatformApplicationsForm[] @relation("Applicant")
+  reviewedPlatformApplications PlatformApplicationsForm[] @relation("Reviewer")
+  platformMemberships       PlatformMembership[]
+  courseEnrollments         CourseEnrollment[]
+  lessonProgress            LessonProgress[]
+  orders                    Order[]
+  announcements             Announcement[]
 
   @@map("users")
 }
 
-// 2. Institutes
-model Institute {
+// 2. platforms
+model Platform {
   id          String   @id @default(uuid()) @db.Uuid
+  // membershipId String   @map("membership_id") @db.Uuid
+
   name        String   @db.VarChar(200)
   slug        String   @unique @db.VarChar(200)
   description String?
@@ -94,73 +104,93 @@ model Institute {
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   creator     User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  
-  memberships   InstituteMembership[]
+  // membership   PlatformMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  memberships   PlatformMembership[]
   courses       Course[]
   announcements Announcement[]
-  approvedApplications InstituteApplication[]
+  approvedApplications PlatformApplicationsForm[]
 
-  @@map("institutes")
+  // @@unique(membershipId, name: "uq_platform_membership")
+  @@map("platform")
 }
 
-// 3. Institute applications
-model InstituteApplication {
+// 3. Platform applications form
+model PlatformApplicationsForm {
   id            String   @id @default(uuid()) @db.Uuid
   userId        String   @map("user_id") @db.Uuid
+
   name          String   @map("name") @db.VarChar(200)
   email         String   @map("email") @db.VarChar(255)
   phone         String   @map("phone") @db.VarChar(20)
   address       String?  @map("address") @db.VarChar(255)
   panNumber     String?  @map("pan_number") @db.VarChar(20)
   vatNumber     String?  @map("vat_number") @db.VarChar(20)
-  status        ApplicationStatus @default(pending)
+  role          DmanageRole @map("dmanage_role")
+
+  status        PlatformApplicationFormStatus @default(pending)
   rejectionReason String? @map("rejection_reason")
   reviewedBy    String?  @map("reviewed_by") @db.Uuid
-  approvedInstituteId String? @map("approved_institute_id") @db.Uuid
+  approvedPlatformId String? @map("approved_platform_id") @db.Uuid
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt     DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   user          User     @relation("Applicant", fields: [userId], references: [id], onDelete: Cascade)
   reviewer      User?    @relation("Reviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
-  approvedInstitute Institute? @relation(fields: [approvedInstituteId], references: [id], onDelete: SetNull)
+  approvedPlatform Platform? @relation(fields: [approvedPlatformId], references: [id], onDelete: SetNull)
 
   @@index([userId], name: "idx_inst_app_user")
-  @@map("institute_applications")
+  @@map("platform_application_form")
 }
 
-// 4. Institute memberships
-model InstituteMembership {
-  id          String   @id @default(uuid()) @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  instituteId String   @map("institute_id") @db.Uuid
-  role        InstituteRole
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+// 4. Platform memberships
+model PlatformMembership {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @map("user_id") @db.Uuid
+  platformId  String      @map("platform_id") @db.Uuid
+
+  role        DmanageRole @map("dmanage_role")
+  isActive    Boolean     @default(true) @map("is_active")
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  institute   Institute @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  platform   Platform   @relation(fields: [platformId], references: [id], onDelete: Cascade)
   
   courseTeachers CourseTeacher[]
 
-  @@unique([userId, instituteId], name: "uq_membership_user_institute")
-  @@index([instituteId], name: "idx_membership_institute")
-  @@map("institute_memberships")
+  @@unique([userId, platformId], name: "uq_membership_user_platform")
+  @@index([platformId], name: "idx_membership_platform")
+  @@map("platform_memberships")
+}
+
+enum CourseLevel {
+  beginner
+  intermediate
+  advanced
+
+  @@map("course_level")
 }
 
 // 5. Courses
 model Course {
   id           String   @id @default(uuid()) @db.Uuid
-  instituteId  String   @map("institute_id") @db.Uuid
+  platformId  String   @map("platform_id") @db.Uuid
+
   title        String   @db.VarChar(300)
   description  String?
+  slug        String   @db.VarChar(300) @unique
   thumbnailUrl String?  @map("thumbnail_url")
+  preview_video_url String?  @map("preview_video_url")
+  difficulty_level  CourseLevel @default(beginner)
+  total_duration_seconds Int?     @map("total_duration_seconds")
+  is_free       Boolean  @default(false) @map("is_free")
   price        Decimal  @default(0) @db.Decimal(10,2)
   status       CourseStatus @default(draft)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
-  institute    Institute @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  platform    Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
 
   teachers            CourseTeacher[]
   enrollments         CourseEnrollment[]
@@ -169,7 +199,7 @@ model Course {
   announcementTargets AnnouncementTarget[]
   orders              Order[]
 
-  @@index([instituteId], name: "idx_course_institute")
+  @@index([platformId], name: "idx_course_platform")
   @@map("courses")
 }
 
@@ -181,7 +211,7 @@ model CourseTeacher {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   course       Course              @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  membership   InstituteMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  membership   PlatformMembership  @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 
   @@unique([courseId, membershipId], name: "uq_course_teacher")
   @@map("course_teachers")
@@ -205,6 +235,7 @@ model CourseEnrollment {
 model CourseChapter {
   id         String   @id @default(uuid()) @db.Uuid
   courseId   String   @map("course_id") @db.Uuid
+
   title      String   @db.VarChar(300)
   sortOrder  Int      @default(0) @map("sort_order")
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
@@ -257,18 +288,18 @@ model LiveClass {
 // 11. Announcements
 model Announcement {
   id          String   @id @default(uuid()) @db.Uuid
-  instituteId String   @map("institute_id") @db.Uuid
+  platformId String   @map("platform_id") @db.Uuid
   title       String   @db.VarChar(300)
   body        String?
-  scope       AnnouncementScope @default(institute)
+  scope       AnnouncementScope @default(platform)
   createdBy   String   @map("created_by") @db.Uuid
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  institute   Institute            @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  platform   Platform            @relation(fields: [platformId], references: [id], onDelete: Cascade)
   author      User                 @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   targets     AnnouncementTarget[]
 
-  @@index([instituteId], name: "idx_announcement_institute")
+  @@index([platformId], name: "idx_announcement_platform")
   @@map("announcements")
 }
 
