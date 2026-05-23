@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconLeaf } from "@tabler/icons-react"
+import { IconLeaf, IconExternalLink } from "@tabler/icons-react"
 
 import { type RoleNavConfig } from "@/src/lib/config/nav-config"
 import {
@@ -93,6 +93,21 @@ export function DashboardSidebar({ config, ...props }: DashboardSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Visit Website */}
+      {config.visitWebsiteUrl && (
+        <>
+          <SidebarSeparator />
+          <div className="p-4">
+            <Link href={config.visitWebsiteUrl} target="_blank" rel="noopener noreferrer">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 hover:text-green-800 text-sm font-medium transition-colors">
+                <IconExternalLink className="h-4 w-4" />
+                <span>Visit Website</span>
+              </button>
+            </Link>
+          </div>
+        </>
+      )}
 
       {/* User footer */}
       <SidebarFooter>

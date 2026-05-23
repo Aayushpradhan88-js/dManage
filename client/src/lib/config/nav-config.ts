@@ -18,6 +18,7 @@ import {
   type Icon,
   IconVideo,
   IconUsersGroup,
+  IconExternalLink,
 } from "@tabler/icons-react"
 
 export type NavItem = {
@@ -31,6 +32,7 @@ export type RoleNavConfig = {
   roleId: string
   label: string
   basePath: string
+  visitWebsiteUrl?: string
   items: NavItem[]
 }
 
@@ -39,6 +41,7 @@ export const roleNavConfigs: Record<string, RoleNavConfig> = {
     roleId: "super-admin",
     label: "Super Admin",
     basePath: "/super-admin/dashboard",
+    visitWebsiteUrl: "/",
     items: [
       {
         title: "Overview",
@@ -76,6 +79,7 @@ export const roleNavConfigs: Record<string, RoleNavConfig> = {
     roleId: "institute-admin",
     label: "Platform Admin",
     basePath: "/platform/admin/dashboard",
+    visitWebsiteUrl: "/",
     items: [
       {
         title: "Overview",
@@ -133,6 +137,7 @@ export const roleNavConfigs: Record<string, RoleNavConfig> = {
     roleId: "teacher",
     label: "Teacher",
     basePath: "/teacher/dashboard",
+    visitWebsiteUrl: "/",
     items: [
       {
         title: "Overview",
@@ -170,6 +175,7 @@ export const roleNavConfigs: Record<string, RoleNavConfig> = {
     roleId: "student",
     label: "Student",
     basePath: "/student/dashboard",
+    visitWebsiteUrl: "/",
     items: [
       {
         title: "Overview",

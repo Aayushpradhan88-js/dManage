@@ -51,7 +51,7 @@ function useRegisterForm() {
     // only to avoid unnecessary requests from the form.
     const isSuccess = await dispatch(APIAuth.register(values))
     if (isSuccess) {
-      router.push("/")
+      router.push("/login")
     }
   }
 

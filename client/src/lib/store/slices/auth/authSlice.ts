@@ -107,16 +107,13 @@ export class APIAuth {
           confirmPassword: userData.confirmPassword,
         }
 
-        const response = await API.post<IRegisterApiResponse>(
+        await API.post<IRegisterApiResponse>(
           "/api/auth/register",
           payload
         )
 
-        const storeUser = toStoreUser(response.data.data.user)
-
-        dispatch(setUser(storeUser))
+        dispatch(clearUser())
         dispatch(setStatus(IStatus.SUCCESS))
-        persistAuthUser(storeUser)
         return true
       } catch (error) {
         console.error("Registration failed", error)

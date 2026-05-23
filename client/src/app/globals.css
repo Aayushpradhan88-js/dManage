@@ -2,17 +2,24 @@
 
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #f4f8f2;
+  --foreground: #163122;
+  --surface: #ffffff;
+  --surface-muted: #eef5ec;
+  --brand: #138a4a;
+  --brand-strong: #0d6e3a;
+  --brand-soft: #d9f1df;
+  --border-soft: #d7e7d8;
+  --muted-foreground: #5f7466;
 
   --sidebar-background: #ffffff;
   --sidebar-foreground: #334155;
-  --sidebar-primary: #15803d;
+  --sidebar-primary: #138a4a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #15803d;
+  --sidebar-accent: #eef5ec;
+  --sidebar-accent-foreground: #163122;
+  --sidebar-border: #d7e7d8;
+  --sidebar-ring: #138a4a;
 }
 
 @theme {
@@ -32,7 +39,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: Inter, system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 

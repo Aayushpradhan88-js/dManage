@@ -21,7 +21,7 @@ export function resolveDashboardPath(user: IUser) {
     return "/student/dashboard"
   }
 
-  return "/platform/application-status"
+  return "/"
 }
 
 export function decodeJwtPayload(token: string): JwtPayload | null {
