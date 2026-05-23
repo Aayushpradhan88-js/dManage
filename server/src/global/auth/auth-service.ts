@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import { InstituteRole, SystemRole } from "@prisma/client"
+import { DmanageRole } from "@prisma/client"
 import type { User } from "@prisma/client"
 import { AuthRepository } from "./auth-repository.ts"
 import type {
@@ -60,7 +60,7 @@ export class AuthService {
     const token = TokenGenerationService.generateToken({
       id: user.id,
       email: user.email,
-      systemRole: user.systemRole,
+      role: user.role,
     })
 
     return {
@@ -161,24 +161,24 @@ export class AuthService {
 
   //For authenticated user who wants to enter in platform validation
   private static toAuthenticatedUser(
-    user: User & { instituteMemberships: Array<{ role: InstituteRole }> }
+    user: User & { platformMemberships: Array<{ role: DmanageRole }> }
   ): AuthenticatedUser {
     return {
       id: user.id,
       username: user.username,
       email: user.email,
-      systemRole: user.systemRole,
+      role: user.role,
       // We surface one "activeRole" to keep frontend redirects simple in v1.
-      activeRole: this.resolveActiveRole(user.systemRole, user.instituteMemberships[0]?.role),
+      activeRole: this.resolveActiveRole(user.role, user.platformMemberships[0]?.role),
     }
   }
 
   //resolve active role
   private static resolveActiveRole(
-    systemRole: SystemRole,
-    membershipRole?: InstituteRole
+    role: DmanageRole,
+    membershipRole?: DmanageRole
   ): AuthenticatedUser["activeRole"] {
-    if (systemRole === SystemRole.super_admin) {
+    if (role === DmanageRole.super_admin) {
       return "super-admin"
     }
 

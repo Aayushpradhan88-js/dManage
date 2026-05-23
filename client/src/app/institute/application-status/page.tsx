@@ -26,7 +26,7 @@ interface MyInstituteApplication {
   status: ApplicationStatus
   rejectionReason: string | null
   createdAt: string
-  approvedInstitute?: {
+  approvedPlatform?: {
     id: string
     name: string
     slug: string
@@ -61,11 +61,11 @@ export default function InstituteApplicationStatusPage() {
       try {
         setIsLoading(true)
         setErrorMessage("")
-        const response = await APIWithToken.get<MyApplicationApiResponse>("/api/institute/my-application")
+        const response = await APIWithToken.get<MyApplicationApiResponse>("/api/platform/my-application")
         setApplication(response.data.data)
       } catch (error) {
-        console.error("Failed to load institute application", error)
-        setErrorMessage("Unable to load your institute application status right now.")
+        console.error("Failed to load platform application", error)
+        setErrorMessage("Unable to load your platform application status right now.")
       } finally {
         setIsLoading(false)
       }
@@ -78,21 +78,21 @@ export default function InstituteApplicationStatusPage() {
     if (!application) {
       return {
         title: "No application found",
-        description: "You have not submitted an institute application yet.",
+        description: "You have not submitted a platform application yet.",
       }
     }
 
     if (application.status === "pending") {
       return {
         title: "Your application is under review",
-        description: "You currently have limited access while the super admin reviews your institute details.",
+        description: "You currently have limited access while the super admin reviews your platform details.",
       }
     }
 
     if (application.status === "approved") {
       return {
-        title: "Your institute is approved",
-        description: "Your account now has institute admin access. Continue to the dashboard after login.",
+        title: "Your platform is approved",
+        description: "Your account now has platform admin access. Continue to the dashboard after login.",
       }
     }
 
@@ -107,9 +107,9 @@ export default function InstituteApplicationStatusPage() {
       <section className="mx-auto max-w-4xl space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Institute Application Status</CardTitle>
+            <CardTitle>Platform Application Status</CardTitle>
             <CardDescription>
-              Before approval, this is the only institute area available to the user account.
+              Before approval, this is the only platform area available to the user account.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -124,7 +124,7 @@ export default function InstituteApplicationStatusPage() {
                   <p className="mt-1 text-sm text-muted-foreground">{statusCopy.description}</p>
                 </div>
                 <Button asChild>
-                  <Link href="/institute/becomeInstitute">Submit institute application</Link>
+                  <Link href="/platform/apply">Submit platform application</Link>
                 </Button>
               </div>
             ) : (
@@ -141,11 +141,11 @@ export default function InstituteApplicationStatusPage() {
 
                 <div className="grid gap-4 rounded-xl border bg-white p-5 sm:grid-cols-2">
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Institute Name</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Platform Name</p>
                     <p className="mt-1 font-medium">{application.name}</p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Institute Email</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Platform Email</p>
                     <p className="mt-1 font-medium">{application.email}</p>
                   </div>
                   <div>
@@ -168,12 +168,12 @@ export default function InstituteApplicationStatusPage() {
                 <div className="flex flex-wrap gap-3">
                   {application.status === "approved" ? (
                     <Button asChild>
-                      <Link href="/institute/admin/dashboard">Go to institute dashboard</Link>
+                      <Link href="/platform/admin/dashboard">Go to platform dashboard</Link>
                     </Button>
                   ) : null}
                   {application.status === "rejected" ? (
                     <Button asChild variant="outline">
-                      <Link href="/institute/becomeInstitute">Submit a new application</Link>
+                      <Link href="/platform/apply">Submit a new application</Link>
                     </Button>
                   ) : null}
                 </div>

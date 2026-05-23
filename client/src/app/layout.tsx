@@ -26,14 +26,14 @@ const metadata: Metadata = {
 
 // Dashboard and Auth routes where the public navbar should be hidden
 const HIDE_NAVBAR_PATHS = [
-  "/institute/admin/dashboard",
+  "/platform/admin/dashboard",
   "/teacher/dashboard",
   "/student/dashboard",
   "/super-admin/dashboard",
   "/login",
   "/register",
-  "/institute/becomeInstitute",
-  "/institute/application-status",
+  "/platform/apply",
+  "/platform/application-status",
 ]
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -25,7 +25,7 @@ import { useAppSelector } from "@/src/lib/store/hooks/customHook"
 
 type ApplicationStatus = "pending" | "approved" | "rejected"
 
-interface InstituteApplication {
+interface PlatformApplication {
   id: string
   name: string
   email: string
@@ -37,7 +37,7 @@ interface InstituteApplication {
   rejectionReason: string | null
   createdAt: string
   reviewedBy: string | null
-  approvedInstituteId: string | null
+  approvedPlatformId: string | null
   user: {
     id: string
     username: string
@@ -48,7 +48,7 @@ interface InstituteApplication {
     username: string
     email: string
   } | null
-  approvedInstitute?: {
+  approvedPlatform?: {
     id: string
     name: string
     slug: string
@@ -56,12 +56,12 @@ interface InstituteApplication {
 }
 
 interface ApplicationsApiResponse {
-  data: InstituteApplication[]
+  data: PlatformApplication[]
   message: string
 }
 
 interface ApplicationUpdateApiResponse {
-  data: InstituteApplication
+  data: PlatformApplication
   message: string
 }
 
@@ -86,7 +86,7 @@ function formatDate(date: string) {
 
 export default function ApplicationsPage() {
   const authUser = useAppSelector((state) => state.auth.user)
-  const [applications, setApplications] = useState<InstituteApplication[]>([])
+  const [applications, setApplications] = useState<PlatformApplication[]>([])
   const [selectedApplicationId, setSelectedApplicationId] = useState<string | null>(null)
   const [rejectionReason, setRejectionReason] = useState("")
   const [isLoading, setIsLoading] = useState(true)
@@ -108,8 +108,8 @@ export default function ApplicationsPage() {
         const response = await APIWithToken.get<ApplicationsApiResponse>("/api/super-admin/applications")
         setApplications(response.data.data)
       } catch (error) {
-        console.error("Failed to fetch institute applications", error)
-        setErrorMessage("Unable to load institute applications right now.")
+        console.error("Failed to fetch platform applications", error)
+        setErrorMessage("Unable to load platform applications right now.")
       } finally {
         setIsLoading(false)
       }
@@ -176,8 +176,8 @@ export default function ApplicationsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Institute Applications"
-        description="Review incoming institute requests, approve qualified institutes, or reject with a required reason."
+        title="Platform Applications"
+        description="Review incoming platform requests, approve qualified platforms, or reject with a required reason."
       />
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(340px,0.9fr)]">
@@ -193,13 +193,13 @@ export default function ApplicationsPage() {
               <div className="px-6 py-12 text-sm text-muted-foreground">Loading applications...</div>
             ) : applications.length === 0 ? (
               <div className="px-6 py-12 text-sm text-muted-foreground">
-                No institute applications have been submitted yet.
+                No platform applications have been submitted yet.
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Institute</TableHead>
+                    <TableHead>Platform</TableHead>
                     <TableHead>Applicant</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Submitted</TableHead>
@@ -243,7 +243,7 @@ export default function ApplicationsPage() {
           <CardHeader>
             <CardTitle>Application Review</CardTitle>
             <CardDescription>
-              Select one application to inspect the submitted institute details.
+              Select one application to inspect the submitted platform details.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -272,7 +272,7 @@ export default function ApplicationsPage() {
                     <p className="font-medium">{selectedApplication.user.email}</p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Institute Email</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Platform Email</p>
                     <p className="font-medium">{selectedApplication.email}</p>
                   </div>
                   <div>
@@ -302,9 +302,9 @@ export default function ApplicationsPage() {
 
                 {selectedApplication.status === "approved" ? (
                   <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-                    <p className="font-medium">Approved institute</p>
+                    <p className="font-medium">Approved platform</p>
                     <p className="mt-1">
-                      {selectedApplication.approvedInstitute?.name ?? "Institute created successfully"}
+                      {selectedApplication.approvedPlatform?.name ?? "Platform created successfully"}
                     </p>
                   </div>
                 ) : null}

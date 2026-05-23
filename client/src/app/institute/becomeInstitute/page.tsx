@@ -88,7 +88,7 @@ const InstitutePage = () => {
     const isSubmitted = await dispatch(APIInstitute.createInstitute(sanitizedPayload))
     
     if (isSubmitted) {
-      router.push("/institute/application-status")
+      router.push("/platform/application-status")
     }
   }
 

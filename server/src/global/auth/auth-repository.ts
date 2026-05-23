@@ -5,7 +5,7 @@ export class AuthRepository {
     return await db.user.findUnique({
       where: { id },
       include: {
-        instituteMemberships: {
+        platformMemberships: {
           where: { isActive: true },
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -18,7 +18,7 @@ export class AuthRepository {
     return await db.user.findUnique({
       where: { email },
       include: {
-        instituteMemberships: {
+        platformMemberships: {
           where: { isActive: true },
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -36,7 +36,7 @@ export class AuthRepository {
         password,
       },
       include: {
-        instituteMemberships: {
+        platformMemberships: {
           where: { isActive: true },
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -50,7 +50,7 @@ export class AuthRepository {
     return db.user.findUnique({
       where: { email, password },
       include: {
-        instituteMemberships: {
+        platformMemberships: {
           where: { isActive: true },
           orderBy: { createdAt: "desc" },
           take: 1,
@@ -67,7 +67,7 @@ export class AuthRepository {
         email,
       },
       include: {
-        instituteMemberships: {
+        platformMemberships: {
           where: { isActive: true },
           orderBy: { createdAt: "desc" },
           take: 1,

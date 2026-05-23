@@ -30,8 +30,8 @@ function Register() {
       title="Make you're life easier with dManage"
       description="Every user starts with one secure dManage account"
       secondaryCta={{
-        href: "/institute/becomeInstitute",
-        label: "View institute form",
+        href: "/platform/apply",
+        label: "View platform form",
       }}
     >
       <AuthCard title="Create your dManage account">

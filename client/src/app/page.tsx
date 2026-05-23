@@ -36,7 +36,7 @@ export default function HomePage() {
             By Managing Everything
           </h1>
           <p className="text-xl  mb-8 max-w-2xl mx-auto">
-            Empower your institute,colleges,schools,universities with an all-in-one platform to manage students, teachers, and
+            Empower your schools, colleges, universities, and training businesses with an all-in-one platform to manage students, teachers, and
             courses. Get started in just a few clicks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -49,7 +49,7 @@ export default function HomePage() {
             <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
               Watch Demo
             </Button>
-            <Link href="/institute/becomeInstitute">
+            <Link href="/platform/apply">
               <Button size="lg" variant="watchDemo" className="text-lg text-black px-8">
                 Create custom website
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -60,7 +60,7 @@ export default function HomePage() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
             {[
-              { label: "Active Institutes", value: "500+" },
+              { label: "Active Platforms", value: "500+" },
               { label: "Students Managed", value: "50K+" },
               { label: "Course Completions", value: "100K+" },
               { label: "Success Rate", value: "99.9%" },
@@ -81,7 +81,7 @@ export default function HomePage() {
             <Badge className="mb-4 text-2xl">Features</Badge>
             <h2 className="text-4xl font-bold text-slate-700 mb-4">Everything You Need to Succeed</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Powerful features designed to streamline your training institute operations
+              Powerful features designed to streamline your training platform operations
             </p>
           </div>
 
@@ -163,7 +163,7 @@ export default function HomePage() {
               {
                 step: "01",
                 title: "Sign Up",
-                description: "Create your institute account and choose your plan. No credit card required for trial.",
+                description: "Create your platform account and choose your plan. No credit card required for trial.",
               },
               {
                 step: "02",
@@ -242,7 +242,7 @@ export default function HomePage() {
             <Badge className="mb-4 text-2xl">Pricing</Badge>
             <h2 className="text-4xl font-bold mb-4 text-slate-700">Choose Your Perfect Plan</h2>
             <p className="text-xl  max-w-2xl mx-auto text-slate-600">
-              Flexible pricing options for institutes of all sizes
+              Flexible pricing options for platforms of all sizes
             </p>
           </div>
 
@@ -251,7 +251,7 @@ export default function HomePage() {
               {
                 name: "Starter",
                 price: "$29",
-                description: "Perfect for small institutes",
+                description: "Perfect for small platforms",
                 features: [
                   "Up to 10 students",
                   "2 teachers",
@@ -264,7 +264,7 @@ export default function HomePage() {
               {
                 name: "Professional",
                 price: "$99",
-                description: "Best for growing institutes",
+                description: "Best for growing platforms",
                 features: [
                   "Up to 500 students",
                   "50 teachers",
@@ -331,10 +331,10 @@ export default function HomePage() {
       <section className="py-20 from-primary to-green-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-green-700 ">
-            Ready to Transform Your Training Institute?
+            Ready to Transform Your Training Platform?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto text-slate-700" >
-            Join hundreds of institutes already using TrainHub to manage their operations
+            Join hundreds of platforms already using TrainHub to manage their operations
             efficiently.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -361,7 +361,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold">TrainHub</span>
               </div>
               <p className="text-slate-400">
-                Empowering training institutes with modern management solutions.
+                Empowering training platforms with modern management solutions.
               </p>
             </div>
             <div>

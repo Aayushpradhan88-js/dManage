@@ -44,7 +44,15 @@ export class APIInstitute {
             dispatch(setStatus(IStatus.LOADING));
 
             try {
-                const response = await APIWithToken.post("/api/institute/institute-creation", instituteData)
+                const response = await APIWithToken.post("/api/platform/application", {
+                    platformName: instituteData.instituteName,
+                    platformEmail: instituteData.instituteEmail,
+                    platformPhoneNumber: instituteData.institutePhoneNumber,
+                    platformPhoneCountry: instituteData.institutePhoneCountry,
+                    platformAddress: instituteData.instituteAddress,
+                    platformVatNumber: instituteData.instituteVatNumber,
+                    platformPanNumber: instituteData.institutePanNumber,
+                })
                 console.log("data backend", response)
                 if (response.status === 200 || response.status === 201) {
                     dispatch(setInstitute(instituteData));

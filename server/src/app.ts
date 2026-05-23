@@ -2,7 +2,7 @@ import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./global/auth/auth-router.ts";
-import instituteRouter from "./modules/features/institute/instituteRoutes.ts";
+import platformRouter from "./modules/features/platform/platformRoutes.ts";
 import superAdminRouter from "./modules/features/super-admin/superAdminRoutes.ts";
 
 const app = express();
@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
-app.use("/api/institute", instituteRouter);
+app.use("/api/platform", platformRouter);
 app.use("/api/super-admin", superAdminRouter);
 
 export default app

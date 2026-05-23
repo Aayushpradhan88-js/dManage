@@ -19,8 +19,8 @@ function Login() {
       title="dManage"
       description="Keep the login simple"
       secondaryCta={{
-        href: "/institute/becomeInstitute",
-        label: "Register your institute",
+        href: "/platform/apply",
+        label: "Register your platform",
       }}
     >
       <AuthCard eyebrow="Welcome back" title="Sign in to dManage">

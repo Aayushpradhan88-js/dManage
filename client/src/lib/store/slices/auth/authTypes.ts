@@ -6,7 +6,7 @@ export interface IUser {
   id: string,
   username: string,
   email: string,
-  systemRole: "user" | "super_admin",
+  role: "super_admin" | "admin" | "teacher" | "student",
   activeRole: AuthRole,
   token: string,
 }
@@ -20,7 +20,7 @@ export interface IAuthApiUser {
   id: string,
   username: string,
   email: string,
-  systemRole: "user" | "super_admin",
+  role: "super_admin" | "admin" | "teacher" | "student",
   activeRole: AuthRole,
 }
 
@@ -35,6 +35,13 @@ export interface ILoginApiResponse {
   data: {
     user: IAuthApiUser,
     token: string,
+  },
+  message: string,
+}
+
+export interface IProfileApiResponse {
+  data: {
+    user: IAuthApiUser,
   },
   message: string,
 }

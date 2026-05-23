@@ -20,18 +20,18 @@ export function RegisterTrackCallout({ track }: RegisterTrackCalloutProps) {
 
         <div className="space-y-2">
           <p className="font-semibold text-slate-950">
-            Two-step institute admin journey
+            Two-step platform admin journey
           </p>
           <p className="text-sm leading-6 text-slate-600">
             First create your personal account here. Then continue to the
-            institute application form so the super admin can review and approve
+            platform application form so the super admin can review and approve
             your request.
           </p>
           <Link
-            href="/institute/becomeInstitute"
+            href="/platform/apply"
             className="inline-flex items-center gap-2 text-sm font-semibold text-amber-800 hover:text-amber-900"
           >
-            Open institute admin application
+            Open platform admin application
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

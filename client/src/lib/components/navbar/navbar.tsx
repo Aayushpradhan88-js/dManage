@@ -82,6 +82,9 @@ function Navbar() {
                         <Link href="#features" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
                             Features
                         </Link>
+                        <Link href="/platforms" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
+                            Find Platforms
+                        </Link>
                         <Link href="#pricing" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
                             Pricing
                         </Link>
@@ -89,7 +92,7 @@ function Navbar() {
                             Docs
                         </Link>
                         <Link href="#blog" className="text-sm font-medium text-slate-700 hover:text-green-700 transition-colors">
-                            Blog
+                            Blogs
                         </Link>
                     </nav>
                 </div>
@@ -98,9 +101,9 @@ function Navbar() {
                 <div className="flex items-center space-x-4">
                     {isAuthenticated ? (
                         <>
-                            <Link href="/institute/becomeInstitute" className="hidden sm:block">
+                            <Link href="/platform/apply" className="hidden sm:block">
                                 <Button className="bg-green-700 hover:bg-green-800 text-white rounded-lg px-4 h-10 shadow-sm border-0">
-                                    Register Your Institute
+                                    Register Your Platform
                                 </Button>
                             </Link>
                             

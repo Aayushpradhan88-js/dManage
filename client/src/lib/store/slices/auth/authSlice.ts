@@ -3,14 +3,16 @@ import {
   IAuthApiUser,
   IAuthInitialStateType,
   ILoginApiResponse,
+  IProfileApiResponse,
   IRegisterApiResponse,
   IUser,
 } from "./authTypes"
 import { IStatus } from "../../global/types/type"
 import { IRegister } from "@/src/app/(auth)/register/registerTypes"
 import { ILogin } from "@/src/app/(auth)/login/loginTypes"
-import { API } from "../../global/API/apiCall"
+import { API, APIWithToken } from "../../global/API/apiCall"
 import { AppDispatch } from "../../store"
+import { isTokenExpired } from "@/src/features/auth/utils/auth-session"
 
 const AUTH_STORAGE_KEY = "auth_user"
 
@@ -18,7 +20,7 @@ const emptyUser: IUser = {
   id: "",
   username: "",
   email: "",
-  systemRole: "user",
+  role: "student",
   activeRole: "user",
   token: "",
 }
@@ -37,7 +39,7 @@ const persistAuthUser = (user: IUser) => {
   localStorage.setItem("user_name", user.username)
   localStorage.setItem("user_email", user.email)
   localStorage.setItem("user_role", user.activeRole)
-  localStorage.setItem("user_system_role", user.systemRole)
+  localStorage.setItem("user_dmanage_role", user.role)
   localStorage.setItem("user_token", user.token)
 }
 
@@ -49,8 +51,9 @@ const clearPersistedAuthUser = () => {
   localStorage.removeItem(AUTH_STORAGE_KEY)
   localStorage.removeItem("user_name")
   localStorage.removeItem("user_email")
+  localStorage.removeItem("user_role")
   localStorage.removeItem("user_active_role")
-  localStorage.removeItem("user_system_role")
+  localStorage.removeItem("user_dmanage_role")
   localStorage.removeItem("user_token")
 }
 
@@ -145,6 +148,49 @@ export class APIAuth {
       } catch (error) {
         console.error("Login failed", error)
         dispatch(setStatus(IStatus.ERROR))
+        return null
+      }
+    }
+  }
+
+  static validateStoredSession() {
+    return async function validateStoredSessionThunk(dispatch: AppDispatch) {
+      if (typeof window === "undefined") {
+        return null
+      }
+
+      const storedUser = localStorage.getItem(AUTH_STORAGE_KEY)
+
+      if (!storedUser) {
+        dispatch(clearUser())
+        return null
+      }
+
+      try {
+        const parsedUser = JSON.parse(storedUser) as IUser
+
+        if (!parsedUser?.token || isTokenExpired(parsedUser.token)) {
+          clearPersistedAuthUser()
+          dispatch(clearUser())
+          return null
+        }
+
+        const response = await APIWithToken.get<IProfileApiResponse>(
+          "/api/auth/profile"
+        )
+
+        const validatedUser = toStoreUser(
+          response.data.data.user,
+          parsedUser.token
+        )
+
+        dispatch(setUser(validatedUser))
+        persistAuthUser(validatedUser)
+        return validatedUser
+      } catch (error) {
+        console.error("Stored session validation failed", error)
+        clearPersistedAuthUser()
+        dispatch(clearUser())
         return null
       }
     }

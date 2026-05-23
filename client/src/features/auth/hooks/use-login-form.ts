@@ -1,43 +1,41 @@
 "use client"
 
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { APIAuth } from "@/src/lib/store/slices/auth/authSlice"
 import { useAppDispatch, useAppSelector } from "@/src/lib/store/hooks/customHook"
 import { IStatus } from "@/src/lib/store/global/types/type"
 import type { LoginFormValues } from "../types/auth-form"
 import { useRouter } from "next/navigation"
-import type { IUser } from "@/src/lib/store/slices/auth/authTypes"
+import { resolveDashboardPath } from "../utils/auth-session"
 
 const initialValues: LoginFormValues = {
   email: "",
   password: "",
 }
 
-function resolveDashboardPath(user: IUser) {
-  if (user.systemRole === "super_admin" || user.activeRole === "super-admin") {
-    return "/super-admin/dashboard"
-  }
-
-  if (user.activeRole === "admin") {
-    return "/institute/admin/dashboard"
-  }
-
-  if (user.activeRole === "teacher") {
-    return "/teacher/dashboard"
-  }
-
-  if (user.activeRole === "student") {
-    return "/student/dashboard"
-  }
-
-  return "/institute/application-status"
-}
-
 function useLoginForm() {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const authStatus = useAppSelector((state) => state.auth.status)
+  const user = useAppSelector((state) => state.auth.user)
   const [values, setValues] = useState<LoginFormValues>(initialValues)
+
+  useEffect(() => {
+    const redirectAuthenticatedUser = async () => {
+      if (user.token) {
+        router.replace(resolveDashboardPath(user))
+        return
+      }
+
+      const validatedUser = await dispatch(APIAuth.validateStoredSession())
+
+      if (validatedUser) {
+        router.replace(resolveDashboardPath(validatedUser))
+      }
+    }
+
+    void redirectAuthenticatedUser()
+  }, [dispatch, router, user])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target

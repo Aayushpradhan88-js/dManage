@@ -25,7 +25,7 @@ async function seed() {
         username: "Super Admin",
         email,
         password: hashedPassword,
-        systemRole: "super_admin",
+        role: "super_admin",
         isEmailVerified: true,
       },
     });

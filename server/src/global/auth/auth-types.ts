@@ -1,4 +1,4 @@
-import { InstituteRole, SystemRole } from "@prisma/client"
+import { DmanageRole } from "@prisma/client"
 
 //Dto - Data Transfer Object
 export interface RegisterUserDto {
@@ -23,8 +23,8 @@ export interface AuthenticatedUser {
   id: string,
   username: string,
   email: string,
-  systemRole: SystemRole,
-  activeRole: InstituteRole | "super-admin" | "user",
+  role: DmanageRole,
+  activeRole: DmanageRole | "super-admin" | "user",
 }
 
 export interface RegisterAuthResponse {
@@ -42,5 +42,5 @@ export interface ProfileAuthResponse {
 export interface JwtPayload {
   id: string,
   email: string,
-  systemRole: SystemRole,
+  role: DmanageRole,
 }

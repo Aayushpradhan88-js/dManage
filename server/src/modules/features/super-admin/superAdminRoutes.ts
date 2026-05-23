@@ -9,14 +9,14 @@ superAdminRouter
   .route("/applications")
   .get(
     UserVerification.userAuthorizationAccessVerification,
-    GlobalErrorHandler.asyncErrorHandler(SuperAdminController.getInstituteApplications)
+    GlobalErrorHandler.asyncErrorHandler(SuperAdminController.getPlatformApplications)
   )
 
 superAdminRouter
   .route("/applications/:id/status")
   .patch(
     UserVerification.userAuthorizationAccessVerification,
-    GlobalErrorHandler.asyncErrorHandler(SuperAdminController.updateInstituteApplicationStatus)
+    GlobalErrorHandler.asyncErrorHandler(SuperAdminController.updatePlatformApplicationStatus)
   )
 
 export default superAdminRouter
