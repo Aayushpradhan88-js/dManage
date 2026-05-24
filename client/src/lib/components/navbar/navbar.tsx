@@ -21,12 +21,10 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "../ui/dropdown-menu";
-import { resolveDashboardPath } from "@/src/features/auth/utils/auth-session";
+import { resolveCoursesPath, resolveDashboardPath } from "@/src/features/auth/utils/auth-session";
 
 function Navbar() {
     const dispatch = useAppDispatch();
@@ -34,6 +32,7 @@ function Navbar() {
     const user = useAppSelector((state) => state.auth.user);
     const isAuthenticated = Boolean(user.token);
     const dashboardPath = resolveDashboardPath(user);
+    const coursesPath = resolveCoursesPath(user);
 
     const handleLogout = () => {
         clearPersistedAuthUser();
@@ -42,7 +41,7 @@ function Navbar() {
     };
 
     return (
-        <header className="sticky top-0 z-50 border-b border-[color:var(--border-soft)] bg-[color:var(--surface)]/95 backdrop-blur-sm">
+        <header className="sticky top-0 z-50 border-b border-[color:var(--border-soft)] bg-white">
             <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center gap-8">
                     <Link href="/" className="flex items-center space-x-2">
@@ -130,14 +129,14 @@ function Navbar() {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-11 w-11 rounded-full border border-[color:var(--border-soft)] bg-[color:var(--surface)] hover:border-[color:var(--brand-soft)] hover:bg-[color:var(--surface-muted)]"
+                                        className="h-11 w-11 rounded-full border border-[color:var(--border-soft)] bg-white hover:border-[color:var(--brand-soft)] hover:bg-[color:var(--surface-muted)]"
                                     >
                                         <User className="h-5 w-5 text-slate-600" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     align="end"
-                                    className="mt-3 w-72 rounded-2xl border-[color:var(--border-soft)] bg-[color:var(--surface)] p-2 shadow-xl"
+                                    className="mt-3 w-72 rounded-2xl border-[color:var(--border-soft)] bg-white p-2 shadow-xl"
                                 >
                                     <DropdownMenuLabel className="px-3 py-3 font-normal">
                                         <div className="flex flex-col space-y-1">
@@ -151,7 +150,7 @@ function Navbar() {
                                     <DropdownMenuSeparator className="bg-[color:var(--border-soft)]" />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 text-slate-700 focus:bg-[color:var(--surface-muted)] focus:text-slate-900">
-                                            <Link href="/student/dashboard" className="flex items-center gap-3 text-sm">
+                                            <Link href={dashboardPath} className="flex items-center gap-3 text-sm">
                                                 <Home className="h-4 w-4" />
                                                 <span>Dashboard</span>
                                             </Link>
@@ -163,7 +162,7 @@ function Navbar() {
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 text-slate-700 focus:bg-[color:var(--surface-muted)] focus:text-slate-900">
-                                            <Link href="/student/dashboard/courses" className="flex items-center gap-3 text-sm">
+                                            <Link href={coursesPath} className="flex items-center gap-3 text-sm">
                                                 <LayoutDashboard className="h-4 w-4" />
                                                 <span>Your Courses</span>
                                             </Link>

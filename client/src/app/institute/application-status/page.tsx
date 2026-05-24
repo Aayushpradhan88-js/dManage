@@ -105,14 +105,14 @@ export default function InstituteApplicationStatusPage() {
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10">
       <section className="mx-auto max-w-4xl space-y-6">
-        <Card>
-          <CardHeader>
+        <Card className="border-slate-200 bg-white shadow-sm">
+          <CardHeader className="bg-white">
             <CardTitle>Platform Application Status</CardTitle>
             <CardDescription>
               Before approval, this is the only platform area available to the user account.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
+          <CardContent className="space-y-5 bg-white">
             {isLoading ? (
               <p className="text-sm text-muted-foreground">Loading application status...</p>
             ) : errorMessage ? (
@@ -125,6 +125,9 @@ export default function InstituteApplicationStatusPage() {
                 </div>
                 <Button asChild>
                   <Link href="/platform/apply">Submit platform application</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="/">Back to website</Link>
                 </Button>
               </div>
             ) : (
@@ -176,6 +179,9 @@ export default function InstituteApplicationStatusPage() {
                       <Link href="/platform/apply">Submit a new application</Link>
                     </Button>
                   ) : null}
+                  <Button asChild variant="outline">
+                    <Link href="/">Back to website</Link>
+                  </Button>
                 </div>
               </>
             )}

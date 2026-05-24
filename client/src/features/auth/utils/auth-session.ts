@@ -9,19 +9,35 @@ export function resolveDashboardPath(user: IUser) {
     return "/super-admin/dashboard"
   }
 
-  if (user.activeRole === "admin") {
+  if (user.role === "admin" || user.activeRole === "admin") {
     return "/platform/admin/dashboard"
   }
 
-  if (user.activeRole === "teacher") {
+  if (user.role === "teacher" || user.activeRole === "teacher") {
     return "/teacher/dashboard"
   }
 
-  if (user.activeRole === "student") {
+  if (user.role === "student" || user.activeRole === "student") {
     return "/student/dashboard"
   }
 
   return "/"
+}
+
+export function resolveCoursesPath(user: IUser) {
+  if (user.role === "admin" || user.activeRole === "admin") {
+    return "/platform/admin/dashboard/courses"
+  }
+
+  if (user.role === "teacher" || user.activeRole === "teacher") {
+    return "/teacher/dashboard/courses"
+  }
+
+  if (user.role === "student" || user.activeRole === "student") {
+    return "/student/dashboard/courses"
+  }
+
+  return resolveDashboardPath(user)
 }
 
 export function decodeJwtPayload(token: string): JwtPayload | null {

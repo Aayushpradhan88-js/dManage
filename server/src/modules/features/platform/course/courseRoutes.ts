@@ -4,18 +4,20 @@ import express from 'express'
 import CourseController from './courseController';
 import GlobalErrorHandler from '../../../global/services/asyncErrorHandler';
 import UserVerification from '../../../global/middleware/authMiddleware';
-import upload from '../../../global/middleware/cloudinaryMiddleware';
 
 const instituteCourseRouter = express.Router();
 
 // console.log("✅Router triggered")
 instituteCourseRouter.route("/")
     .post(UserVerification.userAuthorizationAccessVerification,
-        upload.single('courseThumbnail'), //upload image
         GlobalErrorHandler.asyncErrorHandler(CourseController.createCourse))
 
     .get(UserVerification.userAuthorizationAccessVerification,
         GlobalErrorHandler.asyncErrorHandler(CourseController.getAllCourses))
+
+instituteCourseRouter.route("/teacher-options")
+    .get(UserVerification.userAuthorizationAccessVerification,
+        GlobalErrorHandler.asyncErrorHandler(CourseController.getAssignableTeachers))
 
 instituteCourseRouter.route("/:id")
     .get(UserVerification.userAuthorizationAccessVerification,
@@ -26,7 +28,6 @@ instituteCourseRouter.route("/:id")
 
 instituteCourseRouter.route("/update/:id")
     .post(UserVerification.userAuthorizationAccessVerification,
-        upload.single('courseThumbnail'), //upload image
         GlobalErrorHandler.asyncErrorHandler(CourseController.updateSingleCourse))
 
 export default instituteCourseRouter;
