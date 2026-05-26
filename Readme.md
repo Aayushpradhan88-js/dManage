@@ -14,11 +14,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/license-MIT-green" />
   <img src="https://img.shields.io/badge/version-1.0.0-blue" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" />
   <img src="https://img.shields.io/badge/discord-join-5865F2?logo=discord&logoColor=white" />
-  <img src="https://img.shields.io/badge/stars-68k-yellow?logo=github" />
+  <img src="https://img.shields.io/badge/stars-5-yellow?logo=github" />
 </p>
 
 
