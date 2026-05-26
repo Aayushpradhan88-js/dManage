@@ -1,13 +1,12 @@
-# dManage.com
 
-  ![Version](https://img.shields.io/badge/version-1.0.0-blue)
+ ![Version](https://img.shields.io/badge/version-1.0.0-blue)
   ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
-
 <p align="center">
   <img width="1712" height="902" alt="{0080F9C3-4A40-4F94-9DEA-B4C5C35C2B7E}" src="https://github.com/user-attachments/assets/64261f18-0af3-45e8-9ad9-b56d5ba4beee" />
   <br/>
-  <em>dManage — Manage everything in seconds</em>
+  <em>dManage — Manage every repeted tedious work in minutes</em>
 </p>
+
 
 ## Table of Contents
 - [Problem Statement](#problem-statement)
